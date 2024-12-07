@@ -3,7 +3,6 @@ import string
 import inquirer
 from rich.console import Console
 from rich.text import Text
-from rich.style import Style
 from rich.panel import Panel
 from rich.box import ROUNDED
 from .encryption import SavePassword
@@ -21,7 +20,7 @@ def GeneratePassword(passwordLength):
 
 # used rich panel to show password in a box
 def DisplayPassword(password):
-    passwordText = Text('Generated Password: ', style='green') + Text(password, style='cyan')
+    passwordText = Text('Generated Password: ', style='green') + Text(password, style='yellow')
 
     passwordContainer = Panel(passwordText, style='bold', expand=False, box=ROUNDED)
     console.print(passwordContainer)
@@ -59,7 +58,7 @@ def getPasswordLength():
     while not validLength:
         DEFAULT_LENGTH, MIN_LENGTH, MAX_LENGTH = 12, 8, 64
 
-        console.print(Text('Enter the length of the password ', style='yellow') + Text(f'(default={DEFAULT_LENGTH})', style='orange3') + Text(': ', style='yellow'), end='')
+        console.print(Text('Enter the length of the password ', style='purple') + Text(f'(default={DEFAULT_LENGTH})', style='blue') + Text(': ', style='purple'), end='')
         length = input()
         
         if length == '':

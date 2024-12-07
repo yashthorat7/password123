@@ -47,7 +47,7 @@ def main():
     elif userChoice == 'Settings':
         settings()
     elif userChoice == 'Exit':
-        console.print('Tool Exited..', style='yellow')
+        console.print('Tool Exited..', style='orange3')
         exit(0)
 
 

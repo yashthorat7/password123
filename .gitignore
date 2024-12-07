@@ -1,5 +1,5 @@
 docs/
 .venv/
 __pycache__/
-password.enc
-trash.py
+data/password.enc
+.env
