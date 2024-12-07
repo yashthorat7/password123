@@ -1,4 +1,7 @@
-# co-main function
+import rich
+
+
+# called right after password generation
 def SavePassword(password):
     website = input('Website: ')
     username = input('Username: ')
@@ -7,8 +10,8 @@ def SavePassword(password):
     row = [website, username, encryptedPassword]
 
     with open('./data/password.enc', 'a') as file:
-        rowText = str('website: ' + website+ ' username: '+ username+ ' password: '+ encryptedPassword+ '')
+        rowText = str('website: ' + website+ ' username: '+ username+ ' password: '+ encryptedPassword+ '\n')
         file.write(rowText)
 
-    print('Password saved successfully...\n')
+    print('\nPassword saved successfully...\n')
     
