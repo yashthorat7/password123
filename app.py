@@ -1,16 +1,20 @@
+from rich.console import Console
+from rich.text import Text
 from src.generator import generator
 from src.display import display
 from src.settings import settings
 
 
-# TODO: title font should be colored
 def DisplayTitle():
-    print(r''' ____   _    ____ ______        _____  ____  ____  _ ____  _____ 
+    titleText = (r''' ____   _    ____ ______        _____  ____  ____  _ ____  _____ 
 |  _ \ / \  / ___/ ___\ \      / / _ \|  _ \|  _ \/ |___ \|___ / 
 | |_) / _ \ \___ \___ \\ \ /\ / / | | | |_) | | | | | __) | |_ \ 
 |  __/ ___ \ ___) |__) |\ V  V /| |_| |  _ <| |_| | |/ __/ ___) |
 |_| /_/   \_\____/____/  \_/\_/  \___/|_| \_\____/|_|_____|____/ 
 ''')
+    console = Console()
+    styledTitle = Text(titleText, style='bold yellow')
+    console.print(styledTitle)
 
 
 # TODO: menu should be interactive
