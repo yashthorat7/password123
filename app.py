@@ -23,6 +23,7 @@ def DisplayTitle():
         console.print(styledTitle)
     print('')
 
+
 # main menu
 def main():
     menuChoicesList = [

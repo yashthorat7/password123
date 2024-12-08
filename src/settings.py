@@ -1,3 +1,3 @@
 # main function
 def settings():
-    print('Settings')
+    print('Settings\n')

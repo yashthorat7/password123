@@ -14,7 +14,6 @@ tableClone = []
 
 
 # checks if the master key is correct
-# TODO: add a count limit to it.
 def getMasterKey():
     console.print(Text('Enter the Master Key: '), style='cyan', end='')
     key = input()
@@ -65,7 +64,7 @@ def RemoveRow():
         try:
             rowIndex = int(rowIndex) - 1
             if 0 <= rowIndex < len(tableClone):
-                table = Table(show_header=False, header_style='bold', box=ROUNDED)
+                table = Table(header_style='bold', box=ROUNDED)
                 table.add_column('Sr.no.', justify='left', style='yellow')
                 table.add_column('Website', justify='left', style='red')
                 table.add_column('Username', justify='left', style='magenta')
@@ -124,7 +123,8 @@ def getUpdates():
     elif userChoice == 'Remove a Password':
         RemoveRow()
     else:
-        return
+        return False
+    return True
 
 
 # forms a rich table and decrypts the password
@@ -154,11 +154,12 @@ def DisplayTable(key):
 
 # main function
 def display():
-    while True:
+    for _ in range(3):
         validKey, key = getMasterKey()
-        
         if validKey:
-            DisplayTable(key)
-            getUpdates()
+            while True:
+                DisplayTable(key)
+                if not getUpdates():
+                    break
             break    
     
