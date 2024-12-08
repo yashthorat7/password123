@@ -1,5 +1,6 @@
 docs/
 .venv/
 __pycache__/
-data/password.enc
+# data/password.enc
+# password.enc
 .env

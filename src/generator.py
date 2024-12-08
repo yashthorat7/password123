@@ -72,9 +72,9 @@ def getPasswordLength():
                 continue
             
             if passwordLength < MIN_LENGTH:
-                console.print(f'Password must be at least {MIN_LENGTH} characters long', style='red')
+                console.print(Text(f'Password must be at least {MIN_LENGTH} characters long', style='red'))
             elif passwordLength > MAX_LENGTH:
-                console.print(f'Password must be at most {MAX_LENGTH} characters long', style='red')
+                console.print(Text(f'Password must be at most {MAX_LENGTH} characters long', style='red'))
             else:
                 validLength = True
 
