@@ -28,7 +28,7 @@ def DisplayPassword(password):
 
 
 #jumps to the encryption.py if true
-def AskSave(password):
+def getSave(password):
     menuChoicesList = [
         'Yes',
         'No',
@@ -51,7 +51,7 @@ def AskSave(password):
         generator()
 
 
-# asks the length of the password and validates it
+# gets the length of the password and validates it
 def getPasswordLength():
     validLength = False
 
@@ -86,5 +86,5 @@ def generator():
     passwordLength = getPasswordLength()
     newPassword = GeneratePassword(passwordLength)
     DisplayPassword(newPassword)
-    AskSave(newPassword)
+    getSave(newPassword)
     

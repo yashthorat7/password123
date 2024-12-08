@@ -2,6 +2,8 @@ import os
 from dotenv import load_dotenv
 from rich.console import Console
 from rich.text import Text
+import hashlib
+import base64
 from cryptography.fernet import Fernet
 
 console = Console()
@@ -19,13 +21,34 @@ def StoreData(website, username, password):
     file.close()
 
 
-# use cryptography to encrypt the password
+# master key to 32byte url converter
+def getFernetKey(key):
+    hashed = hashlib.pbkdf2_hmac('sha256', key.encode(), b'', 100000, dklen=32)
+    fernetKey = base64.urlsafe_b64encode(hashed)
+
+    return fernetKey
+
+# uses cryptography to encrypt the password
 def EncryptPassword(password):
     key = os.getenv('MASTER_KEY')
-    cipher = Fernet(key)
-    encryptPassword = cipher.encrypt(password.encode())
+    fernetKey = getFernetKey(key)
+    cipher = Fernet(fernetKey)
+    encryptedPassword = cipher.encrypt(password.encode())
 
-    return encryptPassword
+    return encryptedPassword
+
+# uses cryptography to decrypt the password
+def DecryptPassword(password, key):
+    fernetKey = getFernetKey(key)
+    cipher = Fernet(fernetKey)
+    decryptedPassword = ''
+
+    try:
+        decryptedPassword = cipher.decrypt(password).decode()
+    except:
+        decryptedPassword = 'Error!'
+
+    return decryptedPassword
 
 
 # called right after password generation
