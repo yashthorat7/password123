@@ -44,7 +44,8 @@ def SearchRow():
 
         for row in matchedRows:
             table.add_row(row[0], row[2], row[3])
-        console.print(table, end='\n')
+        console.print(table)
+        input()
     else:
         console.print(Text('No match found', style='red'))
 
