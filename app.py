@@ -25,7 +25,7 @@ def DisplayTitle():
 
 # main menu
 def main():
-    userChoicesList = [
+    menuChoicesList = [
         'Generate a Password',
         'Display the Passwords',
         'Settings',
@@ -34,7 +34,7 @@ def main():
 
     mainMenu = [inquirer.List('menuChoice',
                              message='What would you like to do?',
-                             choices=userChoicesList,
+                             choices=menuChoicesList,
                 )]
 
     menuChoice = inquirer.prompt(mainMenu)

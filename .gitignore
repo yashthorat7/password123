@@ -1,4 +1,5 @@
 docs/
 .venv/
 __pycache__/
+data/password.enc
 password.enc

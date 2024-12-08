@@ -15,7 +15,7 @@ def StoreData(website, username, password):
     website = website if website else 'N/A'
     username = username if username else 'N/A'
 
-    entry = f'{website}\t\t{username}\t\t{password.decode()}\n'
+    entry = f'{website}\t{username}\t{password.decode()}\n'
     with open('./data/password.enc', 'a') as file:
         file.write(entry)
     file.close()
@@ -52,14 +52,21 @@ def DecryptPassword(password, key):
 
 
 # called right after password generation
-def SavePassword(password):
+def SavePassword(password=''):
+    action = 'saved'
     console.print(Text('Enter the Website ', style='purple') + Text(f'(optional)', style='blue') + Text(': ', style='purple'), end='')
     website = input()
     console.print(Text('Enter the Username ', style='purple') + Text(f'(optional)', style='blue') + Text(': ', style='purple'), end='')
     username = input()
 
+    #if the request is not coming right after generation
+    if password == '':
+        action = 'added'
+        console.print(Text('Enter the Password: ', style='purple'), end='')
+        password = input()
+
     encryptedPassword = EncryptPassword(password)
-    
     StoreData(website, username, encryptedPassword)
 
-    console.print(Text('\nPassword saved successfully...\n', style='yellow'))
+
+    console.print(Text(f'\nPassword {action} successfully...\n', style='yellow'))
