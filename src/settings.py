@@ -88,7 +88,7 @@ def CustomizePassword():
     print('')
 
 
-def RewritePasswords(key):
+def RewritePasswords(key, newKey):
     with open('./data/password.enc', 'r') as file:
         lines = file.readlines()
     with open('./data/password.enc', 'w') as file:
@@ -97,8 +97,7 @@ def RewritePasswords(key):
     for line in lines:
         website, username, password = line.strip().split('\t')
         decryptedPassword = DecryptPassword(password, key)
-        console.print('Decrypted Password: ', decryptedPassword)
-        SavePassword(decryptedPassword, website, username, True)
+        SavePassword(newKey, decryptedPassword, website, username, True)
 
 
 def ChangeMasterKey():
@@ -119,10 +118,10 @@ def ChangeMasterKey():
     newKey = input()
 
     set_key('.env', 'MASTER_KEY', newKey)
-    RewritePasswords(key)
+    RewritePasswords(key, newKey)
 
     console.print(Text('Master Key changed successfully!', style='green'), end='\n')
-    print('')
+    exit(0)
 
 
 def EraseData():

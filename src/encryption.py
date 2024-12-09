@@ -29,8 +29,7 @@ def getFernetKey(key):
     return fernetKey
 
 # uses cryptography to encrypt the password
-def EncryptPassword(password):
-    key = os.getenv('MASTER_KEY')
+def EncryptPassword(password, key):
     fernetKey = getFernetKey(key)
     cipher = Fernet(fernetKey)
     encryptedPassword = cipher.encrypt(password.encode())
@@ -46,13 +45,13 @@ def DecryptPassword(password, key):
     try:
         decryptedPassword = cipher.decrypt(password).decode()
     except:
-        decryptedPassword = 'Error!'
+        decryptedPassword = '[Error]'
 
     return decryptedPassword
 
 
 # called right after password generation
-def SavePassword(password='', website='', username='', listing=False):
+def SavePassword(key, password='', website='', username='', listing=False):
     action = 'saved'
 
     if not listing:
@@ -67,7 +66,7 @@ def SavePassword(password='', website='', username='', listing=False):
         console.print(Text('Enter the Password: ', style='purple'), end='')
         password = input()
 
-    encryptedPassword = EncryptPassword(password)
+    encryptedPassword = EncryptPassword(password, key)
     StoreData(website, username, encryptedPassword)
 
     if not listing:

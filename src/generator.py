@@ -2,6 +2,7 @@ import random
 import string
 import inquirer
 import json
+import os
 from rich.console import Console
 from rich.text import Text
 from rich.panel import Panel
@@ -45,7 +46,8 @@ def getSave(password):
     userChoice = menuChoice['menuChoice']
     
     if userChoice == 'Yes':
-        SavePassword(password)
+        env = os.getenv('MASTER_KEY')
+        SavePassword(env, password)
     elif userChoice == 'No':
         return
     else:

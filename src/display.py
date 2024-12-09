@@ -134,9 +134,9 @@ def getUpdates():
 def DisplayTable(key):
     table = Table(header_style='bold', box=ROUNDED)
     table.add_column('Sr.no.', justify='left', style='orange3')
-    table.add_column('Website', justify='left', style='yellow')
+    table.add_column('Website', justify='left', style='purple')
     table.add_column('Username', justify='left', style='red')
-    table.add_column('Password', justify='left', style='magenta')
+    table.add_column('Password', justify='left', style='yellow')
 
     with open('./data/password.enc', 'r') as file:
         lines = file.readlines()
