@@ -1,6 +1,7 @@
 import random
 import string
 import inquirer
+import json
 from rich.console import Console
 from rich.text import Text
 from rich.panel import Panel
@@ -48,21 +49,34 @@ def getSave(password):
     elif userChoice == 'No':
         return
     else:
-        generator()
+        generator(1)
 
 
 # gets the length of the password and validates it
-def getPasswordLength():
+def getPasswordLength(i):
     validLength = False
 
     while not validLength:
-        DEFAULT_LENGTH, MIN_LENGTH, MAX_LENGTH = 12, 8, 64
+        MIN_LENGTH, MAX_LENGTH = 8, 64
 
-        console.print(Text('Enter the length of the password ', style='purple') + Text(f'(default={DEFAULT_LENGTH})', style='blue') + Text(': ', style='purple'), end='')
-        length = input()
-        
+        with open ('./data/settings.json', 'r') as file:
+            data = json.load(file)
+
+        defaultForce = data['defaultforce']
+        file.close()
+
+        if defaultForce:
+            DEFAULT_LENGTH = data['defaultForceNum']
+        else:
+            DEFAULT_LENGTH = data['default']
+            
+        length = ''
+        if not defaultForce or i == 1:
+            console.print(Text('Enter the length of the password ', style='purple') + Text(f'(default={DEFAULT_LENGTH})', style='blue') + Text(': ', style='purple'), end='')
+            length = input()
+
         if length == '':
-            passwordLength = 12
+            passwordLength = DEFAULT_LENGTH
             validLength = True
         else:
             try:
@@ -82,8 +96,8 @@ def getPasswordLength():
 
 
 # main function
-def generator():
-    passwordLength = getPasswordLength()
+def generator(i = 0):
+    passwordLength = getPasswordLength(i)
     newPassword = GeneratePassword(passwordLength)
     DisplayPassword(newPassword)
     getSave(newPassword)
