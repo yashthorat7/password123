@@ -58,7 +58,7 @@ def AddRow():
     SavePassword()
 
 
-# removes the row from password.enc
+# removes the row from passwords.enc
 def RemoveRow():
     while True:
         console.print(Text('Enter the serial No: ', style='cyan'), end='')
@@ -85,11 +85,11 @@ def RemoveRow():
 
                 # main logic of password removing
                 if userChoice == 'Yes':
-                    with open('./data/password.enc', 'r') as file:
+                    with open('./data/passwords.enc', 'r') as file:
                         lines = file.readlines()
                     del lines[rowIndex]
 
-                    with open('./data/password.enc', 'w') as file:
+                    with open('./data/passwords.enc', 'w') as file:
                         file.writelines(line for line in lines if line.strip())
                     file.close()
 
@@ -138,7 +138,7 @@ def DisplayTable(key):
     table.add_column('Username', justify='left', style='red')
     table.add_column('Password', justify='left', style='yellow')
 
-    with open('./data/password.enc', 'r') as file:
+    with open('./data/passwords.enc', 'r') as file:
         lines = file.readlines()
         for i, line in enumerate(lines, start = 1):
             columns = line.strip().split('\t')

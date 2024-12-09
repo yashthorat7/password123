@@ -16,26 +16,39 @@ def getNoun(nounsData):
     randomNoun = random.choice(nounsData[nounType])
     return randomNoun
 
-def checkPasswordFill(passwordLength, password):
-    with open('data/words.json', 'r') as file:
-        wordsData = json.load(file)
+
+def generateNextWord(wordsData, combination):
+    wordType = random.choice(combination)
+    if wordType == 'nouns':
+        return getNoun(wordsData)
+    elif isinstance(wordType, str):
+        return random.choice(wordsData[wordType])
+    else:
+        return random.choice(wordType)
+
+
+def checkPassword(passwordLength, password, wordsData, currentCombination):
+    currentLength = sum(len(word) for word in password)
     
-    currentLength = sum(len(word) for word in wordsData)
-    remainingSpace = passwordLength - currentLength
-    
-    if remainingSpace > 0:
-        if remainingSpace <= 3:
-            password.append(str(random.randint(10**(remainingSpace-1), 10**remainingSpace - 1)))
+    if currentLength == passwordLength:
+        return password
+
+    if currentLength < passwordLength:
+        remainingLength = passwordLength - currentLength
+        if remainingLength <= 3:
+            random_number = str(random.randint(10**(remainingLength - 1), 10**remainingLength - 1))
+            password.append(random_number)
         else:
-            password.append(random.choice(wordsData['verbs'] + wordsData['adjectives'] + wordsData['adverbs']))
-    elif remainingSpace < 0:
+            nextWord = generateNextWord(wordsData, currentCombination)
+            password.append(nextWord)
+        return checkPassword(passwordLength, password, wordsData, currentCombination)
+
+    elif currentLength > passwordLength:
         password.pop()
-        if abs(remainingSpace) >= 4:
-            password.append(random.choice(wordsData['verbs'] + wordsData['adjectives'] + wordsData['adverbs']))
-        else:
-            password.append(str(random.randint(10**(abs(remainingSpace)-1), 10**abs(remainingSpace) - 1)))
-    
-    return password
+        nextWord = generateNextWord(wordsData, currentCombination)
+        password.append(nextWord)
+        return checkPassword(passwordLength, password, wordsData, currentCombination)
+
 
 # generates a password
 def GeneratePassword(passwordLength):
@@ -56,24 +69,12 @@ def GeneratePassword(passwordLength):
         ('nouns', 'nouns')
     ]
 
-    passwordParts = []
+    currentCombination = random.choice(possibleCombinations)
+    password = []
+    password = checkPassword(passwordLength, password, wordsData, currentCombination)
 
-    while sum(len(word) for word in passwordParts) < passwordLength:
-        combination = random.choice(possibleCombinations)
-        tempParts = []
+    return ''.join(password)
 
-        for part in combination:
-            if part == 'nouns':
-                selectedNoun = getNoun(wordsData)
-                tempParts.append(selectedNoun)
-            else:
-                selectedWord = random.choice(part)
-                tempParts.append(selectedWord)
-        passwordParts.extend(tempParts)
-
-    adjustedPassword = checkPasswordFill(passwordLength, passwordParts)
-    
-    return ''.join(str(word) for word in adjustedPassword)
 
 
 # used rich panel to show password in a box

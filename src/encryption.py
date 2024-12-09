@@ -16,7 +16,7 @@ def StoreData(website, username, password):
     username = username if username else 'N/A'
 
     entry = f'{website}\t{username}\t{password.decode()}\n'
-    with open('./data/password.enc', 'a') as file:
+    with open('./data/passwords.enc', 'a') as file:
         file.write(entry)
     file.close()
 

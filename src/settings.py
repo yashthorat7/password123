@@ -89,9 +89,9 @@ def CustomizePassword():
 
 
 def RewritePasswords(key, newKey):
-    with open('./data/password.enc', 'r') as file:
+    with open('./data/passwords.enc', 'r') as file:
         lines = file.readlines()
-    with open('./data/password.enc', 'w') as file:
+    with open('./data/passwords.enc', 'w') as file:
         file.truncate(0)
     
     for line in lines:
@@ -145,7 +145,7 @@ def EraseData():
     userChoice = menuChoice['menuChoice']
     
     if userChoice == 'Yes':
-        with open('./data/password.enc', 'w') as file:
+        with open('./data/passwords.enc', 'w') as file:
             file.truncate(0)
         file.close()
         console.print(Text('Data Erased Successfully!', style='green'), end='\n')
