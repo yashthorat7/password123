@@ -14,10 +14,34 @@ console = Console()
 
 # generates a password
 def GeneratePassword(passwordLength):
-    characters = string.ascii_letters + string.digits + string.punctuation
-    Password = ''.join(random.choice(characters) for _ in range(passwordLength))
+    with open('data/words.json', 'r') as file:
+        wordsData = json.load(file)
+    
+    smallNouns = wordsData['small_nouns']
+    mediumNouns = wordsData['medium_nouns']
+    largeNouns = wordsData['large_nouns']
+    verbs = wordsData['verbs']
+    adjectives = wordsData['adjectives']
+    adverbs = wordsData['adverbs']
 
-    return Password
+    possibleCombinations = [
+        ('nouns', verbs),
+        (adjectives, 'nouns'),
+        (verbs, adjectives, adverbs),
+        (adjectives, 'nouns', verbs),
+        (verbs, 'nouns', 'nouns'),
+        (adjectives, 'nouns', 'nouns', verbs),
+        (verbs, 'nouns', 'nouns'),
+        (verbs, 'nouns', adjectives),
+        (verbs, adjectives, 'nouns', verbs, adverbs),
+        (verbs, adjectives, verbs, 'nouns'),
+        ('nouns', 'nouns')
+    ]
+
+    #TODO: write the generate logic
+
+    password = ''
+    return password
 
 
 # used rich panel to show password in a box

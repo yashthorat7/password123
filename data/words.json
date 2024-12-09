@@ -1,49 +1,39 @@
 {
-  "nouns": [
-    "Apple", "Banana", "Orange", "Mango", "Grapes", "Pineapple", "Strawberry", "Blueberry", "Peach", "Pear", 
-    "Watermelon", "Papaya", "Pomegranate", "Plum", "Lemon", "Kiwi", "Cherry", "Apricot", "Blackberry", 
-    "Raspberry", "Avocado", "Fig", "Lychee", "Coconut", "Tangerine", "Dragon Fruit", "Guava", "Melon", 
-    "Vibe", "Pixel", "Chill", "Pulse", "Echo", "Nebula", "Zenith", "Flux", "Jolt", "Vortex",
-    "Blaze", "Drift", "Mystic", "Glitch", "Spark", "Hype", "Fusion", "Aura", "Tide", "Shift",
-    "Clash", "Rush", "Circuit", "Sonic", "Zen", "Volt", "Surge", "Karma", "Rift", "Phantom",
-    "Shade", "Glare", "Warp", "Flicker", "Vanguard", "Bliss", "Chroma", "Myst", "Reverb", "Nova",
-    "Holo", "Thrive", "Dream", "Flare", "Lush", "Revolt", "Quest", "Jive", "Dusk", "Crush",
-    "Glimmer", "Maverick", "Momentum", "Twilight", "Zing", "Sparkle", "Rage", "Plasma", "Scorch",
-    "Hustle", "Buzz", "Jungle", "Rapture", "Splash", "Shimmer", "Trance", "Groove", "Revive",
-    "Hyper", "Tornado", "Nexus", "Blitz", "Pop", "Grit", "Glow", "Thrill", "Kicks", "Haven",
-    "Prism", "Chime", "Twist", "Spectra", "Edge", "Breeze", "Flare", "Shine", "Glint", "Strive",
-    "Luxe", "Vanguard", "Zenith", "Clutch", "Zephyr", "Torque", "Echo", "Volt", "Ascend",
-    "Lion", "Tiger", "Elephant", "Giraffe", "Zebra", "Kangaroo", "Panda", "Koala", "Bear", "Wolf",
-    "Cheetah", "Leopard", "Horse", "Monkey", "Dolphin", "Whale", "Shark", "Penguin", "Hippo", "Rhinoceros",
-    "Fox", "Squirrel", "Deer", "Rabbit", "Raccoon", "Bat", "Otter", "Sloth", "Bison", "Moose",
-    "Lemur", "Hyena", "Wolverine", "Peacock", "Crocodile", "Alligator", "Camel", "Antelope", "Bison", "Gorilla",
-    "Jaguar", "Platypus", "Pangolin", "Seal", "Walrus", "Owl", "Eagle", "Vulture", "Scorpion",
-    "Eagle", "Parrot", "Peacock", "Penguin", "Owl", "Crow", "Sparrow", "Falcon", "Hummingbird", "Woodpecker",
-    "Pigeon", "Raven", "Flamingo", "Stork", "Canary", "Robin", "Duck", "Goose", "Kingfisher", "Pelican",
-    "Snake", "Lizard", "Crocodile", "Alligator", "Chameleon", "Tortoise", "Gecko", "Iguana", "Komodo Dragon", "Python",
-    "Innovation", "Revolution", "Momentum", "Galaxy", "Cascades", "Thunderstorm", "Vibration", "Labyrinth", "Eclipse", "Timelessness",
-    "Philosophy", "Distinction", "Spectacle", "Euphoria", "Astronaut", "Horizon", "Celestial", "Enigma", "Convergence", "Euphoria",
-    "Nebulae", "Harmonics", "Stratosphere", "Utopia", "Velocity", "Vanguard", "Symbiosis", "Renaissance", "Metamorphosis", "Enlightenment",
-    "Trajectory", "Envision", "Phenomenon", "Exosphere", "Momentum", "Paradigm", "Astronomy", "Pursuit", "Genesis", "Timberline",
-    "Dreamscape", "Galaxy", "Whirlwind", "Inception", "Vortex", "Equinox", "Harmonic", "Timber", "Odyssey", "Aether",
-    "Reflection", "Inspiration", "Vibrance", "Fortitude", "Breakthrough", "Revival", "Momentum", "Revolutionary", "Impulse", "Voyage",
-    "Cascade", "Echoes", "Celestials", "Nebula", "Pinnacle", "Serenity", "Blissful", "Dynamo", "Nirvana", "Endurance",
-    "Infinity", "Resilience", "Vibrations", "Oasis", "Catalyst", "Equilibrium", "Transcendence", "Harmonics", "Pursuit", "Galactic",
-    "Mysticism", "Metamorphosis", "Velocity", "Resonance", "Vortex", "Phoenix", "Rapture", "Spiral", "Radiance", "Ascension",
-    "Chronicle", "Turbulence", "Lucidity", "Allegiance", "Fervor", "Endeavor", "Magnitude", "Revitalization", "Journey", "Rebirth",
-    "Majesty", "Whispers", "Tranquility", "Fortress", "Equilibrium", "Synthesis", "Amplification", "Resilience", "Mirage", "Exhilaration",
-    "Odyssey", "Legacy", "Impression", "Momentum", "Quantum", "Cohesion", "Apex", "Spectral", "Convergence", "Fusion",
-    "Mindset", "Hustle", "Vibes", "Backlash", "Daydream", "Showdown", "Grindstone", "Breakout", "Throwdown", "Shenanigans",
-    "Wildfire", "Thrillride", "Buzzkill", "Hangover", "Showstopper", "Rendezvous", "Smashup", "Driftwood", "Cliffhanger", "Kickback",
-    "Binge", "Whirlwind", "Blastoff", "Groundwork", "Roadtrip", "Powerhouse", "Reboot", "Snapback", "Backbone", "Shakedown",
-    "Mishap", "Blowback", "Riptide", "Ragequit", "Sideshow", "Roughhouse", "Hustler", "Firestorm", "Fastlane", "Backstage",
-    "Dreamboat", "Freefall", "Skyscraper", "Blowout", "Maverick", "Outlaw", "Daredevil", "Revolutionary", "Heartthrob", "Crush",
-    "Jukebox", "Breakaway", "Rocker", "Rollercoaster", "Underdog", "Flareup", "Gamechanger", "Pitstop", "Rollcall", "Dirtbike",
-    "Hustler", "Hotshot", "Bigshot", "Mastermind", "Baller", "Brainwave", "Smoothie", "Trailblazer", "Bigbang", "Knockout",
-    "Cannonball", "Jolt", "Rampage", "Grind", "Faceoff", "Blowtorch", "Boomerang", "Whipfire", "Takedown", "Headstart",
-    "Powerplay", "Hotwire", "Edgeout", "Allstar", "Squadron", "Moshpit", "Headliner", "Chatterbox", "Rally", "Ironclad",
-    "Sidekick", "Vortex", "Prowler", "Thrillseekers", "Speedster", "Rage", "Drifter", "Frenzy", "Hightail", "Dare",
-    "Hotshot", "Ballpark", "Spree", "Shockwave", "Backfire", "Outburst", "Maverick", "Sunshine", "Offbeat", "Nitro"
+  "small_nouns": [
+    "Zen", "Vibe", "Pixel", "Chill", "Echo", "Flux", "Jolt", "Blaze", "Drift", "Hype", 
+    "Tide", "Rush", "Volt", "Rift", "Shade", "Glow", "Buzz", "Pop", "Kicks", "Prism", 
+    "Chime", "Twist", "Edge", "Breeze", "Shine", "Luxe", "Clutch", "Rage", "Glow", 
+    "Zing", "Buzz", "Karma", "Maverick", "Bliss", "Grit", "Revolt", "Revive", "Vibe", 
+    "Crush", "Jive", "Lush", "Glint", "Hustle", "Hype", "Vibe", "Vibe", "Pop", "Volt", 
+    "Lion", "Wolf", "Bear", "Bat", "Fox", "Pangolin", "Seal", "Owl", "Goose", "Duck", 
+    "Jive", "Twist", "Rage", "Vibe", "Bliss", "Vibe", "Vibe", "Rage", "Vibe", "Rage"
+  ],
+
+  "medium_nouns": [
+    "Mango", "Pear", "Plum", "Lemon", "Kiwi", "Peach", "Cherry", "Fig", "Lychee", "Guava", 
+    "Melon", "Lemon", "Avocado", "Pineapple", "Strawberry", "Blueberry", "Tangerine", "Dragon", 
+    "Watermelon", "Coconut", "Papaya", "Pomegranate", "Plasma", "Ripple", "Sonic", "Raven", 
+    "Shimmer", "Bison", "Moose", "Lemur", "Hyena", "Leopard", "Cheetah", "Jaguar", "Tornado", 
+    "Phoenix", "Lion", "Giraffe", "Dolphin", "Tiger", "Penguin", "Falcon", "Goose", "Eagle", 
+    "Squadron", "Momentum", "Grindstone", "Smashup", "Hangover", "Chatterbox", "Blowback", "Backfire", 
+    "Backbone", "Blowtorch", "Hustler", "Grind", "Dreamboat", "Maverick", "Underdog", "Daredevil", 
+    "Shakedown", "Breakout", "Whirlwind", "Nightmare", "Horizon", "Wildfire", "Thrillride", "Vortex", 
+    "Turbulence", "Whispers", "Powerhouse", "Rendezvous", "Snapshot", "Backstage", "Legacy", 
+    "Dynamite", "Inspiration", "Serenity", "Reflection", "Vibrance"
+  ],
+
+  "large_nouns": [
+    "Apple", "Banana", "Orange", "Grapes", "Strawberry", "Blackberry", "Raspberry", "Pineapple", 
+    "Tangerine", "Dragon Fruit", "Plum", "Watermelon", "Guava", "Papaya", "Pomegranate", "Peach", 
+    "Lemon", "Kiwi", "Bliss", "Glimmer", "Momentum", "Jungle", "Nexus", "Revolt", "Tide", "Quantum", 
+    "Vanguard", "Vortex", "Driftwood", "Cascade", "Rebirth", "Whirlwind", "Momentum", "Equilibrium", 
+    "Serenity", "Velocity", "Ascension", "Catalyst", "Odyssey", "Metamorphosis", "Breakthrough", "Innovation",
+    "Momentum", "Celestial", "Odyssey", "Velocity", "Galactic", "Fervor", "Vibration", "Euphoria", 
+    "Cascades", "Exosphere", "Phenomenon", "Endurance", "Mirage", "Revolutionary", "Astrophysics", 
+    "Spectacle", "Magnitude", "Transformation", "Triumph", "Zephyr", "Phoenix", "Horizon", "Timelessness", 
+    "Galaxy", "Momentum", "Eclipse", "Evolution", "Exhilaration", "Equilibrium", "Timberline", 
+    "Velocity", "Enlightenment", "Blissful", "Majesty", "Turbulence", "Cascade", "Dreamscape", "Spectra", 
+    "Turbulence", "Velocity"
   ],
 
   "adjectives": [
@@ -54,7 +44,7 @@
     "Creative", "Inspiring"
   ],
 
-  "action_verbs": [
+  "verbs": [
     "Running", "Jumping", "Swimming", "Dancing", "Singing", "Writing", "Talking", "Listening", "Reading", "Cooking",
     "Driving", "Flying", "Thinking", "Speaking", "Playing", "Working", "Studying", "Creating", "Building", "Fixing",
     "Cleaning", "Fighting", "Drawing", "Painting", "Walking", "Helping", "Watching", "Touching", "Feeling", "Pushing",
@@ -80,5 +70,4 @@
     "Always", "Never", "Often", "Sometimes", "Rarely", "Usually", "Frequently", "Surprisingly", "Extremely", "Definitely",
     "Precisely", "Instantly"
   ]
-
 }
