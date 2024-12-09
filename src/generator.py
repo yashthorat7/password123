@@ -62,14 +62,14 @@ def getPasswordLength(i):
         with open ('./data/settings.json', 'r') as file:
             data = json.load(file)
 
-        defaultForce = data['defaultforce']
+        defaultForce = data['defaultForce']
         file.close()
 
         if defaultForce:
             DEFAULT_LENGTH = data['defaultForceNum']
         else:
             DEFAULT_LENGTH = data['default']
-            
+
         length = ''
         if not defaultForce or i == 1:
             console.print(Text('Enter the length of the password ', style='purple') + Text(f'(default={DEFAULT_LENGTH})', style='blue') + Text(': ', style='purple'), end='')

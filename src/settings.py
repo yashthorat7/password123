@@ -1,5 +1,6 @@
 import inquirer
 import os
+from dotenv import load_dotenv, set_key
 from rich.console import Console
 from rich.text import Text
 import json
@@ -86,7 +87,26 @@ def CustomizePassword():
 
 
 def ChangeMasterKey():
-    pass
+    load_dotenv()
+
+    while True:
+        console.print(Text('Enter the Master Key: '), style='cyan', end='')
+        key = input()
+        
+        if key == '':
+            console.print(Text('Master Key cannot be empty!', style='red'), end='\n')
+        elif key != os.getenv('MASTER_KEY'):
+            console.print(Text('Invalid Master Key!', style='red'), end='\n')
+        else:
+            break
+
+    console.print(Text('Enter the new Master Key: '), style='cyan', end='')
+    newKey = input()
+
+    env_file = '.env'
+    set_key(env_file, 'MASTER_KEY', newKey)
+    console.print(Text('Master Key changed successfully!', style='green'), end='\n')
+    print('')
 
 
 def EraseData():
@@ -94,17 +114,28 @@ def EraseData():
         console.print(Text('Enter the Master Key: '), style='cyan', end='')
         key = input()
         
-        if (key == ''):
+        if key == '':
             console.print(Text('Master Key cannot be empty!', style='red'), end='\n')
-        elif (key != os.getenv('MASTER_KEY')):
+        elif key != os.getenv('MASTER_KEY'):
             console.print(Text('Invalid Master Key!', style='red'), end='\n')
         else:
             break
 
-    with open('./data/passwords.json', 'w') as file:
-        file.truncate(0)
-    file.close()
-    console.print(Text('Data Erased Successfully!', style='green'), end='\n')
+    mainMenu = [inquirer.List('menuChoice',
+                            message='Save the password?',
+                            choices=['Yes', 'No'],
+                )]
+
+    menuChoice = inquirer.prompt(mainMenu)
+    userChoice = menuChoice['menuChoice']
+    
+    if userChoice == 'Yes':
+        with open('./data/password.enc', 'w') as file:
+            file.truncate(0)
+        file.close()
+        console.print(Text('Data Erased Successfully!', style='green'), end='\n')
+        print('')
+
 
 
 # main function
@@ -127,7 +158,7 @@ def settings():
     if userChoice == 'Customize Password':
         CustomizePassword()
     elif userChoice == 'Change the Master Key':
-        ChangeMasterKey
+        ChangeMasterKey()
     elif userChoice == 'Erase All Data':
         EraseData()
     else:

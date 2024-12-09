@@ -18,9 +18,9 @@ def getMasterKey():
     console.print(Text('Enter the Master Key: '), style='cyan', end='')
     key = input()
     
-    if (key == ''):
+    if key == '':
         console.print(Text('Master Key cannot be empty!', style='red'), end='\n')
-    elif (key != os.getenv('MASTER_KEY')):
+    elif key != os.getenv('MASTER_KEY'):
         console.print(Text('Invalid Master Key!', style='red'), end='\n')
 
     return key == os.getenv('MASTER_KEY'), key
@@ -46,6 +46,7 @@ def SearchRow():
             table.add_row(row[0], row[2], row[3])
         console.print(table)
         input()
+        print('\n\n\n\n')
     else:
         console.print(Text('No match found', style='red'))
 
@@ -149,8 +150,11 @@ def DisplayTable(key):
                 columnClone = [str(i),website, username, decryptedPassword]
                 tableClone.append(columnClone)
     file.close()
+    if len(tableClone) == 0:
+        console.print(Text('No Data found', style='red'))
+        return False
     console.print(table)
-    print('')
+    return True
 
 
 # main function
@@ -159,8 +163,11 @@ def display():
         validKey, key = getMasterKey()
         if validKey:
             while True:
-                DisplayTable(key)
-                if not getUpdates():
+                if DisplayTable(key):
+                    print('')
+                    if not getUpdates():
+                        break
+                else:
                     break
             break    
     
