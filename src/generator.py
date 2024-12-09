@@ -11,37 +11,69 @@ from .encryption import SavePassword
 
 console = Console()
 
+def getNoun(nounsData):
+    nounType = random.choice(['small_nouns', 'medium_nouns', 'large_nouns'])
+    randomNoun = random.choice(nounsData[nounType])
+    return randomNoun
+
+def checkPasswordFill(passwordLength, password):
+    with open('data/words.json', 'r') as file:
+        wordsData = json.load(file)
+    
+    currentLength = sum(len(word) for word in wordsData)
+    remainingSpace = passwordLength - currentLength
+    
+    if remainingSpace > 0:
+        if remainingSpace <= 3:
+            password.append(str(random.randint(10**(remainingSpace-1), 10**remainingSpace - 1)))
+        else:
+            password.append(random.choice(wordsData['verbs'] + wordsData['adjectives'] + wordsData['adverbs']))
+    elif remainingSpace < 0:
+        password.pop()
+        if abs(remainingSpace) >= 4:
+            password.append(random.choice(wordsData['verbs'] + wordsData['adjectives'] + wordsData['adverbs']))
+        else:
+            password.append(str(random.randint(10**(abs(remainingSpace)-1), 10**abs(remainingSpace) - 1)))
+    
+    return password
 
 # generates a password
 def GeneratePassword(passwordLength):
     with open('data/words.json', 'r') as file:
         wordsData = json.load(file)
-    
-    smallNouns = wordsData['small_nouns']
-    mediumNouns = wordsData['medium_nouns']
-    largeNouns = wordsData['large_nouns']
-    verbs = wordsData['verbs']
-    adjectives = wordsData['adjectives']
-    adverbs = wordsData['adverbs']
 
     possibleCombinations = [
-        ('nouns', verbs),
-        (adjectives, 'nouns'),
-        (verbs, adjectives, adverbs),
-        (adjectives, 'nouns', verbs),
-        (verbs, 'nouns', 'nouns'),
-        (adjectives, 'nouns', 'nouns', verbs),
-        (verbs, 'nouns', 'nouns'),
-        (verbs, 'nouns', adjectives),
-        (verbs, adjectives, 'nouns', verbs, adverbs),
-        (verbs, adjectives, verbs, 'nouns'),
+        ('nouns', wordsData['verbs']),
+        (wordsData['adjectives'], 'nouns'),
+        (wordsData['verbs'], wordsData['adjectives'], wordsData['adverbs']),
+        (wordsData['adjectives'], 'nouns', wordsData['verbs']),
+        (wordsData['verbs'], 'nouns', 'nouns'),
+        (wordsData['adjectives'], 'nouns', 'nouns', wordsData['verbs']),
+        (wordsData['verbs'], 'nouns', 'nouns'),
+        (wordsData['verbs'], 'nouns', wordsData['adjectives']),
+        (wordsData['verbs'], wordsData['adjectives'], 'nouns', wordsData['verbs'], wordsData['adverbs']),
+        (wordsData['verbs'], wordsData['adjectives'], wordsData['verbs'], 'nouns'),
         ('nouns', 'nouns')
     ]
 
-    #TODO: write the generate logic
+    passwordParts = []
 
-    password = ''
-    return password
+    while sum(len(word) for word in passwordParts) < passwordLength:
+        combination = random.choice(possibleCombinations)
+        tempParts = []
+
+        for part in combination:
+            if part == 'nouns':
+                selectedNoun = getNoun(wordsData)
+                tempParts.append(selectedNoun)
+            else:
+                selectedWord = random.choice(part)
+                tempParts.append(selectedWord)
+        passwordParts.extend(tempParts)
+
+    adjustedPassword = checkPasswordFill(passwordLength, passwordParts)
+    
+    return ''.join(str(word) for word in adjustedPassword)
 
 
 # used rich panel to show password in a box
