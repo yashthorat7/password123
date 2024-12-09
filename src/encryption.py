@@ -52,12 +52,14 @@ def DecryptPassword(password, key):
 
 
 # called right after password generation
-def SavePassword(password=''):
+def SavePassword(password='', website='', username='', listing=False):
     action = 'saved'
-    console.print(Text('Enter the Website ', style='purple') + Text(f'(optional)', style='blue') + Text(': ', style='purple'), end='')
-    website = input()
-    console.print(Text('Enter the Username ', style='purple') + Text(f'(optional)', style='blue') + Text(': ', style='purple'), end='')
-    username = input()
+
+    if not listing:
+        console.print(Text('Enter the Website ', style='purple') + Text(f'(optional)', style='blue') + Text(': ', style='purple'), end='')
+        website = input()
+        console.print(Text('Enter the Username ', style='purple') + Text(f'(optional)', style='blue') + Text(': ', style='purple'), end='')
+        username = input()
 
     #if the request is not coming right after generation
     if password == '':
@@ -68,5 +70,5 @@ def SavePassword(password=''):
     encryptedPassword = EncryptPassword(password)
     StoreData(website, username, encryptedPassword)
 
-
-    console.print(Text(f'\nPassword {action} successfully...\n', style='yellow'))
+    if not listing:
+        console.print(Text(f'\nPassword {action} successfully...\n', style='yellow'))

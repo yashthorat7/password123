@@ -11,10 +11,10 @@ from .encryption import SavePassword
 console = Console()
 
 
-# generates a password...need to change
+# generates a password
 def GeneratePassword(passwordLength):
     characters = string.ascii_letters + string.digits + string.punctuation
-    Password = ''.join(random.choice(characters) for i in range(passwordLength))
+    Password = ''.join(random.choice(characters) for _ in range(passwordLength))
 
     return Password
 

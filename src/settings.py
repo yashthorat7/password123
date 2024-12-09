@@ -4,6 +4,8 @@ from dotenv import load_dotenv, set_key
 from rich.console import Console
 from rich.text import Text
 import json
+from .encryption import DecryptPassword
+from .encryption import SavePassword
 
 console = Console()
 
@@ -86,6 +88,19 @@ def CustomizePassword():
     print('')
 
 
+def RewritePasswords(key):
+    with open('./data/password.enc', 'r') as file:
+        lines = file.readlines()
+    with open('./data/password.enc', 'w') as file:
+        file.truncate(0)
+    
+    for line in lines:
+        website, username, password = line.strip().split('\t')
+        decryptedPassword = DecryptPassword(password, key)
+        console.print('Decrypted Password: ', decryptedPassword)
+        SavePassword(decryptedPassword, website, username, True)
+
+
 def ChangeMasterKey():
     load_dotenv()
 
@@ -103,8 +118,9 @@ def ChangeMasterKey():
     console.print(Text('Enter the new Master Key: '), style='cyan', end='')
     newKey = input()
 
-    env_file = '.env'
-    set_key(env_file, 'MASTER_KEY', newKey)
+    set_key('.env', 'MASTER_KEY', newKey)
+    RewritePasswords(key)
+
     console.print(Text('Master Key changed successfully!', style='green'), end='\n')
     print('')
 
