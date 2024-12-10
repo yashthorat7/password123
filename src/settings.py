@@ -11,15 +11,30 @@ console = Console()
 
 
 def setJsonAttribute(attribute, value):
-    with open('./data/settings.json', 'r') as file:
+    with open('data/settings.json', 'r') as file:
         data = json.load(file)
     data[attribute] = value
-    with open('./data/settings.json', 'w') as file:
+    with open('data/settings.json', 'w') as file:
         json.dump(data, file)
     file.close()
 
 
 def CustomizePassword():
+    with open('data/settings.json', 'r') as file:
+        data = json.load(file)
+
+    defaultList = []
+    if data.get('defaultForce', False):
+        defaultList.append('Length of Password')
+    if data.get('specialCharacters', False):
+        defaultList.append('Special Characters')
+    if data.get('numbers', False):
+        defaultList.append('Numbers')
+    if data.get('uppercase', False):
+        defaultList.append('Uppercase Letters')
+    if data.get('lowercase', False):
+        defaultList.append('Lowercase Letters')
+
     settingsChoicesList = [
         'Length of Password',
         'Special Characters',
@@ -31,12 +46,13 @@ def CustomizePassword():
     settingsMenu = [inquirer.Checkbox('settings',
                           message='What would you like to change?',
                           choices=settingsChoicesList,
-                          default=['Uppercase Letters', 'Lowercase Letters', 'Numbers', 'Special Characters']
+                          default=defaultList
                     )]
 
     userChoices = inquirer.prompt(settingsMenu)['settings']
 
-    if 'Length of Password' in userChoices:
+
+    if 'Length of Password' in userChoices and not data.get('defaultForce', False):
         while True:
             console.print(Text('Enter a fixed length: ', style='cyan'), end='')
             length = input()
@@ -53,6 +69,8 @@ def CustomizePassword():
                     break
             except ValueError:
                 console.print(Text('Please enter a valid number', style='red'))
+    elif 'Length of Password' in userChoices and data.get('defaultForce', False):
+        pass
     else:
         setJsonAttribute('defaultForce', False)
         console.print(Text('Password length will be asked everytime', style='green'))
@@ -150,7 +168,6 @@ def EraseData():
         file.close()
         console.print(Text('Data Erased Successfully!', style='green'), end='\n')
         print('')
-
 
 
 # main function

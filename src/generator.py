@@ -35,6 +35,7 @@ def ValidatePassword(password):
     return True
 
 
+# switches some letters with symbols or numbers
 def AlterPassword(password):
     passwordList = list(password)
     passwordLength = len(passwordList)
