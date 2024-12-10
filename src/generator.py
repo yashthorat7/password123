@@ -12,38 +12,53 @@ console = Console()
 
 
 def ValidatePassword(password):
-    minLetters = int(len(password) * 0.4)
-    minNumbers = int(len(password) * 0.2)
-    minSymbols = int(len(password) * 0.2)
+    passwordLength = len(password)
 
-    lettersCount = sum(1 for char in password if char.isalpha())
+    minLowLettersStart, minLowLettersEnd = 2, 19
+    minUpLettersStart, minUpLettersEnd = 1, 6
+    minNumbersStart, minNumbersEnd = 1, 8
+    minSymbolsStart, minSymbolsEnd = 2, 10
+
+    minLowLetters = int(minLowLettersStart + (minLowLettersEnd - minLowLettersStart) * (passwordLength - 8) / (64 - 8))
+    minUpLetters = int(minUpLettersStart + (minUpLettersEnd - minUpLettersStart) * (passwordLength - 8) / (64 - 8))
+    minNumbers = int(minNumbersStart + (minNumbersEnd - minNumbersStart) * (passwordLength - 8) / (64 - 8))
+    minSymbols = int(minSymbolsStart + (minSymbolsEnd - minSymbolsStart) * (passwordLength - 8) / (64 - 8))
+
+    lowLettersCount = sum(1 for char in password if char.islower())
+    upLetterCount = sum(1 for char in password if char.isupper())
     numbersCount = sum(1 for char in password if char.isdigit())
     symbolsCount = sum(1 for char in password if char in '!@#$%^&*()_+=-?')
 
-    if lettersCount < minLetters or numbersCount < minNumbers or symbolsCount < minSymbols:
+    if lowLettersCount < minLowLetters or upLetterCount < minUpLetters or numbersCount < minNumbers or symbolsCount < minSymbols:
         return False
+
     return True
 
 
-def AlterPassword(passwordLength, password):
+def AlterPassword(password):
     passwordList = list(password)
+    passwordLength = len(passwordList)
 
-    toggleCaseProb = max(0.1, 0.4 - (passwordLength - 8) * 0.005)
-    alterNumProb = toggleCaseProb * 0.25
-    alterSymbolProb = toggleCaseProb * 0.25
+    toggleCaseProbStart, toggleCaseProbEnd = 0.05, 0.01
+    alterNumProbStart, alterNumProbEnd = 0.15, 0.1
+    alterSymbolProbStart, alterSymbolProbEnd = 0.4, 0.25
 
-    for i in range(1, len(passwordList)):
-        if random.random() < toggleCaseProb and passwordList[i].isalpha():
-            passwordList[i] = passwordList[i].upper() if passwordList[i].islower() else passwordList[i].lower()
+    toggleCaseProb = toggleCaseProbStart + (toggleCaseProbEnd - toggleCaseProbStart) * (passwordLength - 8) / (64 - 8)
+    alterNumProb = alterNumProbStart + (alterNumProbEnd - alterNumProbStart) * (passwordLength - 8) / (64 - 8)
+    alterSymbolProb = alterSymbolProbStart + (alterSymbolProbEnd - alterSymbolProbStart) * (passwordLength - 8) / (64 - 8)
+
+    for i in range(1, passwordLength):
+        if random.random() < toggleCaseProb and passwordList[i].islower():
+            passwordList[i] = passwordList[i].upper()
 
     with open('data/alters.json', 'r') as file:
         alters = json.load(file)
     
-    for i in range(1, len(passwordList)):
+    for i in range(1, passwordLength):
         if passwordList[i].lower() in alters and random.random() < alterNumProb:
             passwordList[i] = random.choice(alters[passwordList[i].lower()]['number'])
     
-    for i in range(1, len(passwordList)):
+    for i in range(1, passwordLength):
         if passwordList[i] in alters and random.random() < alterSymbolProb:
             passwordList[i] = random.choice(alters[passwordList[i]]['symbols'])
     
@@ -52,7 +67,7 @@ def AlterPassword(passwordLength, password):
     if ValidatePassword(newPassword):
         return newPassword
     else:
-        return AlterPassword(passwordLength, password)
+        return False
 
 
 def getNoun(nounsData):
@@ -119,10 +134,12 @@ def GeneratePassword(passwordLength):
     file.close()
 
     newPassword = ''.join(password)
-    newPassword = AlterPassword(passwordLength, newPassword)
+    while True:
+        alteredPassword = AlterPassword(newPassword)
+        if alteredPassword:
+            break
     
-
-    return newPassword
+    return alteredPassword
 
 
 
@@ -210,3 +227,7 @@ def generator(i = 0):
     DisplayPassword(newPassword)
     getSave(newPassword)
     
+
+for i in range(200):
+    length =random.randint(8,64)
+    GeneratePassword(length)
