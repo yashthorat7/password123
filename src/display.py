@@ -5,169 +5,137 @@ from rich.console import Console
 from rich.text import Text
 from rich.table import Table
 from rich.box import ROUNDED
-from .encryption import DecryptPassword
-from .encryption import SavePassword
+from .encryption import DecryptPassword, SavePassword
 
 console = Console()
 load_dotenv()
 tableClone = []
+PASSWORD_FILE = 'data/passwords.enc'
 
 
-# checks if the master key is correct
-def getMasterKey():
-    console.print(Text('Enter the Master Key: '), style='cyan', end='')
+def GetMasterKey():
+    console.print(Text('Enter the Master Key: ', style='cyan'), end='')
     key = input()
-    
-    if key == '':
+    if not key:
         console.print(Text('Master Key cannot be empty!', style='red'), end='\n')
-    elif key != os.getenv('MASTER_KEY'):
+        return False, None
+    if key != os.getenv('MASTER_KEY'):
         console.print(Text('Invalid Master Key!', style='red'), end='\n')
-
-    return key == os.getenv('MASTER_KEY'), key
-
-
-# searches the table clone and filters the outputs
-def SearchRow():
-    console.print(Text('Enter the Website: '), style='cyan', end='')
-    website = input()
-    matchedRows = []
-
-    for row in tableClone:
-        if row[1] == website:
-            matchedRows.append(row)
-
-    if matchedRows:
-        table = Table(header_style='bold', box=ROUNDED)
-        table.add_column('Sr.no.', justify='left', style='yellow')
-        table.add_column('Username', justify='left', style='red')
-        table.add_column('Password', justify='left', style='magenta')
-
-        for row in matchedRows:
-            table.add_row(row[0], row[2], row[3])
-        console.print(table)
-        input()
-        print('\n\n\n\n')
-    else:
-        console.print(Text('No match found', style='red'))
-
-    print('')    
+        return False, None
+    return True, key
 
 
-# savepassword is compatible with this addrow
-def AddRow():
-    SavePassword()
+def ReadPasswords():
+    with open(PASSWORD_FILE, 'r') as file:
+        return file.readlines()
 
 
-# removes the row from passwords.enc
-def RemoveRow():
-    while True:
-        console.print(Text('Enter the serial No: ', style='cyan'), end='')
-        rowIndex = input()
-        try:
-            rowIndex = int(rowIndex) - 1
-            if 0 <= rowIndex < len(tableClone):
-                table = Table(header_style='bold', box=ROUNDED)
-                table.add_column('Sr.no.', justify='left', style='yellow')
-                table.add_column('Website', justify='left', style='red')
-                table.add_column('Username', justify='left', style='magenta')
-                table.add_column('Password', justify='left', style='red')
-                table.add_row(tableClone[rowIndex][0], tableClone[rowIndex][1], tableClone[rowIndex][2], tableClone[rowIndex][3])
-
-                console.print(table)
-
-                mainMenu = [inquirer.List('menuChoice',
-                                        message='Are you sure?',
-                                        choices=['Yes', 'No'],
-                            )]
-
-                menuChoice = inquirer.prompt(mainMenu)
-                userChoice = menuChoice['menuChoice']
-
-                # main logic of password removing
-                if userChoice == 'Yes':
-                    with open('./data/passwords.enc', 'r') as file:
-                        lines = file.readlines()
-                    del lines[rowIndex]
-
-                    with open('./data/passwords.enc', 'w') as file:
-                        file.writelines(line for line in lines if line.strip())
-                    file.close()
-
-                    console.print(Text('Password removed successfully\n', style='yellow'))
-                break
-            else:
-                console.print(Text('Invalid serial number', style='red'))
-        except ValueError:
-            console.print(Text('Please enter a valid number', style='red'))
+def WritePasswords(lines):
+    with open(PASSWORD_FILE, 'w') as file:
+        file.writelines(lines)
 
 
-# displays menu right below table
-def getUpdates():
-    menuChoicesList = [
-        'Search a Password',
-        'Add a Password',
-        'Remove a Password',
-        'Back'
-    ]
-
-    mainMenu = [inquirer.List('menuChoice',
-                            message='Save the password?',
-                            choices=menuChoicesList,
-                )]
-
-    menuChoice = inquirer.prompt(mainMenu)
-    userChoice = menuChoice['menuChoice']
-    
-    if userChoice == 'Search a Password':
-        SearchRow()
-    elif userChoice == 'Add a Password':
-        AddRow()
-    elif userChoice == 'Remove a Password':
-        RemoveRow()
-    else:
-        return False
-    return True
-
-
-# forms a rich table and decrypts the password
-# TODO: color the table rows
-def DisplayTable(key):
+def CreateTable(headers, rows, styles):
     table = Table(header_style='bold', box=ROUNDED)
-    table.add_column('Sr.no.', justify='left', style='orange3')
-    table.add_column('Website', justify='left', style='purple')
-    table.add_column('Username', justify='left', style='red')
-    table.add_column('Password', justify='left', style='yellow')
+    for header, style in zip(headers, styles):
+        table.add_column(header, justify='left', style=style)
+    for row in rows:
+        table.add_row(*row)
+    return table
 
-    with open('./data/passwords.enc', 'r') as file:
-        lines = file.readlines()
-        for i, line in enumerate(lines, start = 1):
+
+def DisplayTable(key):
+    try:
+        global tableClone
+        tableClone = []
+        lines = ReadPasswords()
+        rows = []
+        for i, line in enumerate(lines, start=1):
             columns = line.strip().split('\t')
-
             if len(columns) == 3:
                 website, username, password = columns
                 decryptedPassword = DecryptPassword(password, key)
-                table.add_row(str(i), website, username, decryptedPassword)
-                columnClone = [str(i),website, username, decryptedPassword]
-                tableClone.append(columnClone)
-    file.close()
-    if len(tableClone) == 0:
-        console.print(Text('No Data found', style='red'))
+                rows.append([str(i), website, username, decryptedPassword])
+                tableClone.append([str(i), website, username, decryptedPassword])
+        if not tableClone:
+            console.print(Text('No Data found', style='red'))
+            return False
+        table = CreateTable(['Sr.no.', 'Website', 'Username', 'Password'], rows, ['orange3', 'purple', 'red', 'yellow'])
+        console.print(table)
+        return True
+    except Exception as e:
+        console.print(Text(f'Error displaying table: {e}', style='red'))
         return False
-    console.print(table)
-    return True
 
 
-# main function
+def HandleSearch():
+    console.print(Text('Enter the Website: ', style='cyan'), end='')
+    website = input()
+    matchedRows = [row for row in tableClone if row[1].lower() == website.lower()]
+    if matchedRows:
+        table = CreateTable(['Sr.no.', 'Username', 'Password'], matchedRows, ['yellow', 'red', 'magenta'])
+        console.print(table)
+    else:
+        console.print(Text('No match found', style='red'))
+
+
+def HandleAdd():
+    try:
+        console.print(Text('Enter the Password: ', style='cyan'), end='')
+        password = input()
+        if not password:
+            console.print(Text('Password cannot be empty', style='red'))
+            return
+        SavePassword(os.getenv('MASTER_KEY'), password)
+    except Exception as e:
+        console.print(Text(f'Error adding password: {e}', style='red'))
+
+
+def HandleRemove():
+    try:
+        console.print(Text('Enter the serial No: ', style='cyan'), end='')
+        rowIndex = int(input()) - 1
+        if 0 <= rowIndex < len(tableClone):
+            table = CreateTable(['Sr.no.', 'Website', 'Username', 'Password'], [tableClone[rowIndex]], ['yellow', 'red', 'magenta', 'red'])
+            console.print(table)
+            confirmChoice = inquirer.prompt([inquirer.Confirm('confirm', message='Are you sure you want to remove this password?', default=False)])['confirm']
+            if confirmChoice:
+                lines = ReadPasswords()
+                del lines[rowIndex]
+                WritePasswords(lines)
+                console.print(Text('Password removed successfully\n', style='yellow'))
+            else:
+                console.print(Text('Operation cancelled\n', style='cyan'))
+        else:
+            console.print(Text('Invalid serial number', style='red'))
+    except ValueError:
+        console.print(Text('Please enter a valid number', style='red'))
+    except Exception as e:
+        console.print(Text(f'Error removing password: {e}', style='red'))
+
+
+def RunApplication(key):
+    while True:
+        if not DisplayTable(key):
+            break
+        menuChoice = inquirer.prompt([inquirer.List('menuChoice', message='What would you like to do?', choices=[
+            'Search a Password', 'Add a Password', 'Remove a Password', 'Back'])])['menuChoice']
+        if menuChoice == 'Search a Password':
+            HandleSearch()
+        elif menuChoice == 'Add a Password':
+            HandleAdd()
+        elif menuChoice == 'Remove a Password':
+            HandleRemove()
+        elif menuChoice == 'Back':
+            break
+
+
 def display():
-    for _ in range(3):
-        validKey, key = getMasterKey()
-        if validKey:
-            while True:
-                if DisplayTable(key):
-                    print('')
-                    if not getUpdates():
-                        break
-                else:
-                    break
-            break    
-    
+    try:
+        for _ in range(3):
+            validKey, key = GetMasterKey()
+            if validKey:
+                RunApplication(key)
+                return
+    except Exception as e:
+        console.print(Text(f'Unexpected error: {e}', style='red'))

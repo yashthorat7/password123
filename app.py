@@ -68,6 +68,5 @@ def main():
             console.print("\nExiting the tool. Goodbye!", style="orange3")
             break
 
-
 if __name__ == '__main__':
     main()
