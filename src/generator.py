@@ -1,5 +1,4 @@
 import random
-import string
 import inquirer
 import json
 import os
@@ -10,6 +9,51 @@ from rich.box import ROUNDED
 from .encryption import SavePassword
 
 console = Console()
+
+
+def ValidatePassword(password):
+    minLetters = int(len(password) * 0.4)
+    minNumbers = int(len(password) * 0.2)
+    minSymbols = int(len(password) * 0.2)
+
+    lettersCount = sum(1 for char in password if char.isalpha())
+    numbersCount = sum(1 for char in password if char.isdigit())
+    symbolsCount = sum(1 for char in password if char in '!@#$%^&*()_+=-?')
+
+    if lettersCount < minLetters or numbersCount < minNumbers or symbolsCount < minSymbols:
+        return False
+    return True
+
+
+def AlterPassword(passwordLength, password):
+    passwordList = list(password)
+
+    toggleCaseProb = max(0.1, 0.4 - (passwordLength - 8) * 0.005)
+    alterNumProb = toggleCaseProb * 0.25
+    alterSymbolProb = toggleCaseProb * 0.25
+
+    for i in range(1, len(passwordList)):
+        if random.random() < toggleCaseProb and passwordList[i].isalpha():
+            passwordList[i] = passwordList[i].upper() if passwordList[i].islower() else passwordList[i].lower()
+
+    with open('data/alters.json', 'r') as file:
+        alters = json.load(file)
+    
+    for i in range(1, len(passwordList)):
+        if passwordList[i].lower() in alters and random.random() < alterNumProb:
+            passwordList[i] = random.choice(alters[passwordList[i].lower()]['number'])
+    
+    for i in range(1, len(passwordList)):
+        if passwordList[i] in alters and random.random() < alterSymbolProb:
+            passwordList[i] = random.choice(alters[passwordList[i]]['symbols'])
+    
+    file.close()
+    newPassword = ''.join(passwordList)
+    if ValidatePassword(newPassword):
+        return newPassword
+    else:
+        return AlterPassword(passwordLength, password)
+
 
 def getNoun(nounsData):
     nounType = random.choice(['small_nouns', 'medium_nouns', 'large_nouns'])
@@ -33,7 +77,7 @@ def checkPassword(passwordLength, password, wordsData, currentCombination):
     if currentLength == passwordLength:
         return password
 
-    if currentLength < passwordLength:
+    elif currentLength < passwordLength:
         remainingLength = passwordLength - currentLength
         if remainingLength <= 3:
             random_number = str(random.randint(10**(remainingLength - 1), 10**remainingLength - 1))
@@ -47,7 +91,7 @@ def checkPassword(passwordLength, password, wordsData, currentCombination):
         password.pop()
         nextWord = generateNextWord(wordsData, currentCombination)
         password.append(nextWord)
-        return checkPassword(passwordLength, password, wordsData, currentCombination)
+        return checkPassword(passwordLength, password, wordsData, currentCombination)  
 
 
 # generates a password
@@ -72,8 +116,13 @@ def GeneratePassword(passwordLength):
     currentCombination = random.choice(possibleCombinations)
     password = []
     password = checkPassword(passwordLength, password, wordsData, currentCombination)
+    file.close()
 
-    return ''.join(password)
+    newPassword = ''.join(password)
+    newPassword = AlterPassword(passwordLength, newPassword)
+    
+
+    return newPassword
 
 
 

@@ -15,9 +15,10 @@ A low-weight CLI tool to manage your passwords!
 ## 📂 Directory Structure  
 
 ```plaintext
-🌟 Password-Manager
+🌟 Password123
 │
 ├── 💾 data
+│   ├── alters.json       # AlterList for password generation
 │   ├── passwords.enc     # Encrypted password storage
 │   ├── settings.json     # User-specific settings
 │   └── words.json        # Wordlist for password generation
@@ -66,7 +67,8 @@ Run the main application:
 python app.py
 ```  
 
-### 🔧 Key Commands:  
+## 🔧 Key Commands
+
 - **Generate Password**: Easily create secure passwords through the terminal.  
 - **View Passwords**: Access and decrypt your stored passwords (authentication required).  
 - **Update Settings**: Customize preferences, such as password length or complexity.  
