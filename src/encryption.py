@@ -1,73 +1,87 @@
 import os
+import hashlib
+import base64
 from dotenv import load_dotenv
 from rich.console import Console
 from rich.text import Text
-import hashlib
-import base64
 from cryptography.fernet import Fernet
 
 console = Console()
 load_dotenv()
+PASSWORD_FILE = './data/passwords.enc'
 
 
-# stores the encrypted password
-def StoreData(website, username, password):
-    website = website if website else 'N/A'
-    username = username if username else 'N/A'
+def ReadPasswords():
+    with open(PASSWORD_FILE, 'r') as file:
+        return file.readlines()
 
-    entry = f'{website}\t{username}\t{password.decode()}\n'
-    with open('./data/passwords.enc', 'a') as file:
+
+def WritePasswords(lines):
+    with open(PASSWORD_FILE, 'w') as file:
+        file.writelines(lines)
+
+
+def AppendPassword(entry):
+    with open(PASSWORD_FILE, 'a') as file:
         file.write(entry)
-    file.close()
 
 
-# master key to 32byte url converter
-def getFernetKey(key):
+def GetFernetKey(key):
     hashed = hashlib.pbkdf2_hmac('sha256', key.encode(), b'', 100000, dklen=32)
-    fernetKey = base64.urlsafe_b64encode(hashed)
+    return base64.urlsafe_b64encode(hashed)
 
-    return fernetKey
 
-# uses cryptography to encrypt the password
 def EncryptPassword(password, key):
-    fernetKey = getFernetKey(key)
+    fernetKey = GetFernetKey(key)
     cipher = Fernet(fernetKey)
-    encryptedPassword = cipher.encrypt(password.encode())
+    return cipher.encrypt(password.encode())
 
-    return encryptedPassword
 
-# uses cryptography to decrypt the password
 def DecryptPassword(password, key):
-    fernetKey = getFernetKey(key)
+    fernetKey = GetFernetKey(key)
     cipher = Fernet(fernetKey)
-    decryptedPassword = ''
-
     try:
-        decryptedPassword = cipher.decrypt(password).decode()
-    except:
-        decryptedPassword = '[Error]'
-
-    return decryptedPassword
+        return cipher.decrypt(password).decode()
+    except Exception:
+        return '[Error]'
 
 
-# called right after password generation
+def StorePasswordData(website, username, encryptedPassword):
+    entry = f"{website}\t{username}\t{encryptedPassword.decode()}\n"
+    AppendPassword(entry)
+
+
 def SavePassword(key, password='', website='', username='', listing=False):
-    action = 'saved'
+    try:
+        if not listing:
+            console.print(Text('Enter the Website: ', style='purple') + Text('(optional)', style='blue') + Text(': ', style='purple'), end='')
+            website = input() or 'N/A'
+            console.print(Text('Enter the Username: ', style='purple') + Text('(optional)', style='blue') + Text(': ', style='purple'), end='')
+            username = input() or 'N/A'
+        if not password:
+            console.print(Text('Enter the Password: ', style='purple'), end='')
+            password = input()
+        if not password:
+            console.print(Text('Password cannot be empty', style='red'))
+            return
+        encryptedPassword = EncryptPassword(password, key)
+        StorePasswordData(website, username, encryptedPassword)
+        if not listing:
+            console.print(Text('\nPassword saved successfully...\n', style='yellow'))
+    except Exception as e:
+        console.print(Text(f'Error saving password: {e}', style='red'))
 
-    if not listing:
-        console.print(Text('Enter the Website ', style='purple') + Text(f'(optional)', style='blue') + Text(': ', style='purple'), end='')
-        website = input()
-        console.print(Text('Enter the Username ', style='purple') + Text(f'(optional)', style='blue') + Text(': ', style='purple'), end='')
-        username = input()
 
-    #if the request is not coming right after generation
-    if password == '':
-        action = 'added'
-        console.print(Text('Enter the Password: ', style='purple'), end='')
-        password = input()
-
-    encryptedPassword = EncryptPassword(password, key)
-    StoreData(website, username, encryptedPassword)
-
-    if not listing:
-        console.print(Text(f'\nPassword {action} successfully...\n', style='yellow'))
+def RewritePasswords(oldKey, newKey):
+    try:
+        lines = ReadPasswords()
+        updatedLines = []
+        for line in lines:
+            website, username, encryptedPassword = line.strip().split('\t')
+            decryptedPassword = DecryptPassword(encryptedPassword, oldKey)
+            newEncryptedPassword = EncryptPassword(decryptedPassword, newKey)
+            updatedLines.append(f"{website}\t{username}\t{newEncryptedPassword.decode()}\n")
+        WritePasswords(updatedLines)
+        console.print(Text('Passwords updated successfully with the new Master Key.', style='green'))
+    except Exception as e:
+        console.print(Text(f'Error updating passwords: {e}', style='red'))

@@ -191,7 +191,7 @@ def getPasswordLength(i):
         defaultForce = data['defaultForce']
         file.close()
 
-        if defaultForce:
+        if i == 0:
             DEFAULT_LENGTH = data['defaultForceNum']
         else:
             DEFAULT_LENGTH = data['default']
