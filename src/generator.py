@@ -10,112 +10,76 @@ from .encryption import SavePassword
 
 console = Console()
 
-
 def ValidatePassword(password):
     passwordLength = len(password)
 
-    minLowLettersStart, minLowLettersEnd = 2, 19
-    minUpLettersStart, minUpLettersEnd = 1, 6
-    minNumbersStart, minNumbersEnd = 1, 8
-    minSymbolsStart, minSymbolsEnd = 2, 10
-
-    minLowLetters = int(minLowLettersStart + (minLowLettersEnd - minLowLettersStart) * (passwordLength - 8) / (64 - 8))
-    minUpLetters = int(minUpLettersStart + (minUpLettersEnd - minUpLettersStart) * (passwordLength - 8) / (64 - 8))
-    minNumbers = int(minNumbersStart + (minNumbersEnd - minNumbersStart) * (passwordLength - 8) / (64 - 8))
-    minSymbols = int(minSymbolsStart + (minSymbolsEnd - minSymbolsStart) * (passwordLength - 8) / (64 - 8))
+    minLowLetters = int(2 + (19 - 2) * (passwordLength - 8) / (64 - 8))
+    minUpLetters = int(1 + (6 - 1) * (passwordLength - 8) / (64 - 8))
+    minNumbers = int(1 + (8 - 1) * (passwordLength - 8) / (64 - 8))
+    minSymbols = int(2 + (10 - 2) * (passwordLength - 8) / (64 - 8))
 
     lowLettersCount = sum(1 for char in password if char.islower())
     upLetterCount = sum(1 for char in password if char.isupper())
     numbersCount = sum(1 for char in password if char.isdigit())
     symbolsCount = sum(1 for char in password if char in '!@#$%^&*()_+=-?')
 
-    if lowLettersCount < minLowLetters or upLetterCount < minUpLetters or numbersCount < minNumbers or symbolsCount < minSymbols:
-        return False
+    return lowLettersCount >= minLowLetters and upLetterCount >= minUpLetters \
+        and numbersCount >= minNumbers and symbolsCount >= minSymbols
 
-    return True
-
-
-# switches some letters with symbols or numbers
 def AlterPassword(password):
     passwordList = list(password)
     passwordLength = len(passwordList)
 
-    toggleCaseProbStart, toggleCaseProbEnd = 0.05, 0.01
-    alterNumProbStart, alterNumProbEnd = 0.15, 0.1
-    alterSymbolProbStart, alterSymbolProbEnd = 0.4, 0.25
-
-    toggleCaseProb = toggleCaseProbStart + (toggleCaseProbEnd - toggleCaseProbStart) * (passwordLength - 8) / (64 - 8)
-    alterNumProb = alterNumProbStart + (alterNumProbEnd - alterNumProbStart) * (passwordLength - 8) / (64 - 8)
-    alterSymbolProb = alterSymbolProbStart + (alterSymbolProbEnd - alterSymbolProbStart) * (passwordLength - 8) / (64 - 8)
-
-    for i in range(1, passwordLength):
-        if random.random() < toggleCaseProb and passwordList[i].islower():
-            passwordList[i] = passwordList[i].upper()
+    probabilities = {
+        "toggleCase": 0.05 + (0.01 - 0.05) * (passwordLength - 8) / (64 - 8),
+        "alterNum": 0.15 + (0.1 - 0.15) * (passwordLength - 8) / (64 - 8),
+        "alterSymbol": 0.4 + (0.25 - 0.4) * (passwordLength - 8) / (64 - 8)
+    }
 
     with open('data/alters.json', 'r') as file:
         alters = json.load(file)
-    
+
     for i in range(1, passwordLength):
-        if passwordList[i].lower() in alters and random.random() < alterNumProb:
-            passwordList[i] = random.choice(alters[passwordList[i].lower()]['number'])
-    
-    for i in range(1, passwordLength):
-        if passwordList[i] in alters and random.random() < alterSymbolProb:
-            passwordList[i] = random.choice(alters[passwordList[i]]['symbols'])
-    
-    file.close()
+        char = passwordList[i]
+        if random.random() < probabilities["toggleCase"] and char.islower():
+            passwordList[i] = char.upper()
+        elif char.lower() in alters and random.random() < probabilities["alterNum"]:
+            passwordList[i] = random.choice(alters[char.lower()]['number'])
+        elif char in alters and random.random() < probabilities["alterSymbol"]:
+            passwordList[i] = random.choice(alters[char]['symbols'])
+
     newPassword = ''.join(passwordList)
-    if ValidatePassword(newPassword):
-        return newPassword
-    else:
-        return False
+    return newPassword if ValidatePassword(newPassword) else False
 
-
-def getNoun(nounsData):
-    nounType = random.choice(['small_nouns', 'medium_nouns', 'large_nouns'])
-    randomNoun = random.choice(nounsData[nounType])
-    return randomNoun
-
-
-def generateNextWord(wordsData, combination):
+def GenerateWord(wordsData, combination):
     wordType = random.choice(combination)
     if wordType == 'nouns':
-        return getNoun(wordsData)
+        return random.choice(wordsData['nouns'])
     elif isinstance(wordType, str):
         return random.choice(wordsData[wordType])
     else:
         return random.choice(wordType)
 
-
-def checkPassword(passwordLength, password, wordsData, currentCombination):
-    currentLength = sum(len(word) for word in password)
-    
-    if currentLength == passwordLength:
-        return password
-
-    elif currentLength < passwordLength:
-        remainingLength = passwordLength - currentLength
-        if remainingLength <= 3:
-            random_number = str(random.randint(10**(remainingLength - 1), 10**remainingLength - 1))
-            password.append(random_number)
-        else:
-            nextWord = generateNextWord(wordsData, currentCombination)
+def BuildPassword(passwordLength, combination, wordsData):
+    password = []
+    while sum(len(word) for word in password) < passwordLength:
+        nextWord = GenerateWord(wordsData, combination)
+        if sum(len(word) for word in password) + len(nextWord) <= passwordLength:
             password.append(nextWord)
-        return checkPassword(passwordLength, password, wordsData, currentCombination)
+        else:
+            break
 
-    elif currentLength > passwordLength:
-        password.pop()
-        nextWord = generateNextWord(wordsData, currentCombination)
-        password.append(nextWord)
-        return checkPassword(passwordLength, password, wordsData, currentCombination)  
+    remainingLength = passwordLength - sum(len(word) for word in password)
+    if remainingLength > 0:
+        password.append(str(random.randint(10**(remainingLength - 1), 10**remainingLength - 1)))
 
+    return password
 
-# generates a password
 def GeneratePassword(passwordLength):
     with open('data/words.json', 'r') as file:
         wordsData = json.load(file)
 
-    possibleCombinations = [
+    combinations = [
         ('nouns', wordsData['verbs']),
         (wordsData['adjectives'], 'nouns'),
         (wordsData['verbs'], wordsData['adjectives'], wordsData['adverbs']),
@@ -129,106 +93,56 @@ def GeneratePassword(passwordLength):
         ('nouns', 'nouns')
     ]
 
-    currentCombination = random.choice(possibleCombinations)
-    password = []
-    password = checkPassword(passwordLength, password, wordsData, currentCombination)
-    file.close()
+    combination = random.choice(combinations)
+    password = BuildPassword(passwordLength, combination, wordsData)
+    return AlterPassword(''.join(password))
 
-    newPassword = ''.join(password)
-    while True:
-        alteredPassword = AlterPassword(newPassword)
-        if alteredPassword:
-            break
-    
-    return alteredPassword
-
-
-
-# used rich panel to show password in a box
 def DisplayPassword(password):
     passwordText = Text('Generated Password: ', style='green') + Text(password, style='yellow')
-
     passwordContainer = Panel(passwordText, style='bold', expand=False, box=ROUNDED)
     console.print(passwordContainer)
     print('')
 
+def GetSave(password):
+    menuChoicesList = ['Yes', 'No', 'Generate Again']
+    menuChoice = inquirer.prompt([inquirer.List('menuChoice', message='Save the password?', choices=menuChoicesList)])['menuChoice']
 
-#jumps to the encryption.py if true
-def getSave(password):
-    menuChoicesList = [
-        'Yes',
-        'No',
-        'Generate Again'
-    ]
+    if menuChoice == 'Yes':
+        SavePassword(os.getenv('MASTER_KEY'), password)
+    elif menuChoice == 'Generate Again':
+        generator()
 
-    mainMenu = [inquirer.List('menuChoice',
-                            message='Save the password?',
-                            choices=menuChoicesList,
-                )]
+def GetPasswordLength():
+    while True:
+        with open('./data/settings.json', 'r') as file:
+            settings = json.load(file)
 
-    menuChoice = inquirer.prompt(mainMenu)
-    userChoice = menuChoice['menuChoice']
-    
-    if userChoice == 'Yes':
-        env = os.getenv('MASTER_KEY')
-        SavePassword(env, password)
-    elif userChoice == 'No':
-        return
-    else:
-        generator(1)
+        defaultLength = settings['defaultForceNum'] if settings['defaultForce'] else settings['default']
+        console.print(
+            Text('Enter the length of the password ', style='purple') +
+            Text(f'(default={defaultLength})', style='blue') +
+            Text(': ', style='purple'),
+            end=''
+        )
+        lengthInput = input()
 
+        if not lengthInput:
+            return defaultLength
+        try:
+            passwordLength = int(lengthInput)
+            if 8 <= passwordLength <= 64:
+                return passwordLength
+            console.print(Text('Password length must be between 8 and 64 characters.', style='red'))
+        except ValueError:
+            console.print(Text('Please enter a valid number.', style='red'))
 
-# gets the length of the password and validates it
-def getPasswordLength(i):
-    validLength = False
-
-    while not validLength:
-        MIN_LENGTH, MAX_LENGTH = 8, 64
-
-        with open ('./data/settings.json', 'r') as file:
-            data = json.load(file)
-
-        defaultForce = data['defaultForce']
-        file.close()
-
-        if i == 0:
-            DEFAULT_LENGTH = data['defaultForceNum']
-        else:
-            DEFAULT_LENGTH = data['default']
-
-        length = ''
-        if not defaultForce or i == 1:
-            console.print(Text('Enter the length of the password ', style='purple') + Text(f'(default={DEFAULT_LENGTH})', style='blue') + Text(': ', style='purple'), end='')
-            length = input()
-
-        if length == '':
-            passwordLength = DEFAULT_LENGTH
-            validLength = True
-        else:
-            try:
-                passwordLength = int(length)
-            except ValueError:
-                console.print('Please enter a valid number', style='red')
-                continue
-            
-            if passwordLength < MIN_LENGTH:
-                console.print(Text(f'Password must be at least {MIN_LENGTH} characters long', style='red'))
-            elif passwordLength > MAX_LENGTH:
-                console.print(Text(f'Password must be at most {MAX_LENGTH} characters long', style='red'))
-            else:
-                validLength = True
-
-    return passwordLength
-
-
-# main function
-def generator(i = 0):
-    passwordLength = getPasswordLength(i)
+def generator():
+    passwordLength = GetPasswordLength()
     newPassword = GeneratePassword(passwordLength)
     DisplayPassword(newPassword)
-    getSave(newPassword)
-    
+    GetSave(newPassword)
 
-for i in range(200):
-    length =random.randint(8,64)
+
+for _ in range(200):
+    length = random.randint(8, 64)
     GeneratePassword(length)
