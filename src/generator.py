@@ -23,8 +23,12 @@ def ValidatePassword(password):
     numbersCount = sum(1 for char in password if char.isdigit())
     symbolsCount = sum(1 for char in password if char in '!@#$%^&*()_+=-?')
 
-    return lowLettersCount >= minLowLetters and upLetterCount >= minUpLetters \
-        and numbersCount >= minNumbers and symbolsCount >= minSymbols
+    return (
+        lowLettersCount >= minLowLetters
+        and upLetterCount >= minUpLetters
+        and numbersCount >= minNumbers
+        and symbolsCount >= minSymbols
+    )
 
 def AlterPassword(password):
     passwordList = list(password)
@@ -39,7 +43,7 @@ def AlterPassword(password):
     with open('data/alters.json', 'r') as file:
         alters = json.load(file)
 
-    for i in range(1, passwordLength):
+    for i in range(passwordLength):
         char = passwordList[i]
         if random.random() < probabilities["toggleCase"] and char.islower():
             passwordList[i] = char.upper()
@@ -49,16 +53,16 @@ def AlterPassword(password):
             passwordList[i] = random.choice(alters[char]['symbols'])
 
     newPassword = ''.join(passwordList)
-    return newPassword if ValidatePassword(newPassword) else False
+    return newPassword if ValidatePassword(newPassword) else None
 
 def GenerateWord(wordsData, combination):
+    all_nouns = wordsData.get('small_nouns', []) + wordsData.get('medium_nouns', []) + wordsData.get('large_nouns', [])
     wordType = random.choice(combination)
     if wordType == 'nouns':
-        return random.choice(wordsData['nouns'])
+        return random.choice(all_nouns)
     elif isinstance(wordType, str):
-        return random.choice(wordsData[wordType])
-    else:
-        return random.choice(wordType)
+        return random.choice(wordsData.get(wordType, []))
+    return random.choice(wordType)
 
 def BuildPassword(passwordLength, combination, wordsData):
     password = []
@@ -95,15 +99,19 @@ def GeneratePassword(passwordLength):
 
     combination = random.choice(combinations)
     password = BuildPassword(passwordLength, combination, wordsData)
-    return AlterPassword(''.join(password))
+    newPassword = AlterPassword(''.join(password))
+    while not newPassword:
+        password = BuildPassword(passwordLength, combination, wordsData)
+        newPassword = AlterPassword(''.join(password))
+    return newPassword
 
 def DisplayPassword(password):
     passwordText = Text('Generated Password: ', style='green') + Text(password, style='yellow')
     passwordContainer = Panel(passwordText, style='bold', expand=False, box=ROUNDED)
     console.print(passwordContainer)
-    print('')
 
 def GetSave(password):
+    print('')
     menuChoicesList = ['Yes', 'No', 'Generate Again']
     menuChoice = inquirer.prompt([inquirer.List('menuChoice', message='Save the password?', choices=menuChoicesList)])['menuChoice']
 
@@ -117,7 +125,11 @@ def GetPasswordLength():
         with open('./data/settings.json', 'r') as file:
             settings = json.load(file)
 
-        defaultLength = settings['defaultForceNum'] if settings['defaultForce'] else settings['default']
+        if settings['defaultForce']:
+            passwordLength = settings['defaultForceNum']
+            return passwordLength
+
+        defaultLength = settings['default']
         console.print(
             Text('Enter the length of the password ', style='purple') +
             Text(f'(default={defaultLength})', style='blue') +
@@ -141,8 +153,3 @@ def generator():
     newPassword = GeneratePassword(passwordLength)
     DisplayPassword(newPassword)
     GetSave(newPassword)
-
-
-for _ in range(200):
-    length = random.randint(8, 64)
-    GeneratePassword(length)
