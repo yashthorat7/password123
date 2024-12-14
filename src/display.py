@@ -81,12 +81,7 @@ def HandleSearch():
 
 def HandleAdd():
     try:
-        console.print(Text('Enter the Password: ', style='cyan'), end='')
-        password = input()
-        if not password:
-            console.print(Text('Password cannot be empty', style='red'))
-            return
-        SavePassword(os.getenv('MASTER_KEY'), password)
+        SavePassword(os.getenv('MASTER_KEY'))
     except Exception as e:
         console.print(Text(f'Error adding password: {e}', style='red'))
 

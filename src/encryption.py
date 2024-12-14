@@ -54,20 +54,36 @@ def StorePasswordData(website, username, encryptedPassword):
 def SavePassword(key, password='', website='', username='', listing=False):
     try:
         if not listing:
-            console.print(Text('Enter the Website: ', style='purple') + Text('(optional)', style='blue') + Text(': ', style='purple'), end='')
+            console.print(
+                Text('Enter the Website: ', style='purple') + 
+                Text('(optional)', style='blue') + 
+                Text(': ', style='purple'), 
+                end=''
+            )
             website = input() or 'N/A'
-            console.print(Text('Enter the Username: ', style='purple') + Text('(optional)', style='blue') + Text(': ', style='purple'), end='')
+            console.print(
+                Text('Enter the Username: ', style='purple') + 
+                Text('(optional)', style='blue') + 
+                Text(': ', style='purple'), 
+                end=''
+            )
             username = input() or 'N/A'
-        if not password:
-            console.print(Text('Enter the Password: ', style='purple'), end='')
-            password = input()
-        if not password:
-            console.print(Text('Password cannot be empty', style='red'))
-            return
-        encryptedPassword = EncryptPassword(password, key)
-        StorePasswordData(website, username, encryptedPassword)
-        if not listing:
-            console.print(Text('\nPassword saved successfully...\n', style='yellow'))
+
+        for _ in range(5):
+            if not password:
+                console.print(Text('Enter the Password: ', style='purple'), end='')
+                password = input()
+            if not password:
+                console.print(Text('Password cannot be empty', style='red'))
+            elif len(password) < 8:
+                console.print(Text('Choose a longer password (at least 8 characters)', style='red'))
+                password = ''
+            else:
+                encryptedPassword = EncryptPassword(password, key)
+                StorePasswordData(website, username, encryptedPassword)
+                console.print(Text('\nPassword saved successfully...\n', style='yellow'))
+                return
+        console.print(Text('\nFailed to save the password after multiple attempts.\n', style='red'))
     except Exception as e:
         console.print(Text(f'Error saving password: {e}', style='red'))
 
