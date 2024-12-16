@@ -11,32 +11,38 @@ load_dotenv()
 PASSWORD_FILE = './data/passwords.enc'
 
 
+# will read the passwords.ec
 def ReadPasswords():
     with open(PASSWORD_FILE, 'r') as file:
         return file.readlines()
 
 
+# will write the password.enc
 def WritePasswords(lines):
     with open(PASSWORD_FILE, 'w') as file:
         file.writelines(lines)
 
 
+# will append the passwords.enc
 def AppendPassword(entry):
     with open(PASSWORD_FILE, 'a') as file:
         file.write(entry)
 
 
+# converts the key into 32bit encode
 def GetFernetKey(key):
     hashed = hashlib.pbkdf2_hmac('sha256', key.encode(), b'', 100000, dklen=32)
     return base64.urlsafe_b64encode(hashed)
 
 
+# encrypts the password
 def EncryptPassword(password, key):
     fernetKey = GetFernetKey(key)
     cipher = Fernet(fernetKey)
     return cipher.encrypt(password.encode())
 
 
+# decrypts the password
 def DecryptPassword(password, key):
     fernetKey = GetFernetKey(key)
     cipher = Fernet(fernetKey)
@@ -46,11 +52,13 @@ def DecryptPassword(password, key):
         return '[Error]'
 
 
+# stores the website username and the encrypted password
 def StorePasswordData(website, username, encryptedPassword):
     entry = f"{website}\t{username}\t{encryptedPassword.decode()}\n"
     AppendPassword(entry)
 
 
+# asks website username and password
 def SavePassword(key, password='', website='', username='', listing=False):
     try:
         if not listing:
@@ -88,6 +96,7 @@ def SavePassword(key, password='', website='', username='', listing=False):
         console.print(Text(f'Error saving password: {e}', style='red'))
 
 
+# will migrate passwords from old key to new key
 def RewritePasswords(oldKey, newKey):
     try:
         lines = ReadPasswords()
