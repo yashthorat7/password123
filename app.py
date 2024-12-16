@@ -23,6 +23,7 @@ MENU_CHOICES = [
 ]
 
 
+# displays the title text
 def DisplayTitle():
     for color, line in TITLE_TEXT:
         styledTitle = Text(line, style=color)
@@ -30,6 +31,7 @@ def DisplayTitle():
     console.print('')
 
 
+# calls function according to the user's choice
 def handleMenuChoice(userChoice):
     try:
         if userChoice == 'Generate a Password':
@@ -47,6 +49,7 @@ def handleMenuChoice(userChoice):
         console.print(f"Error occurred: {e}", style="red")
 
 
+# renders the main menu using inquirer
 def MainMenu():
     try:
         menuPrompt = [inquirer.List('menuChoice', message='What would you like to do?', choices=MENU_CHOICES)]
@@ -59,6 +62,7 @@ def MainMenu():
         console.print(f"Error: {e}", style="bold red")
 
 
+# main function
 def main():
     DisplayTitle()
     while True:
@@ -68,5 +72,7 @@ def main():
             console.print("\nExiting the tool. Goodbye!", style="orange3")
             break
 
+
+# run
 if __name__ == '__main__':
     main()
