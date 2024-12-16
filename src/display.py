@@ -13,6 +13,7 @@ tableClone = []
 PASSWORD_FILE = 'data/passwords.enc'
 
 
+# authenticates using master key
 def GetMasterKey():
     console.print(Text('Enter the Master Key: ', style='cyan'), end='')
     key = input()
@@ -25,16 +26,19 @@ def GetMasterKey():
     return True, key
 
 
+# will open the passwords.enc
 def ReadPasswords():
     with open(PASSWORD_FILE, 'r') as file:
         return file.readlines()
 
 
+# will write the passwords.enc
 def WritePasswords(lines):
     with open(PASSWORD_FILE, 'w') as file:
         file.writelines(lines)
 
 
+# creates a table using rich table
 def CreateTable(headers, rows, styles):
     table = Table(header_style='bold', box=ROUNDED)
     for header, style in zip(headers, styles):
@@ -44,6 +48,7 @@ def CreateTable(headers, rows, styles):
     return table
 
 
+# displays the table
 def DisplayTable(key):
     try:
         global tableClone
@@ -68,6 +73,7 @@ def DisplayTable(key):
         return False
 
 
+# search logic for the table
 def HandleSearch():
     console.print(Text('Enter the Website: ', style='cyan'), end='')
     website = input()
@@ -79,6 +85,7 @@ def HandleSearch():
         console.print(Text('No match found', style='red'))
 
 
+# add logic for the table
 def HandleAdd():
     try:
         SavePassword(os.getenv('MASTER_KEY'))
@@ -86,6 +93,7 @@ def HandleAdd():
         console.print(Text(f'Error adding password: {e}', style='red'))
 
 
+# delete logic for the table
 def HandleRemove():
     try:
         console.print(Text('Enter the serial No: ', style='cyan'), end='')
@@ -109,7 +117,8 @@ def HandleRemove():
         console.print(Text(f'Error removing password: {e}', style='red'))
 
 
-def RunApplication(key):
+# renders the display menu using inquirer
+def DisplayMenu(key):
     while True:
         if not DisplayTable(key):
             break
@@ -125,12 +134,13 @@ def RunApplication(key):
             break
 
 
+# main function
 def display():
     try:
         for _ in range(3):
             validKey, key = GetMasterKey()
             if validKey:
-                RunApplication(key)
+                DisplayMenu(key)
                 return
     except Exception as e:
         console.print(Text(f'Unexpected error: {e}', style='red'))
