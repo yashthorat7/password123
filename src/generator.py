@@ -10,6 +10,8 @@ from .encryption import SavePassword
 
 console = Console()
 
+
+# checks if the password is valid
 def ValidatePassword(password):
     passwordLength = len(password)
 
@@ -30,6 +32,8 @@ def ValidatePassword(password):
         and symbolsCount >= minSymbols
     )
 
+
+# alters the letters of the generated password
 def AlterPassword(password):
     passwordList = list(password)
     passwordLength = len(passwordList)
@@ -55,6 +59,8 @@ def AlterPassword(password):
     newPassword = ''.join(passwordList)
     return newPassword if ValidatePassword(newPassword) else None
 
+
+# fetches the data from words.json
 def GenerateWord(wordsData, combination):
     all_nouns = wordsData.get('small_nouns', []) + wordsData.get('medium_nouns', []) + wordsData.get('large_nouns', [])
     wordType = random.choice(combination)
@@ -64,6 +70,8 @@ def GenerateWord(wordsData, combination):
         return random.choice(wordsData.get(wordType, []))
     return random.choice(wordType)
 
+
+# appends the words or number into the password
 def BuildPassword(passwordLength, combination, wordsData):
     password = []
     while sum(len(word) for word in password) < passwordLength:
@@ -79,6 +87,8 @@ def BuildPassword(passwordLength, combination, wordsData):
 
     return password
 
+
+# password generation logic
 def GeneratePassword(passwordLength):
     with open('data/words.json', 'r') as file:
         wordsData = json.load(file)
@@ -105,11 +115,15 @@ def GeneratePassword(passwordLength):
         newPassword = AlterPassword(''.join(password))
     return newPassword
 
+
+# displays the generated password in rich panel
 def DisplayPassword(password):
     passwordText = Text('Generated Password: ', style='green') + Text(password, style='yellow')
     passwordContainer = Panel(passwordText, style='bold', expand=False, box=ROUNDED)
     console.print(passwordContainer)
 
+
+# asks if user wants to save the generated password or not
 def GetSave(password):
     print('')
     menuChoicesList = ['Yes', 'No', 'Generate Again']
@@ -120,6 +134,8 @@ def GetSave(password):
     elif menuChoice == 'Generate Again':
         generator()
 
+
+# asks the password length
 def GetPasswordLength():
     while True:
         with open('./data/settings.json', 'r') as file:
@@ -148,6 +164,8 @@ def GetPasswordLength():
         except ValueError:
             console.print(Text('Please enter a valid number.', style='red'))
 
+
+# main function
 def generator():
     passwordLength = GetPasswordLength()
     newPassword = GeneratePassword(passwordLength)
