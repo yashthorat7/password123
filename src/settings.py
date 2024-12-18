@@ -21,40 +21,11 @@ def setJsonAttribute(attribute, value):
 
 
 # displays the menu for customize password
-def CustomizePassword():
+def FixPasswordLength(toFix):
     with open('data/settings.json', 'r') as file:
         data = json.load(file)
 
-    defaultList = []
-    if data.get('defaultForce', False):
-        defaultList.append('Length of Password')
-    if data.get('specialCharacters', False):
-        defaultList.append('Special Characters')
-    if data.get('numbers', False):
-        defaultList.append('Numbers')
-    if data.get('uppercase', False):
-        defaultList.append('Uppercase Letters')
-    if data.get('lowercase', False):
-        defaultList.append('Lowercase Letters')
-
-    settingsChoicesList = [
-        'Length of Password',
-        'Special Characters',
-        'Numbers',
-        'Uppercase Letters',
-        'Lowercase Letters'
-    ]
-
-    settingsMenu = [inquirer.Checkbox('settings',
-                          message='What would you like to change?',
-                          choices=settingsChoicesList,
-                          default=defaultList
-                    )]
-
-    userChoices = inquirer.prompt(settingsMenu)['settings']
-
-
-    if 'Length of Password' in userChoices and not data.get('defaultForce', False):
+    if toFix:
         while True:
             console.print(Text('Enter a fixed length: ', style='cyan'), end='')
             length = input()
@@ -71,39 +42,9 @@ def CustomizePassword():
                     break
             except ValueError:
                 console.print(Text('Please enter a valid number', style='red'))
-    elif 'Length of Password' in userChoices and data.get('defaultForce', False):
-        pass
     else:
         setJsonAttribute('defaultForce', False)
-        console.print(Text('Password length will be asked everytime', style='green'))
-
-    if 'Special Characters' in userChoices:
-        setJsonAttribute('specialCharacters', True)
-        console.print(Text('Included special characters from password', style='green'))
-    else:
-        setJsonAttribute('specialCharacters', False)
-        console.print(Text('Removed special characters from password', style='green'))
-
-    if 'Numbers' in userChoices:
-        setJsonAttribute('numbers', True)
-        console.print(Text('Included numbers from password', style='green'))
-    else:
-        setJsonAttribute('numbers', False)
-        console.print(Text('Removed numbers from password', style='green'))
-
-    if 'Uppercase Letters' in userChoices:
-        setJsonAttribute('uppercase', True) 
-        console.print(Text('Included uppercase letters from password', style='green'))
-    else:
-        setJsonAttribute('uppercase', False)
-        console.print(Text('Removed uppercase letters from password', style='green'))
-
-    if 'Lowercase Letters' in userChoices:
-        setJsonAttribute('lowercase', True)
-        console.print(Text('Included lowercase letters from password', style='green'))
-    else:
-        setJsonAttribute('lowercase', False)
-        console.print(Text('Removed lowercase letters from password', style='green'))
+        console.print(Text('Password length will be asked every time', style='green'))
 
     print('')
 
@@ -177,8 +118,14 @@ def EraseData():
 
 # main function
 def settings():
+    with open('./data/settings.json', 'r') as file:
+        settings_data = json.load(file)
+    
+    default_force = settings_data.get('defaultForce', False)
+    password_status = "Fix Password Length" if not default_force else "Unfix Password Length"
+
     menuChoicesList = [
-        'Customize Password',
+        password_status,
         'Change the Master Key',
         'Erase All Data',
         'Back'
@@ -192,8 +139,10 @@ def settings():
     menuChoice = inquirer.prompt(mainMenu)
     userChoice = menuChoice['menuChoice']
 
-    if userChoice == 'Customize Password':
-        CustomizePassword()
+    if userChoice == 'Fix Password Length':
+        FixPasswordLength(True)
+    elif userChoice == 'Unfix Password Length':
+        FixPasswordLength(False)
     elif userChoice == 'Change the Master Key':
         ChangeMasterKey()
     elif userChoice == 'Erase All Data':
