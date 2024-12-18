@@ -10,8 +10,8 @@ from .encryption import SavePassword
 console = Console()
 
 
-# will rewrite the settings.json
 def setJsonAttribute(attribute, value):
+    '''will rewrite the settings.json'''
     with open('data/settings.json', 'r') as file:
         data = json.load(file)
     data[attribute] = value
@@ -20,8 +20,8 @@ def setJsonAttribute(attribute, value):
     file.close()
 
 
-# displays the menu for customize password
 def FixPasswordLength(toFix):
+    '''displays the menu for customize password'''
     with open('data/settings.json', 'r') as file:
         data = json.load(file)
 
@@ -49,8 +49,8 @@ def FixPasswordLength(toFix):
     print('')
 
 
-# will write the new encrypted passwords data
 def RewritePasswords(key, newKey):
+    '''will write the new encrypted passwords data'''
     with open('./data/passwords.enc', 'r') as file:
         lines = file.readlines()
     with open('./data/passwords.enc', 'w') as file:
@@ -62,8 +62,8 @@ def RewritePasswords(key, newKey):
         SavePassword(newKey, decryptedPassword, website, username, True)
 
 
-# change master key logic
 def ChangeMasterKey():
+    '''change master key logic'''
     load_dotenv()
 
     while True:
@@ -87,8 +87,8 @@ def ChangeMasterKey():
     exit(0)
 
 
-# erases all the data
 def EraseData():
+    '''erases all the data'''
     while True:
         console.print(Text('Enter the Master Key: '), style='cyan', end='')
         key = input()
