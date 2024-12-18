@@ -13,8 +13,8 @@ tableClone = []
 PASSWORD_FILE = 'data/passwords.enc'
 
 
-# authenticates using master key
 def GetMasterKey():
+    '''authenticates using master key'''
     console.print(Text('Enter the Master Key: ', style='cyan'), end='')
     key = input()
     if not key:
@@ -26,20 +26,20 @@ def GetMasterKey():
     return True, key
 
 
-# will open the passwords.enc
 def ReadPasswords():
+    '''will open the passwords.enc'''
     with open(PASSWORD_FILE, 'r') as file:
         return file.readlines()
 
 
-# will write the passwords.enc
 def WritePasswords(lines):
+    '''will write the passwords.enc'''
     with open(PASSWORD_FILE, 'w') as file:
         file.writelines(lines)
 
 
-# creates a table using rich table
 def CreateTable(headers, rows, styles):
+    '''creates a table using rich table'''
     table = Table(header_style='bold', box=ROUNDED)
     for header, style in zip(headers, styles):
         table.add_column(header, justify='left', style=style)
@@ -48,8 +48,8 @@ def CreateTable(headers, rows, styles):
     return table
 
 
-# displays the table
 def DisplayTable(key):
+    '''displays the table'''
     try:
         global tableClone
         tableClone = []
@@ -73,8 +73,8 @@ def DisplayTable(key):
         return False
 
 
-# search logic for the table
 def HandleSearch():
+    '''search logic for the table'''
     console.print(Text('Enter the Website: ', style='cyan'), end='')
     website = input()
     matchedRows = [row for row in tableClone if row[1].lower() == website.lower()]
@@ -85,16 +85,16 @@ def HandleSearch():
         console.print(Text('No match found', style='red'))
 
 
-# add logic for the table
 def HandleAdd():
+    '''add logic for the table'''
     try:
         SavePassword(os.getenv('MASTER_KEY'))
     except Exception as e:
         console.print(Text(f'Error adding password: {e}', style='red'))
 
 
-# delete logic for the table
 def HandleRemove():
+    '''delete logic for the table'''
     try:
         console.print(Text('Enter the serial No: ', style='cyan'), end='')
         rowIndex = int(input()) - 1
@@ -117,8 +117,8 @@ def HandleRemove():
         console.print(Text(f'Error removing password: {e}', style='red'))
 
 
-# renders the display menu using inquirer
 def DisplayMenu(key):
+    '''renders the display menu using inquirer'''
     while True:
         if not DisplayTable(key):
             break
