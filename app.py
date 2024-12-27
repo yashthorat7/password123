@@ -8,11 +8,11 @@ from src.settings import settings
 console = Console()
 
 TITLE_TEXT = [
-    ('#ff5ca8', r' ____   _    ____ ______        _____  ____  ____  _ ____  _____ '),
-    ('#ff70a1', r'|  _ \ / \  / ___/ ___\ \      / / _ \|  _ \|  _ \/ |___ \|___ / '),
-    ('#ff8c8b', r'| |_) / _ \ \___ \___ \\ \ /\ / / | | | |_) | | | | | __) | |_ \ '),
-    ('#ffa168', r'|  __/ ___ \ ___) |__) |\ V  V /| |_| |  _ <| |_| | |/ __/ ___) |'),
-    ('#ffa724', r'|_| /_/   \_\____/____/  \_/\_/  \___/|_| \_\____/|_|_____|____/ '),
+    ('bold #ff5ca8', r' ____   _    ____ ______        _____  ____  ____  _ ____  _____ '),
+    ('bold #ff70a1', r'|  _ \ / \  / ___/ ___\ \      / / _ \|  _ \|  _ \/ |___ \|___ / '),
+    ('bold #ff8c8b', r'| |_) / _ \ \___ \___ \\ \ /\ / / | | | |_) | | | | | __) | |_ \ '),
+    ('bold #ffa168', r'|  __/ ___ \ ___) |__) |\ V  V /| |_| |  _ <| |_| | |/ __/ ___) |'),
+    ('bold #ffa724', r'|_| /_/   \_\____/____/  \_/\_/  \___/|_| \_\____/|_|_____|____/ '),
 ]
 
 MENU_CHOICES = [
@@ -43,7 +43,7 @@ def handleMenuChoice(userChoice):
         elif userChoice == 'Exit':
             confirm_exit = inquirer.confirm("Are you sure you want to exit?", default=True)
             if confirm_exit:
-                console.print("Exiting the tool...", style="orange3")
+                console.print(Text("Exiting the tool...", style="orange3"))
                 exit(0)
     except Exception as e:
         console.print(f"Error occurred: {e}", style="red")
@@ -55,11 +55,11 @@ def MainMenu():
         menuPrompt = [inquirer.List('menuChoice', message='What would you like to do?', choices=MENU_CHOICES)]
         choice = inquirer.prompt(menuPrompt)
         if not choice or 'menuChoice' not in choice:
-            console.print("Invalid selection. Please try again.", style="bold red")
+            console.print(Text("Invalid selection. Please try again.", style="red"))
             return
         handleMenuChoice(choice['menuChoice'])
     except Exception as e:
-        console.print(f"Error: {e}", style="bold red")
+        console.print(f"Error: {e}", style="red")
 
 
 def main():
@@ -69,7 +69,7 @@ def main():
         try:
             MainMenu()
         except KeyboardInterrupt:
-            console.print("\nExiting the tool. Goodbye!", style="orange3")
+            console.print(Text("\nExiting the tool...", style="orange3"))
             break
 
 
