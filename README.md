@@ -59,7 +59,6 @@ Configure the `.env` file to store your encryption key:
 MASTER_KEY=<your key>
 ```  
 
-
 ## 🛠️ How to Use  
 
 Run the main application:  

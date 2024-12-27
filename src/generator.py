@@ -132,16 +132,16 @@ def GetSave(password):
     if menuChoice == 'Yes':
         SavePassword(os.getenv('MASTER_KEY'), password)
     elif menuChoice == 'Generate Again':
-        generator()
+        generator(1)
 
 
-def GetPasswordLength():
+def GetPasswordLength(take):
     '''asks the password length'''
     while True:
         with open('./data/settings.json', 'r') as file:
             settings = json.load(file)
 
-        if settings['defaultForce']:
+        if settings['defaultForce'] and take == 0:
             passwordLength = settings['defaultForceNum']
             return passwordLength
 
@@ -166,8 +166,8 @@ def GetPasswordLength():
 
 
 # main function
-def generator():
-    passwordLength = GetPasswordLength()
+def generator(take = 0):
+    passwordLength = GetPasswordLength(take)
     newPassword = GeneratePassword(passwordLength)
     DisplayPassword(newPassword)
     GetSave(newPassword)
