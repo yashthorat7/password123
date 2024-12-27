@@ -123,15 +123,20 @@ def DisplayPassword(password):
     console.print(passwordContainer)
 
 
-def GetSave(password):
+def GetSave(password, take):
     '''asks if user wants to save the generated password or not'''
     print('')
     menuChoicesList = ['Yes', 'No', 'Generate Again']
     menuChoice = inquirer.prompt([inquirer.List('menuChoice', message='Save the password?', choices=menuChoicesList)])['menuChoice']
 
     if menuChoice == 'Yes':
+        print("\033[A\033[K" * 5, end="")
         SavePassword(os.getenv('MASTER_KEY'), password)
     elif menuChoice == 'Generate Again':
+        if take == 0:
+            print("\033[A\033[K" * 9, end="")
+        else:
+            print("\033[A\033[K" * 10, end="")
         generator(1)
 
 
@@ -170,4 +175,4 @@ def generator(take = 0):
     passwordLength = GetPasswordLength(take)
     newPassword = GeneratePassword(passwordLength)
     DisplayPassword(newPassword)
-    GetSave(newPassword)
+    GetSave(newPassword, take)

@@ -1,3 +1,4 @@
+import os
 import inquirer
 from rich.console import Console
 from rich.text import Text
@@ -25,6 +26,7 @@ MENU_CHOICES = [
 
 def DisplayTitle():
     '''displays the title text'''
+    os.system('cls' if os.name == 'nt' else 'clear')    #clears the console
     for color, line in TITLE_TEXT:
         styledTitle = Text(line, style=color)
         console.print(styledTitle)
@@ -64,12 +66,12 @@ def MainMenu():
 
 def main():
     '''main function'''
-    DisplayTitle()
     while True:
         try:
+            DisplayTitle()
             MainMenu()
         except KeyboardInterrupt:
-            console.print(Text("\nExiting the tool...", style="orange3"))
+            console.print(Text("\nExiting the tool...", style="red"))
             break
 
 

@@ -22,9 +22,6 @@ def setJsonAttribute(attribute, value):
 
 def FixPasswordLength(toFix):
     '''displays the menu for customize password'''
-    with open('data/settings.json', 'r') as file:
-        data = json.load(file)
-
     if toFix:
         while True:
             console.print(Text('Enter a fixed length: ', style='cyan'), end='')
@@ -46,7 +43,7 @@ def FixPasswordLength(toFix):
         setJsonAttribute('defaultForce', False)
         console.print(Text('Password length will be asked every time', style='green'))
 
-    print('')
+    input()
 
 
 def RewritePasswords(key, newKey):
@@ -71,8 +68,10 @@ def ChangeMasterKey():
         key = input()
         
         if key == '':
+            print("\033[A\033[K" * 1, end="")
             console.print(Text('Master Key cannot be empty!', style='red'), end='\n')
         elif key != os.getenv('MASTER_KEY'):
+            print("\033[A\033[K" * 1, end="")
             console.print(Text('Invalid Master Key!', style='red'), end='\n')
         else:
             break
@@ -83,7 +82,7 @@ def ChangeMasterKey():
     set_key('.env', 'MASTER_KEY', newKey)
     RewritePasswords(key, newKey)
 
-    console.print(Text('Master Key changed successfully!', style='green'), end='\n')
+    console.print(Text('\nMaster Key changed successfully!', style='green'), end='\n')
     exit(0)
 
 
@@ -94,30 +93,33 @@ def EraseData():
         key = input()
         
         if key == '':
+            print("\033[A\033[K" * 1, end="")
             console.print(Text('Master Key cannot be empty!', style='red'), end='\n')
         elif key != os.getenv('MASTER_KEY'):
+            print("\033[A\033[K" * 1, end="")
             console.print(Text('Invalid Master Key!', style='red'), end='\n')
         else:
             break
 
-    mainMenu = [inquirer.List('menuChoice',
-                            message='Save the password?',
-                            choices=['Yes', 'No'],
-                )]
-
-    menuChoice = inquirer.prompt(mainMenu)
-    userChoice = menuChoice['menuChoice']
-    
-    if userChoice == 'Yes':
+    question = [
+        inquirer.Confirm(
+            'confirm',
+            message="Are you sure you want to erase all the data?",
+            default=False
+        )
+    ]
+    answer = inquirer.prompt(question)
+    if (answer['confirm']):
         with open('./data/passwords.enc', 'w') as file:
             file.truncate(0)
-        file.close()
         console.print(Text('Data Erased Successfully!', style='green'), end='\n')
-        print('')
+        input();
+ 
 
 
 # main function
 def settings():
+    print("\033[A\033[K" * 6, end="")
     with open('./data/settings.json', 'r') as file:
         settings_data = json.load(file)
     
@@ -132,13 +134,12 @@ def settings():
     ]
 
     mainMenu = [inquirer.List('menuChoice',
-                            message='What would you like to do?',
+                            message='Settings',
                             choices=menuChoicesList,
                 )]
 
     menuChoice = inquirer.prompt(mainMenu)
     userChoice = menuChoice['menuChoice']
-
     if userChoice == 'Fix Password Length':
         FixPasswordLength(True)
     elif userChoice == 'Unfix Password Length':

@@ -1,1 +1,1 @@
-{"default": 12, "defaultForceNum": 16, "defaultForce": true, "specialCharacters": true, "numbers": true, "uppercase": true, "lowercase": true}
+{"default": 12, "defaultForceNum": 12, "defaultForce": false, "specialCharacters": true, "numbers": true, "uppercase": true, "lowercase": true}
