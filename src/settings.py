@@ -41,7 +41,7 @@ def FixPasswordLength(toFix):
                 console.print(Text('Please enter a valid number', style='red'))
     else:
         setJsonAttribute('defaultForce', False)
-        console.print(Text('Password length will be asked every time', style='green'))
+        console.print(Text('\nPassword length will be asked every time', style='green'))
 
     input()
 
