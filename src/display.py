@@ -65,7 +65,7 @@ def DisplayTable(key):
         if not tableClone:
             console.print(Text('No Data found', style='red'))
             return False
-        table = CreateTable(['Sr.no.', 'Website', 'Username', 'Password'], rows, ['orange3', 'purple', 'red', 'yellow'])
+        table = CreateTable(['Sr.no.', 'Website', 'Username', 'Password'], rows, ['orange3', 'cyan', 'red', 'yellow'])
         console.print(table)
         return True
     except Exception as e:

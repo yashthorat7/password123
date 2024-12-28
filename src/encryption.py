@@ -63,23 +63,23 @@ def SavePassword(key, password='', website='', username='', listing=False):
     try:
         if not listing:
             console.print(
-                Text('Enter the Website: ', style='purple') + 
+                Text('Enter the Website: ', style='cyan') + 
                 Text('(optional)', style='blue') + 
-                Text(': ', style='purple'), 
+                Text(': ', style='cyan'), 
                 end=''
             )
             website = input() or 'N/A'
             console.print(
-                Text('Enter the Username: ', style='purple') + 
+                Text('Enter the Username: ', style='cyan') + 
                 Text('(optional)', style='blue') + 
-                Text(': ', style='purple'), 
+                Text(': ', style='cyan'), 
                 end=''
             )
             username = input() or 'N/A'
 
         for _ in range(5):
             if not password:
-                console.print(Text('Enter the Password: ', style='purple'), end='')
+                console.print(Text('Enter the Password: ', style='cyan'), end='')
                 password = input()
             if not password:
                 console.print(Text('Password cannot be empty', style='red'))

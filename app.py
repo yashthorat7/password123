@@ -45,7 +45,7 @@ def handleMenuChoice(userChoice):
         elif userChoice == 'Exit':
             confirm_exit = inquirer.confirm("Are you sure you want to exit?", default=True)
             if confirm_exit:
-                console.print(Text("Exiting the tool...", style="orange3"))
+                console.print(Text("Exiting the tool...", style="red"))
                 exit(0)
     except Exception as e:
         console.print(f"Error occurred: {e}", style="red")
@@ -71,7 +71,7 @@ def main():
             DisplayTitle()
             MainMenu()
         except KeyboardInterrupt:
-            console.print(Text("\nExiting the tool...", style="red"))
+            console.print(Text("\nExiting the tool...", style="red2"))
             break
 
 

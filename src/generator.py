@@ -118,7 +118,7 @@ def GeneratePassword(passwordLength):
 
 def DisplayPassword(password):
     '''displays the generated password in rich panel'''
-    passwordText = Text('Generated Password: ', style='green') + Text(password, style='yellow')
+    passwordText = Text('Generated Password: ', style='yellow2') + Text(password, style='green')
     passwordContainer = Panel(passwordText, style='bold', expand=False, box=ROUNDED)
     console.print(passwordContainer)
 
@@ -152,9 +152,9 @@ def GetPasswordLength(take):
 
         defaultLength = settings['default']
         console.print(
-            Text('Enter the length of the password ', style='purple') +
+            Text('Enter the length of the password ', style='cyan') +
             Text(f'(default={defaultLength})', style='blue') +
-            Text(': ', style='purple'),
+            Text(': ', style='cyan'),
             end=''
         )
         lengthInput = input()
@@ -165,8 +165,10 @@ def GetPasswordLength(take):
             passwordLength = int(lengthInput)
             if 8 <= passwordLength <= 64:
                 return passwordLength
+            print("\033[A\033[K" * 1, end="")
             console.print(Text('Password length must be between 8 and 64 characters.', style='red'))
         except ValueError:
+            print("\033[A\033[K" * 1, end="")
             console.print(Text('Please enter a valid number.', style='red'))
 
 
