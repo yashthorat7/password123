@@ -140,7 +140,7 @@ def display():
         for _ in range(3):
             validKey, key = GetMasterKey()
             if validKey:
-                print("\033[A\033[K" * 1, end="")
+                print('\033[A\033[K' * 1, end='')
                 DisplayMenu(key)
                 return
     except Exception as e:

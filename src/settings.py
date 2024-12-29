@@ -68,10 +68,10 @@ def ChangeMasterKey():
         key = input()
         
         if key == '':
-            print("\033[A\033[K" * 1, end="")
+            print('\033[A\033[K' * 1, end='')
             console.print(Text('Master Key cannot be empty!', style='red'), end='\n')
         elif key != os.getenv('MASTER_KEY'):
-            print("\033[A\033[K" * 1, end="")
+            print('\033[A\033[K' * 1, end='')
             console.print(Text('Invalid Master Key!', style='red'), end='\n')
         else:
             break
@@ -93,10 +93,10 @@ def EraseData():
         key = input()
         
         if key == '':
-            print("\033[A\033[K" * 1, end="")
+            print('\033[A\033[K' * 1, end='')
             console.print(Text('Master Key cannot be empty!', style='red'), end='\n')
         elif key != os.getenv('MASTER_KEY'):
-            print("\033[A\033[K" * 1, end="")
+            print('\033[A\033[K' * 1, end='')
             console.print(Text('Invalid Master Key!', style='red'), end='\n')
         else:
             break
@@ -104,7 +104,7 @@ def EraseData():
     question = [
         inquirer.Confirm(
             'confirm',
-            message="Are you sure you want to erase all the data?",
+            message='Are you sure you want to erase all the data?',
             default=False
         )
     ]
@@ -119,12 +119,12 @@ def EraseData():
 
 # main function
 def settings():
-    print("\033[A\033[K" * 6, end="")
+    print('\033[A\033[K' * 6, end='')
     with open('./data/settings.json', 'r') as file:
         settings_data = json.load(file)
     
     default_force = settings_data.get('defaultForce', False)
-    password_status = "Fix Password Length" if not default_force else "Unfix Password Length"
+    password_status = 'Fix Password Length' if not default_force else 'Unfix Password Length'
 
     menuChoicesList = [
         password_status,

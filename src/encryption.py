@@ -54,7 +54,7 @@ def DecryptPassword(password, key):
 
 def StorePasswordData(website, username, encryptedPassword):
     '''stores the website username and the encrypted password'''
-    entry = f"{website}\t{username}\t{encryptedPassword.decode()}\n"
+    entry = f'{website}\t{username}\t{encryptedPassword.decode()}\n'
     AppendPassword(entry)
 
 
@@ -105,7 +105,7 @@ def RewritePasswords(oldKey, newKey):
             website, username, encryptedPassword = line.strip().split('\t')
             decryptedPassword = DecryptPassword(encryptedPassword, oldKey)
             newEncryptedPassword = EncryptPassword(decryptedPassword, newKey)
-            updatedLines.append(f"{website}\t{username}\t{newEncryptedPassword.decode()}\n")
+            updatedLines.append(f'{website}\t{username}\t{newEncryptedPassword.decode()}\n')
         WritePasswords(updatedLines)
         console.print(Text('Passwords updated successfully with the new Master Key.', style='green'))
     except Exception as e:
