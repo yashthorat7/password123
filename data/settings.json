@@ -1,1 +1,1 @@
-{"default": 12, "defaultForceNum": 8, "defaultForce": false, "specialCharacters": true, "numbers": true, "uppercase": true, "lowercase": true}
+{"masterKey": "IamBatman", "default": 12, "defaultForceNum": 10, "defaultForce": true, "specialCharacters": true, "numbers": true, "uppercase": true, "lowercase": true}
