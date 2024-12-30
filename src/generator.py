@@ -7,10 +7,23 @@ from rich.text import Text
 from rich.panel import Panel
 from rich.box import ROUNDED
 from .encryption import SavePassword
-from .settings import ConsolePrint, ClearConsole
 
 console = Console()
 consolePrintCount = 0
+
+
+def ConsolePrint(message, color="white"):
+    '''prints a message to the console with a specified color'''
+    global consolePrintCount
+    console.print(Text(message, style=color), end='')
+    consolePrintCount += 1
+
+
+def ClearConsole():
+    '''clears the console'''
+    global consolePrintCount
+    print('\033[A\033[K' * consolePrintCount, end='')
+    consolePrintCount = 0
 
 
 def ValidatePassword(password):

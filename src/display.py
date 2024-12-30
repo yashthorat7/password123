@@ -6,22 +6,38 @@ from rich.text import Text
 from rich.table import Table
 from rich.box import ROUNDED
 from .encryption import DecryptPassword, SavePassword
+from .settings import ConsolePrint, ClearConsole
 
 console = Console()
+consolePrintCount = 0
 load_dotenv()
 tableClone = []
 PASSWORD_FILE = 'data/passwords.enc'
 
 
+def ConsolePrint(message, color="white", iend=''):
+    '''prints a message to the console with a specified color'''
+    global consolePrintCount
+    console.print(Text(message, style=color), end=iend)
+    consolePrintCount += 1
+
+
+def ClearConsole():
+    '''clears the console'''
+    global consolePrintCount
+    print('\033[A\033[K' * consolePrintCount, end='')
+    consolePrintCount = 0
+
+
 def GetMasterKey():
     '''authenticates using master key'''
-    console.print(Text('Enter the Master Key: ', style='cyan'), end='')
+    ConsolePrint('Enter the Master Key: ', 'cyan')
     key = input()
     if not key:
-        console.print(Text('Master Key cannot be empty!', style='red'), end='\n')
+        ConsolePrint('Master Key cannot be empty!', 'red', end='\n')
         return False, None
     if key != os.getenv('MASTER_KEY'):
-        console.print(Text('Invalid Master Key!', style='red'), end='\n')
+        ConsolePrint('Invalid Master Key!', 'red', end='\n')
         return False, None
     return True, key
 
@@ -63,26 +79,26 @@ def DisplayTable(key):
                 rows.append([str(i), website, username, decryptedPassword])
                 tableClone.append([str(i), website, username, decryptedPassword])
         if not tableClone:
-            console.print(Text('No Data found', style='red'))
+            ConsolePrint('No Data found', 'red')
             return False
         table = CreateTable(['Sr.no.', 'Website', 'Username', 'Password'], rows, ['orange3', 'cyan', 'red', 'yellow'])
-        console.print(table)
+        ConsolePrint(table)
         return True
     except Exception as e:
-        console.print(Text(f'Error displaying table: {e}', style='red'))
+        ConsolePrint(f'Error displaying table: {e}', 'red')
         return False
 
 
 def HandleSearch():
     '''search logic for the table'''
-    console.print(Text('Enter the Website: ', style='cyan'), end='')
+    ConsolePrint('Enter the Website: ', 'cyan', end='')
     website = input()
     matchedRows = [row for row in tableClone if row[1].lower() == website.lower()]
     if matchedRows:
         table = CreateTable(['Sr.no.', 'Username', 'Password'], matchedRows, ['yellow', 'red', 'magenta'])
-        console.print(table)
+        ConsolePrint(table)
     else:
-        console.print(Text('No match found', style='red'))
+        ConsolePrint('No match found', 'red')
 
 
 def HandleAdd():
@@ -90,31 +106,31 @@ def HandleAdd():
     try:
         SavePassword(os.getenv('MASTER_KEY'))
     except Exception as e:
-        console.print(Text(f'Error adding password: {e}', style='red'))
+        ConsolePrint(f'Error adding password: {e}', 'red')
 
 
 def HandleRemove():
     '''delete logic for the table'''
     try:
-        console.print(Text('Enter the serial No: ', style='cyan'), end='')
+        ConsolePrint('Enter the serial No: ', 'cyan', end='')
         rowIndex = int(input()) - 1
         if 0 <= rowIndex < len(tableClone):
             table = CreateTable(['Sr.no.', 'Website', 'Username', 'Password'], [tableClone[rowIndex]], ['yellow', 'red', 'magenta', 'red'])
-            console.print(table)
+            ConsolePrint(table)
             confirmChoice = inquirer.prompt([inquirer.Confirm('confirm', message='Are you sure you want to remove this password?', default=False)])['confirm']
             if confirmChoice:
                 lines = ReadPasswords()
                 del lines[rowIndex]
                 WritePasswords(lines)
-                console.print(Text('Password removed successfully\n', style='yellow'))
+                ConsolePrint('Password removed successfully\n', 'yellow')
             else:
-                console.print(Text('Operation cancelled\n', style='cyan'))
+                ConsolePrint('Operation cancelled\n', 'cyan')
         else:
-            console.print(Text('Invalid serial number', style='red'))
+            ConsolePrint('Invalid serial number', 'red')
     except ValueError:
-        console.print(Text('Please enter a valid number', style='red'))
+        ConsolePrint('Please enter a valid number', 'red')
     except Exception as e:
-        console.print(Text(f'Error removing password: {e}', style='red'))
+        ConsolePrint(f'Error removing password: {e}', 'red')
 
 
 def DisplayMenu(key):
@@ -144,4 +160,4 @@ def display():
                 DisplayMenu(key)
                 return
     except Exception as e:
-        console.print(Text(f'Unexpected error: {e}', style='red'))
+        ConsolePrint(f'Unexpected error: {e}', 'red')
