@@ -10,6 +10,20 @@ from .encryption import SavePassword
 console = Console()
 
 
+def ConsolePrint(message, color="white"):
+    '''prints a message to the console with a specified color'''
+    global consolePrintCount
+    console.print(Text(message, style=color), end='')
+    consolePrintCount += 1
+
+
+def ClearConsole():
+    '''clears the console'''
+    global consolePrintCount
+    print('\033[A\033[K' * consolePrintCount, end='')
+    consolePrintCount = 0
+
+
 def setJsonAttribute(attribute, value):
     '''will rewrite the settings.json'''
     with open('data/settings.json', 'r') as file:
