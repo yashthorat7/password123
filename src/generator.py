@@ -182,6 +182,7 @@ def GetPasswordLength(take):
             ConsolePrint('Please enter a valid number.\n', 'red')
 
 
+# run
 def generator(take=0):
     ClearConsole()
     passwordLength = GetPasswordLength(take)

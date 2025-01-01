@@ -1,23 +1,23 @@
-import os
+import json
 import inquirer
-from dotenv import load_dotenv
 from rich.console import Console
 from rich.text import Text
 from rich.table import Table
 from rich.box import ROUNDED
 from .encryption import DecryptPassword, SavePassword
-from .settings import ConsolePrint, ClearConsole
 
 console = Console()
 consolePrintCount = 0
-load_dotenv()
 tableClone = []
 PASSWORD_FILE = 'data/passwords.enc'
+SETTINGS_FILE = 'data/settings.json'
+masterKeyGlobal = ''
 
 
-def ConsolePrint(message, color="white", iend=''):
+def ConsolePrint(message='', color="white", iend=''):
     '''prints a message to the console with a specified color'''
     global consolePrintCount
+    print('prints', consolePrintCount + 1)
     console.print(Text(message, style=color), end=iend)
     consolePrintCount += 1
 
@@ -31,15 +31,20 @@ def ClearConsole():
 
 def GetMasterKey():
     '''authenticates using master key'''
-    ConsolePrint('Enter the Master Key: ', 'cyan')
-    key = input()
-    if not key:
-        ConsolePrint('Master Key cannot be empty!', 'red', end='\n')
-        return False, None
-    if key != os.getenv('MASTER_KEY'):
-        ConsolePrint('Invalid Master Key!', 'red', end='\n')
-        return False, None
-    return True, key
+    with open(SETTINGS_FILE, 'r') as file:
+        settings = json.load(file)
+        masterKey = settings.get('masterKey', '')
+        global masterKeyGlobal
+        masterKeyGlobal = masterKey
+    while True:
+        ConsolePrint('Enter the Master Key: ', 'cyan')
+        key = input()
+        if not key:
+            ConsolePrint('Master Key cannot be empty!', 'red', '\n')
+        elif key != masterKey:
+            ConsolePrint('Invalid Master Key!', 'red', '\n')
+        if key == masterKey:
+            return True, key
 
 
 def ReadPasswords():
@@ -57,10 +62,13 @@ def WritePasswords(lines):
 def CreateTable(headers, rows, styles):
     '''creates a table using rich table'''
     table = Table(header_style='bold', box=ROUNDED)
+    global consolePrintCount
     for header, style in zip(headers, styles):
         table.add_column(header, justify='left', style=style)
+        consolePrintCount += 1
     for row in rows:
         table.add_row(*row)
+        consolePrintCount += 1
     return table
 
 
@@ -68,9 +76,11 @@ def DisplayTable(key):
     '''displays the table'''
     try:
         global tableClone
+        global consolePrintCount
         tableClone = []
         lines = ReadPasswords()
         rows = []
+        consolePrintCount += 3
         for i, line in enumerate(lines, start=1):
             columns = line.strip().split('\t')
             if len(columns) == 3:
@@ -91,7 +101,7 @@ def DisplayTable(key):
 
 def HandleSearch():
     '''search logic for the table'''
-    ConsolePrint('Enter the Website: ', 'cyan', end='')
+    ConsolePrint('Enter the Website: ', 'cyan')
     website = input()
     matchedRows = [row for row in tableClone if row[1].lower() == website.lower()]
     if matchedRows:
@@ -104,7 +114,7 @@ def HandleSearch():
 def HandleAdd():
     '''add logic for the table'''
     try:
-        SavePassword(os.getenv('MASTER_KEY'))
+        SavePassword(masterKeyGlobal)
     except Exception as e:
         ConsolePrint(f'Error adding password: {e}', 'red')
 
@@ -112,7 +122,7 @@ def HandleAdd():
 def HandleRemove():
     '''delete logic for the table'''
     try:
-        ConsolePrint('Enter the serial No: ', 'cyan', end='')
+        ConsolePrint('Enter the serial No: ', 'cyan')
         rowIndex = int(input()) - 1
         if 0 <= rowIndex < len(tableClone):
             table = CreateTable(['Sr.no.', 'Website', 'Username', 'Password'], [tableClone[rowIndex]], ['yellow', 'red', 'magenta', 'red'])
@@ -136,8 +146,7 @@ def HandleRemove():
 def DisplayMenu(key):
     '''renders the display menu using inquirer'''
     while True:
-        if not DisplayTable(key):
-            break
+        ConsolePrint()
         menuChoice = inquirer.prompt([inquirer.List('menuChoice', message='What would you like to do?', choices=[
             'Search a Password', 'Add a Password', 'Remove a Password', 'Back'])])['menuChoice']
         if menuChoice == 'Search a Password':
@@ -150,13 +159,14 @@ def DisplayMenu(key):
             break
 
 
-# main function
+# run
 def display():
     try:
         for _ in range(3):
             validKey, key = GetMasterKey()
             if validKey:
-                print('\033[A\033[K' * 1, end='')
+                ClearConsole()
+                # DisplayTable(key)
                 DisplayMenu(key)
                 return
     except Exception as e:
