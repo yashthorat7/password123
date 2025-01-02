@@ -11,7 +11,8 @@ consolePrintCount = 0
 tableClone = []
 PASSWORD_FILE = 'data/passwords.enc'
 SETTINGS_FILE = 'data/settings.json'
-masterKeyGlobal = ''
+# masterKeyGlobal = ''
+masterKeyGlobal = 'IamBatman'
 
 
 def ConsolePrint(message='', color="white", iend=''):
@@ -65,6 +66,7 @@ def CreateTable(headers, rows, styles):
     '''creates a table using rich table'''
     table = Table(header_style='bold', box=ROUNDED)
     global consolePrintCount
+    consolePrintCount += 5
     for header, style in zip(headers, styles):
         table.add_column(header, justify='left', style=style)
         consolePrintCount += 1
@@ -74,19 +76,17 @@ def CreateTable(headers, rows, styles):
     return table
 
 
-def DisplayTable(key):
+def DisplayTable():
     '''displays the table'''
     try:
         global tableClone
-        global consolePrintCount
         lines = ReadPasswords()
         rows = []
-        consolePrintCount += 3
         for i, line in enumerate(lines, start=1):
             columns = line.strip().split('\t')
             if len(columns) == 3:
                 website, username, password = columns
-                decryptedPassword = DecryptPassword(password, key)
+                decryptedPassword = DecryptPassword(password, masterKeyGlobal)
                 rows.append([str(i), website, username, decryptedPassword])
                 tableClone.append([str(i), website, username, decryptedPassword])
         if not tableClone:
@@ -104,18 +104,26 @@ def HandleSearch():
     '''search logic for the table'''
     ConsolePrint('Enter the Website: ', 'cyan')
     website = input()
+    website = 'N/A' if website == '' else website
     matchedRows = [row for row in tableClone if row[1].lower() == website.lower()]
     if matchedRows:
-        table = CreateTable(['Sr.no.', 'Username', 'Password'], matchedRows, ['yellow', 'red', 'magenta'])
-        ConsolePrint(table)
+        table = CreateTable(['Sr.no.', 'Website', 'Username', 'Password'], matchedRows, ['orange3', 'cyan', 'red', 'yellow'])
+        console.print(table)
+        input()
+        print('\033[A\033[K' * (len(matchedRows) + 7), end='')
     else:
         ConsolePrint('No match found', 'red')
+        input()
+        print('\033[A\033[K' * 3, end='')
 
 
 def HandleAdd():
     '''add logic for the table'''
     try:
         SavePassword(masterKeyGlobal)
+        ClearConsole()
+        print('\033[A\033[K' * 7, end='')
+        DisplayTable(masterKeyGlobal)
     except Exception as e:
         ConsolePrint(f'Error adding password: {e}', 'red')
 
@@ -144,13 +152,14 @@ def HandleRemove():
         ConsolePrint(f'Error removing password: {e}', 'red')
 
 
-def DisplayMenu(key):
+def DisplayMenu():
     '''renders the display menu using inquirer'''
     while True:
-        ConsolePrint()
+        menuSize = 5
         menuChoice = inquirer.prompt([inquirer.List('menuChoice', message='What would you like to do?', choices=[
             'Search a Password', 'Add a Password', 'Remove a Password', 'Back'])])['menuChoice']
         if menuChoice == 'Search a Password':
+            print('\033[A\033[K' * menuSize, end='')
             HandleSearch()
         elif menuChoice == 'Add a Password':
             HandleAdd()
@@ -163,11 +172,12 @@ def DisplayMenu(key):
 # run
 def display():
     try:
-        validKey, key = GetMasterKey()
+        # validKey, key = GetMasterKey()
+        validKey, key = True, 'IamBatman'
         if validKey:
             ClearConsole()
-            DisplayTable(key)
-            DisplayMenu(key)
+            DisplayTable()
+            DisplayMenu()
             ClearConsole()
             return
         ClearConsole()
