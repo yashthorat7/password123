@@ -17,7 +17,6 @@ masterKeyGlobal = ''
 def ConsolePrint(message='', color="white", iend=''):
     '''prints a message to the console with a specified color'''
     global consolePrintCount
-    print('prints', consolePrintCount + 1)
     console.print(Text(message, style=color), end=iend)
     consolePrintCount += 1
 
@@ -77,7 +76,6 @@ def DisplayTable(key):
     try:
         global tableClone
         global consolePrintCount
-        tableClone = []
         lines = ReadPasswords()
         rows = []
         consolePrintCount += 3
@@ -92,7 +90,7 @@ def DisplayTable(key):
             ConsolePrint('No Data found', 'red')
             return False
         table = CreateTable(['Sr.no.', 'Website', 'Username', 'Password'], rows, ['orange3', 'cyan', 'red', 'yellow'])
-        ConsolePrint(table)
+        console.print(table)
         return True
     except Exception as e:
         ConsolePrint(f'Error displaying table: {e}', 'red')
@@ -166,8 +164,9 @@ def display():
             validKey, key = GetMasterKey()
             if validKey:
                 ClearConsole()
-                # DisplayTable(key)
+                DisplayTable(key)
                 DisplayMenu(key)
+                ClearConsole()
                 return
     except Exception as e:
         ConsolePrint(f'Unexpected error: {e}', 'red')
