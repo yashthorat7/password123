@@ -121,7 +121,6 @@ def HandleAdd():
     '''add logic for the table'''
     try:
         SavePassword(masterKeyGlobal)
-        input()
     except Exception as e:
         ConsolePrint(f'Error adding password: {e}', 'red')
 
@@ -133,7 +132,7 @@ def HandleRemove():
         rowIndex = int(input()) - 1
         if 0 <= rowIndex < len(tableClone):
             table = CreateTable(['Sr.no.', 'Website', 'Username', 'Password'], [tableClone[rowIndex]], ['yellow', 'red', 'magenta', 'red'])
-            ConsolePrint(table)
+            console.print(table)
             confirmChoice = inquirer.prompt([inquirer.Confirm('confirm', message='Are you sure you want to remove this password?', default=False)])['confirm']
             if confirmChoice:
                 lines = ReadPasswords()
@@ -174,12 +173,11 @@ def display():
     try:
         # validKey, key = GetMasterKey()
         validKey, key = True, 'IamBatman'
+        ClearConsole()
         if validKey:
-            ClearConsole()
             DisplayTable()
             DisplayMenu()
             ClearConsole()
             return
-        ClearConsole()
     except Exception as e:
         ConsolePrint(f'Unexpected error: {e}', 'red')
