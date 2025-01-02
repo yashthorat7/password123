@@ -121,9 +121,7 @@ def HandleAdd():
     '''add logic for the table'''
     try:
         SavePassword(masterKeyGlobal)
-        ClearConsole()
-        print('\033[A\033[K' * 7, end='')
-        DisplayTable(masterKeyGlobal)
+        input()
     except Exception as e:
         ConsolePrint(f'Error adding password: {e}', 'red')
 
@@ -158,13 +156,15 @@ def DisplayMenu():
         menuSize = 5
         menuChoice = inquirer.prompt([inquirer.List('menuChoice', message='What would you like to do?', choices=[
             'Search a Password', 'Add a Password', 'Remove a Password', 'Back'])])['menuChoice']
+        print('\033[A\033[K' * menuSize, end='')
         if menuChoice == 'Search a Password':
-            print('\033[A\033[K' * menuSize, end='')
             HandleSearch()
         elif menuChoice == 'Add a Password':
             HandleAdd()
+            display()
         elif menuChoice == 'Remove a Password':
             HandleRemove()
+            display()
         elif menuChoice == 'Back':
             break
 
