@@ -35,15 +35,18 @@ def GetMasterKey():
         masterKey = settings.get('masterKey', '')
         global masterKeyGlobal
         masterKeyGlobal = masterKey
-    while True:
+    for _ in range(5):
         ConsolePrint('Enter the Master Key: ', 'cyan')
         key = input()
         if not key:
+            ClearConsole()
             ConsolePrint('Master Key cannot be empty!', 'red', '\n')
         elif key != masterKey:
+            ClearConsole()
             ConsolePrint('Invalid Master Key!', 'red', '\n')
         if key == masterKey:
             return True, key
+    return False, ''
 
 
 def ReadPasswords():
@@ -160,13 +163,13 @@ def DisplayMenu(key):
 # run
 def display():
     try:
-        for _ in range(3):
-            validKey, key = GetMasterKey()
-            if validKey:
-                ClearConsole()
-                DisplayTable(key)
-                DisplayMenu(key)
-                ClearConsole()
-                return
+        validKey, key = GetMasterKey()
+        if validKey:
+            ClearConsole()
+            DisplayTable(key)
+            DisplayMenu(key)
+            ClearConsole()
+            return
+        ClearConsole()
     except Exception as e:
         ConsolePrint(f'Unexpected error: {e}', 'red')
