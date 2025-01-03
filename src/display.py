@@ -11,8 +11,8 @@ consolePrintCount = 0
 tableClone = []
 PASSWORD_FILE = 'data/passwords.enc'
 SETTINGS_FILE = 'data/settings.json'
-# masterKeyGlobal = ''
-masterKeyGlobal = 'IamBatman'
+masterKeyGlobal = ''
+
 
 
 def ConsolePrint(message='', color="white", iend=''):
@@ -165,19 +165,20 @@ def DisplayMenu():
             HandleRemove()
             display()
         elif menuChoice == 'Back':
-            break
-
+            return False
+    return True
 
 # run
 def display():
     try:
-        # validKey, key = GetMasterKey()
-        validKey, key = True, 'IamBatman'
+        validKey = False
+        if masterKeyGlobal == '':
+            validKey = GetMasterKey()
         ClearConsole()
         if validKey:
             DisplayTable()
-            DisplayMenu()
-            ClearConsole()
+            if DisplayMenu():
+                ClearConsole()
             return
     except Exception as e:
         ConsolePrint(f'Unexpected error: {e}', 'red')
