@@ -35,21 +35,19 @@ def DisplayTitle():
 
 def handleMenuChoice(userChoice):
     '''calls function according to the user's choice'''
-    try:
-        if userChoice == 'Generate a Password':
-            generator()
-        elif userChoice == 'Display the Passwords':
-            display()
-        elif userChoice == 'Settings':
-            settings()
-        elif userChoice == 'Exit':
-            confirm_exit = inquirer.confirm('Are you sure you want to exit?', default=True)
-            if confirm_exit:
-                print('\033[A\033[K' * 1, end='')
-                console.print(Text('Exiting the tool...', style='red'))
-                exit(0)
-    except Exception as e:
-        console.print(f'Error occurred: {e}', style='red')
+    if userChoice == 'Generate a Password':
+        generator()
+    elif userChoice == 'Display the Passwords':
+        display()
+    elif userChoice == 'Settings':
+        settings()
+    elif userChoice == 'Exit':
+        confirm_exit = inquirer.confirm('Are you sure you want to exit?', default=True)
+        if confirm_exit:
+            print('\033[A\033[K' * 1, end='')
+            console.print(Text('Exiting the tool...', style='red'))
+            exit(0)
+ 
 
 
 def MainMenu():
