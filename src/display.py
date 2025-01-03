@@ -30,21 +30,22 @@ def ClearConsole():
 
 def GetMasterKey():
     '''authenticates using master key'''
-    with open(SETTINGS_FILE, 'r') as file:
+    with open('data/settings.json', 'r') as file:
         settings = json.load(file)
-        masterKey = settings.get('masterKey', '')
+        master_key = settings.get('masterKey', '')
         global masterKeyGlobal
-        masterKeyGlobal = masterKey
+        masterKeyGlobal = master_key
+
     for _ in range(5):
         ConsolePrint('Enter the Master Key: ', 'cyan')
         key = input()
         if not key:
             ClearConsole()
             ConsolePrint('Master Key cannot be empty!', 'red', '\n')
-        elif key != masterKey:
+        elif key != master_key:
             ClearConsole()
             ConsolePrint('Invalid Master Key!', 'red', '\n')
-        if key == masterKey:
+        if key == master_key:
             return True, key
     return False, ''
 
@@ -158,7 +159,7 @@ def HandleAdd():
     '''add logic for the table'''
     try:
         SavePassword(masterKeyGlobal)
-        print('\033[A\033[K' * 7, end='')
+        print('\033[A\033[K' * 8, end='')
         ClearConsole()
     except Exception as e:
         ConsolePrint(f'Error adding password: {e}', 'red')
@@ -180,9 +181,9 @@ def HandleRemove():
                 ConsolePrint('Password removed successfully\n', 'yellow')
             else:
                 ConsolePrint('Operation cancelled\n', 'cyan')
-            print('\033[A\033[K' * 5, end='')
         else:
             ConsolePrint('Invalid serial number', 'red')
+        print('\033[A\033[K' * 11, end='')
         ClearConsole()
     except ValueError:
         ConsolePrint('Please enter a valid number', 'red')
@@ -198,13 +199,10 @@ def DisplayMenu():
         print('\033[A\033[K' * 5, end='')
         if menuChoice == 'Search a Password':
             HandleSearch()
-            input()
         elif menuChoice == 'Add a Password':
             HandleAdd()
-            input()
         elif menuChoice == 'Remove a Password':
             HandleRemove()
-            input()
         elif menuChoice == 'Back':
             return False
         return True
@@ -216,10 +214,9 @@ def display():
         ClearConsole()
         while validKey:
             DisplayTable()
-            if DisplayMenu():
-                ClearConsole()
-            else:
+            if not DisplayMenu():
                 ClearConsole()
                 return
+            ClearConsole()
     except Exception as e:
         ConsolePrint(f'Unexpected error: {e}', 'red')
