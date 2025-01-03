@@ -64,27 +64,30 @@ def WritePasswords(lines):
 def CreateTable(headers, rows, styles):
     '''creates a table using rich table'''
     table = Table(header_style='bold', box=ROUNDED)
+    global consolePrintCount
+    consolePrintCount += 5
     for header, style in zip(headers, styles):
         table.add_column(header, justify='left', style=style)
     for row in rows:
+        consolePrintCount += 1
         table.add_row(*row)
     return table
 
 
 def PaginateTable(headers, rows, styles):
-    '''Paginate table rows with inquirer menu navigation'''
+    '''paginates table rows with inquirer menu'''
     page_size = 10
     current_page = 0
     total_pages = (len(rows) + page_size - 1) // page_size
+    global consolePrintCount
 
     while True:
         start_index = current_page * page_size
         end_index = start_index + page_size
         table = CreateTable(headers, rows[start_index:end_index], styles)
 
-        ClearConsole()
         console.print(table)
-        ConsolePrint(f'Page {current_page + 1} of {total_pages}', 'cyan', '\n')
+        ConsolePrint(f'\t\t\tPage {current_page + 1} of {total_pages}', 'cyan', '\n')
 
         if total_pages == 1:
             return
@@ -96,15 +99,21 @@ def PaginateTable(headers, rows, styles):
             choices.append("Next")
         choices.append("Menu")
 
+        consolePrintCount += len(choices) + 1
         action = inquirer.prompt([
             inquirer.List('action', message='Navigate pages', choices=choices)
         ])['action']
 
-        if action == "Next":
+        if action == "Next": 
+            ClearConsole()
             current_page += 1
         elif action == "Previous":
+            ClearConsole()
             current_page -= 1
         elif action == "Menu":
+            menuSize = len(choices) + 3
+            consolePrintCount -= menuSize
+            print('\033[A\033[K' * menuSize, end='')
             break
 
 
@@ -137,6 +146,8 @@ def HandleSearch():
     website = input()
     website = 'N/A' if website == '' else website
     matchedRows = [row for row in tableClone if row[1].lower() == website.lower()]
+    print('\033[A\033[K' * 1, end='')
+    ClearConsole()
     if matchedRows:
         PaginateTable(['Sr.no.', 'Website', 'Username', 'Password'], matchedRows, ['orange3', 'cyan', 'red', 'yellow'])
     else:
@@ -147,6 +158,8 @@ def HandleAdd():
     '''add logic for the table'''
     try:
         SavePassword(masterKeyGlobal)
+        print('\033[A\033[K' * 7, end='')
+        ClearConsole()
     except Exception as e:
         ConsolePrint(f'Error adding password: {e}', 'red')
 
@@ -167,8 +180,10 @@ def HandleRemove():
                 ConsolePrint('Password removed successfully\n', 'yellow')
             else:
                 ConsolePrint('Operation cancelled\n', 'cyan')
+            print('\033[A\033[K' * 5, end='')
         else:
             ConsolePrint('Invalid serial number', 'red')
+        ClearConsole()
     except ValueError:
         ConsolePrint('Please enter a valid number', 'red')
     except Exception as e:
@@ -180,14 +195,16 @@ def DisplayMenu():
     while True:
         menuChoice = inquirer.prompt([inquirer.List('menuChoice', message='What would you like to do?', choices=[
             'Search a Password', 'Add a Password', 'Remove a Password', 'Back'])])['menuChoice']
+        print('\033[A\033[K' * 5, end='')
         if menuChoice == 'Search a Password':
             HandleSearch()
+            input()
         elif menuChoice == 'Add a Password':
             HandleAdd()
-            display()
+            input()
         elif menuChoice == 'Remove a Password':
             HandleRemove()
-            display()
+            input()
         elif menuChoice == 'Back':
             return False
         return True
@@ -195,16 +212,14 @@ def DisplayMenu():
 # run
 def display():
     try:
-        validKey = False
-        if masterKeyGlobal == '':
-            validKey = GetMasterKey()
+        validKey = GetMasterKey()
         ClearConsole()
-        if validKey:
+        while validKey:
             DisplayTable()
             if DisplayMenu():
                 ClearConsole()
             else:
+                ClearConsole()
                 return
-            return
     except Exception as e:
         ConsolePrint(f'Unexpected error: {e}', 'red')
