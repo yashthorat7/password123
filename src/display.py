@@ -14,7 +14,6 @@ SETTINGS_FILE = 'data/settings.json'
 masterKeyGlobal = ''
 
 
-
 def ConsolePrint(message='', color="white", iend=''):
     '''prints a message to the console with a specified color'''
     global consolePrintCount
@@ -65,15 +64,48 @@ def WritePasswords(lines):
 def CreateTable(headers, rows, styles):
     '''creates a table using rich table'''
     table = Table(header_style='bold', box=ROUNDED)
-    global consolePrintCount
-    consolePrintCount += 5
     for header, style in zip(headers, styles):
         table.add_column(header, justify='left', style=style)
-        consolePrintCount += 1
     for row in rows:
         table.add_row(*row)
-        consolePrintCount += 1
     return table
+
+
+def PaginateTable(headers, rows, styles):
+    '''Paginate table rows with inquirer menu navigation'''
+    page_size = 10
+    current_page = 0
+    total_pages = (len(rows) + page_size - 1) // page_size
+
+    while True:
+        start_index = current_page * page_size
+        end_index = start_index + page_size
+        table = CreateTable(headers, rows[start_index:end_index], styles)
+
+        ClearConsole()
+        console.print(table)
+        ConsolePrint(f'Page {current_page + 1} of {total_pages}', 'cyan', '\n')
+
+        if total_pages == 1:
+            return
+
+        choices = []
+        if current_page > 0:
+            choices.append("Previous")
+        if current_page < total_pages - 1:
+            choices.append("Next")
+        choices.append("Menu")
+
+        action = inquirer.prompt([
+            inquirer.List('action', message='Navigate pages', choices=choices)
+        ])['action']
+
+        if action == "Next":
+            current_page += 1
+        elif action == "Previous":
+            current_page -= 1
+        elif action == "Menu":
+            break
 
 
 def DisplayTable():
@@ -92,8 +124,7 @@ def DisplayTable():
         if not tableClone:
             ConsolePrint('No Data found', 'red')
             return False
-        table = CreateTable(['Sr.no.', 'Website', 'Username', 'Password'], rows, ['orange3', 'cyan', 'red', 'yellow'])
-        console.print(table)
+        PaginateTable(['Sr.no.', 'Website', 'Username', 'Password'], rows, ['orange3', 'cyan', 'red', 'yellow'])
         return True
     except Exception as e:
         ConsolePrint(f'Error displaying table: {e}', 'red')
@@ -107,14 +138,9 @@ def HandleSearch():
     website = 'N/A' if website == '' else website
     matchedRows = [row for row in tableClone if row[1].lower() == website.lower()]
     if matchedRows:
-        table = CreateTable(['Sr.no.', 'Website', 'Username', 'Password'], matchedRows, ['orange3', 'cyan', 'red', 'yellow'])
-        console.print(table)
-        input()
-        print('\033[A\033[K' * (len(matchedRows) + 7), end='')
+        PaginateTable(['Sr.no.', 'Website', 'Username', 'Password'], matchedRows, ['orange3', 'cyan', 'red', 'yellow'])
     else:
         ConsolePrint('No match found', 'red')
-        input()
-        print('\033[A\033[K' * 3, end='')
 
 
 def HandleAdd():
@@ -152,10 +178,8 @@ def HandleRemove():
 def DisplayMenu():
     '''renders the display menu using inquirer'''
     while True:
-        menuSize = 5
         menuChoice = inquirer.prompt([inquirer.List('menuChoice', message='What would you like to do?', choices=[
             'Search a Password', 'Add a Password', 'Remove a Password', 'Back'])])['menuChoice']
-        print('\033[A\033[K' * menuSize, end='')
         if menuChoice == 'Search a Password':
             HandleSearch()
         elif menuChoice == 'Add a Password':
@@ -166,7 +190,7 @@ def DisplayMenu():
             display()
         elif menuChoice == 'Back':
             return False
-    return True
+        return True
 
 # run
 def display():
@@ -179,6 +203,8 @@ def display():
             DisplayTable()
             if DisplayMenu():
                 ClearConsole()
+            else:
+                return
             return
     except Exception as e:
         ConsolePrint(f'Unexpected error: {e}', 'red')
