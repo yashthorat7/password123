@@ -29,7 +29,6 @@ A low-weight CLI tool to manage your passwords!
 │   ├── generator.py      # Password generation algorithms
 │   └── settings.py       # Configuration management
 │
-├── .env                  # Environment variables
 ├── .gitignore            # Git ignore rules
 ├── app.py 🚀             # Main application entry point
 ├── README.md             # Documentation
