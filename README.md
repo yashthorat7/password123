@@ -77,7 +77,6 @@ python app.py
 ## 🔒 Security Features  
 
 - 🧩 **Cryptography Fernet**: Robust AES encryption for all your passwords.  
-- 🗝️ **Environment Keys**: Sensitive keys are securely managed using the `.env` file.  
 - 🛑 **Interactive Safeguards**: Confirmation prompts to prevent unintended actions.  
 
 
@@ -91,7 +90,7 @@ python app.py
 ## ❤️ Developed By  
 
 👨‍💻 **Yash Thorat**  
-Feel free to contribute, suggest improvements, or report issues!  
+Feel free to suggest improvements, or report issues!  
 
 
 ⭐ Don’t forget to **star** this repository if you find it useful! 
