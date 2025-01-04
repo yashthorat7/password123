@@ -12,7 +12,7 @@ TITLE_TEXT = [
     ('bold #ffa724', r'|_| /_/   \_\____/____/  \_/\_/  \___/|_| \_\____/|_|_____|____/'),
 ]
 
-def run():
+def display_title():
     os.system('cls' if os.name == 'nt' else 'clear')
     for color, line in TITLE_TEXT:
         styledTitle = Text(line, style=color)

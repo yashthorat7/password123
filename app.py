@@ -1,8 +1,7 @@
-import os
 import inquirer
 from rich.console import Console
 from rich.text import Text
-from src.display_title import run
+from src.display_title import display_title
 
 console = Console()
 
@@ -10,9 +9,8 @@ MENU_CHOICES = [
     'Generate a Password',
     'Display the Passwords',
     'Settings',
-    'Exit'
+    'Exit',
 ]
-
 
 def handleMenuChoice(userChoice):
     '''calls function according to the user's choice'''
@@ -26,36 +24,25 @@ def handleMenuChoice(userChoice):
         # settings()
         pass
     elif userChoice == 'Exit':
-        confirm_exit = inquirer.confirm('Are you sure you want to exit?', default=True)
+        confirm_exit = inquirer.confirm('Exit the program?', default=True)
         if confirm_exit:
-            print('\033[A\033[K' * 1, end='')
-            console.print(Text('Exiting the tool...', style='red'))
+            print('\033[A\033[K' * 2, end='')
+            console.print(Text('Exited...', style='red'))
+            console.print(Text('made by Yash Thorat', style='red'))
             exit(0)
-
 
 def MainMenu():
     '''renders the main menu using inquirer''' 
-    try:
-        menuPrompt = [inquirer.List('menuChoice', message='What would you like to do?', choices=MENU_CHOICES)]
-        choice = inquirer.prompt(menuPrompt)
-        if not choice or 'menuChoice' not in choice:
-            console.print(Text('Invalid selection. Please try again.', style='red'))
-            return
-        handleMenuChoice(choice['menuChoice'])
-    except Exception as e:
-        console.print(f'Error: {e}', style='red')
-
+    menuPrompt = [inquirer.List('menuChoice', message='What would you like to do?', choices=MENU_CHOICES)]
+    choice = inquirer.prompt(menuPrompt)
+    choice = choice['menuChoice']
+    handleMenuChoice(choice)
 
 def main():
     '''main function'''
     while True:
-        try:
-            run()
-            MainMenu()
-        except KeyboardInterrupt:
-            console.print(Text('Exiting the tool...', style='red2'))
-            break
-
+        display_title()
+        MainMenu()
 
 # run
 if __name__ == '__main__':
