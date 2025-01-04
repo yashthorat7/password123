@@ -2,19 +2,9 @@ import os
 import inquirer
 from rich.console import Console
 from rich.text import Text
-from src.generator import generator
-from src.display import display
-from src.settings import settings
+from src.display_title import run
 
 console = Console()
-
-TITLE_TEXT = [
-    ('bold #ff5ca8', r' ____   _    ____ ______        _____  ____  ____  _ ____  _____ '),
-    ('bold #ff70a1', r'|  _ \ / \  / ___/ ___\ \      / / _ \|  _ \|  _ \/ |___ \|___ / '),
-    ('bold #ff8c8b', r'| |_) / _ \ \___ \___ \\ \ /\ / / | | | |_) | | | | | __) | |_ \ '),
-    ('bold #ffa168', r'|  __/ ___ \ ___) |__) |\ V  V /| |_| |  _ <| |_| | |/ __/ ___) |'),
-    ('bold #ffa724', r'|_| /_/   \_\____/____/  \_/\_/  \___/|_| \_\____/|_|_____|____/'),
-]
 
 MENU_CHOICES = [
     'Generate a Password',
@@ -24,30 +14,23 @@ MENU_CHOICES = [
 ]
 
 
-def DisplayTitle():
-    '''displays the title text'''
-    os.system('cls' if os.name == 'nt' else 'clear')    #clears the console
-    for color, line in TITLE_TEXT:
-        styledTitle = Text(line, style=color)
-        console.print(styledTitle)
-    console.print('')
-
-
 def handleMenuChoice(userChoice):
     '''calls function according to the user's choice'''
     if userChoice == 'Generate a Password':
-        generator()
+        # generator()
+        pass
     elif userChoice == 'Display the Passwords':
-        display()
+        # display()
+        pass
     elif userChoice == 'Settings':
-        settings()
+        # settings()
+        pass
     elif userChoice == 'Exit':
         confirm_exit = inquirer.confirm('Are you sure you want to exit?', default=True)
         if confirm_exit:
             print('\033[A\033[K' * 1, end='')
             console.print(Text('Exiting the tool...', style='red'))
             exit(0)
- 
 
 
 def MainMenu():
@@ -67,7 +50,7 @@ def main():
     '''main function'''
     while True:
         try:
-            DisplayTitle()
+            run()
             MainMenu()
         except KeyboardInterrupt:
             console.print(Text('Exiting the tool...', style='red2'))

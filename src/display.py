@@ -11,7 +11,7 @@ consolePrintCount = 0
 tableClone = []
 PASSWORD_FILE = 'data/passwords.enc'
 SETTINGS_FILE = 'data/settings.json'
-masterKeyGlobal = ''
+masterKeyGlobal = None
 
 
 def ConsolePrint(message='', color="white", iend=''):
@@ -29,25 +29,16 @@ def ClearConsole():
 
 
 def GetMasterKey():
-    '''authenticates using master key'''
-    with open('data/settings.json', 'r') as file:
-        settings = json.load(file)
-        master_key = settings.get('masterKey', '')
-        global masterKeyGlobal
-        masterKeyGlobal = master_key
-
-    for _ in range(5):
-        ConsolePrint('Enter the Master Key: ', 'cyan')
-        key = input()
-        if not key:
-            ClearConsole()
-            ConsolePrint('Master Key cannot be empty!', 'red', '\n')
-        elif key != master_key:
-            ClearConsole()
-            ConsolePrint('Invalid Master Key!', 'red', '\n')
-        if key == master_key:
-            return True, key
-    return False, ''
+    '''Get master key from settings and store globally'''
+    try:
+        with open(SETTINGS_FILE, 'r') as file:
+            settings = json.load(file)
+            global masterKeyGlobal
+            masterKeyGlobal = settings['masterKey']
+            return True
+    except Exception as e:
+        ConsolePrint(f'Error loading master key: {e}', 'red')
+        return False
 
 
 def ReadPasswords():
@@ -194,18 +185,30 @@ def HandleRemove():
 def DisplayMenu():
     '''renders the display menu using inquirer'''
     while True:
-        menuChoice = inquirer.prompt([inquirer.List('menuChoice', message='What would you like to do?', choices=[
-            'Search a Password', 'Add a Password', 'Remove a Password', 'Back'])])['menuChoice']
-        print('\033[A\033[K' * 5, end='')
-        if menuChoice == 'Search a Password':
-            HandleSearch()
-        elif menuChoice == 'Add a Password':
-            HandleAdd()
-        elif menuChoice == 'Remove a Password':
-            HandleRemove()
-        elif menuChoice == 'Back':
+        try:
+            menuChoice = inquirer.prompt([inquirer.List('menuChoice', 
+                message='What would you like to do?', 
+                choices=['Search a Password', 'Add a Password', 'Remove a Password', 'Back']
+            )])
+            if not menuChoice:  # Handle Ctrl+C
+                return False
+                
+            choice = menuChoice['menuChoice']
+            print('\033[A\033[K' * 5, end='')
+            
+            if choice == 'Search a Password':
+                HandleSearch()
+            elif choice == 'Add a Password':
+                HandleAdd()
+            elif choice == 'Remove a Password':
+                HandleRemove()
+            elif choice == 'Back':
+                return False
+            return True
+            
+        except Exception as e:
+            ConsolePrint(f'Menu error: {e}', 'red')
             return False
-        return True
 
 # run
 def display():

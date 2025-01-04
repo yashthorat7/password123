@@ -8,6 +8,7 @@ from .encryption import DecryptPassword
 from .encryption import SavePassword
 
 console = Console()
+SETTINGS_FILE = './data/settings.json'
 
 
 def setJsonAttribute(attribute, value):
@@ -150,4 +151,26 @@ def settings():
         EraseData()
     else:
         pass
+    
+
+def InitializeSettings():
+    '''Create default settings if file doesn't exist'''
+    default_settings = {
+        "masterKey": "IamBatman",
+        "default": 12,
+        "defaultForceNum": 11,
+        "defaultForce": True,
+        "specialCharacters": True,
+        "numbers": True,
+        "uppercase": True,
+        "lowercase": True
+    }
+    
+    try:
+        os.makedirs('./data', exist_ok=True)
+        if not os.path.exists(SETTINGS_FILE):
+            with open(SETTINGS_FILE, 'w') as f:
+                json.dump(default_settings, f)
+    except Exception as e:
+        raise Exception(f'Error initializing settings: {e}')
     

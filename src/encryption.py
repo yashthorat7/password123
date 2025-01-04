@@ -9,6 +9,9 @@ from cryptography.fernet import Fernet
 console = Console()
 load_dotenv()
 PASSWORD_FILE = './data/passwords.enc'
+SETTINGS_FILE = './data/settings.json'
+ALTERS_FILE = './data/alters.json'
+WORDS_FILE = './data/words.json'
 
 
 def ReadPasswords():
@@ -24,9 +27,20 @@ def WritePasswords(lines):
 
 
 def AppendPassword(entry):
-    '''will append the passwords.enc'''
-    with open(PASSWORD_FILE, 'a') as file:
-        file.write(entry)
+    '''Safely append password entry'''
+    try:
+        # Create directory if it doesn't exist
+        os.makedirs(os.path.dirname(PASSWORD_FILE), exist_ok=True)
+        
+        # Create file if it doesn't exist
+        if not os.path.exists(PASSWORD_FILE):
+            open(PASSWORD_FILE, 'a').close()
+            
+        with open(PASSWORD_FILE, 'a') as file:
+            file.write(entry)
+            
+    except Exception as e:
+        raise Exception(f'Error saving password: {e}')
 
 
 def GetFernetKey(key):
