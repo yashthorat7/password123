@@ -1,8 +1,5 @@
 import os
-from rich.text import Text
-from rich.console import Console
-
-console = Console()
+from .utils import color_print
 
 TITLE_TEXT = [
     ('bold #ff5ca8', r' ____   _    ____ ______        _____  ____  ____  _ ____  _____ '),
@@ -15,6 +12,5 @@ TITLE_TEXT = [
 def display_title():
     os.system('cls' if os.name == 'nt' else 'clear')
     for color, line in TITLE_TEXT:
-        styledTitle = Text(line, style=color)
-        console.print(styledTitle)
-    console.print('');
+        color_print(line, color)
+    color_print('');
