@@ -1,49 +1,47 @@
-import inquirer
+from inquirer import List, confirm, prompt
 from rich.console import Console
 from rich.text import Text
 from src.display_title import display_title
 
 console = Console()
 
-MENU_CHOICES = [
-    'Generate a Password',
-    'Display the Passwords',
-    'Settings',
-    'Exit',
-]
+class MenuHandler:
+    MENU_CHOICES = [
+        "Generate a Password",
+        "Display the Passwords",
+        "Settings",
+        "Exit",
+    ]
 
-def handleMenuChoice(userChoice):
-    '''calls function according to the user's choice'''
-    if userChoice == 'Generate a Password':
-        # generator()
-        pass
-    elif userChoice == 'Display the Passwords':
-        # display()
-        pass
-    elif userChoice == 'Settings':
-        # settings()
-        pass
-    elif userChoice == 'Exit':
-        confirm_exit = inquirer.confirm('Exit the program?', default=True)
-        if confirm_exit:
-            print('\033[A\033[K' * 2, end='')
-            console.print(Text('Exited...', style='red'))
-            console.print(Text('made by Yash Thorat', style='red'))
-            exit(0)
+    @staticmethod
+    def clear_lines(lines):
+        print('\033[A\033[K' * lines, end='')
 
-def MainMenu():
-    '''renders the main menu using inquirer''' 
-    menuPrompt = [inquirer.List('menuChoice', message='What would you like to do?', choices=MENU_CHOICES)]
-    choice = inquirer.prompt(menuPrompt)
-    choice = choice['menuChoice']
-    handleMenuChoice(choice)
+    @staticmethod
+    def handle_choice(choice):
+        if choice == "Generate a Password":
+            pass
+        elif choice == "Display the Passwords":
+            pass
+        elif choice == "Settings":
+            pass
+        elif choice == "Exit":
+            if confirm("Exit the program?", default=True):
+                console.print(Text("Exited...", style="red"))
+                console.print(Text("made by Yash Thorat", style="red"))
+                exit(0)
+
+    def render_menu(self):
+        menu_prompt = [List("menuChoice", message="What would you like to do?", choices=self.MENU_CHOICES)]
+        choice = prompt(menu_prompt).get("menuChoice")
+        if choice:
+            self.handle_choice(choice)
 
 def main():
-    '''main function'''
+    menu_handler = MenuHandler()
     while True:
         display_title()
-        MainMenu()
+        menu_handler.render_menu()
 
-# run
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
