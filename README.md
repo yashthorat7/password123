@@ -15,24 +15,7 @@ A low-weight CLI tool to manage your passwords!
 ## 📂 Directory Structure  
 
 ```plaintext
-🌟 Password123
-│
-├── 💾 data
-│   ├── alters.json       # AlterList for password generation
-│   ├── passwords.enc     # Encrypted password storage
-│   ├── settings.json     # User-specific settings
-│   └── words.json        # Wordlist for password generation
-│
-├── 📂 src
-│   ├── display.py        # Terminal UI and interaction
-│   ├── encryption.py     # Encryption and decryption logic
-│   ├── generator.py      # Password generation algorithms
-│   └── settings.py       # Configuration management
-│
-├── .gitignore            # Git ignore rules
-├── app.py 🚀             # Main application entry point
-├── README.md             # Documentation
-└── requirements.txt      # Python dependencies
+
 ```  
 
 
