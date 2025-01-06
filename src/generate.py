@@ -8,8 +8,8 @@ def generate():
     first_time = True
     while True:
         display_title()
-        length = generate_length(first_time)
-        password = generate_password(length)
+        length, structure = generate_length(first_time)
+        password = generate_password(length, structure)
         panel_print(password)
         if generate_menu():
             break
