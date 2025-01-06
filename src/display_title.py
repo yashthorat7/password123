@@ -11,5 +11,5 @@ TITLE_TEXT = [
 def display_title():
     clear_console()
     for color, line in TITLE_TEXT:
-        color_print(line, color)
-    color_print('');
+        color_print(line + '\n', color)
+    color_print('\n');
