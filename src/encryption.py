@@ -1,18 +1,9 @@
-import os
+
 import hashlib
 import base64
-from dotenv import load_dotenv
 from rich.console import Console
 from rich.text import Text
 from cryptography.fernet import Fernet
-
-console = Console()
-load_dotenv()
-PASSWORD_FILE = './data/passwords.enc'
-SETTINGS_FILE = './data/settings.json'
-ALTERS_FILE = './data/alters.json'
-WORDS_FILE = './data/words.json'
-
 
 def ReadPasswords():
     '''will read the passwords.enc'''
