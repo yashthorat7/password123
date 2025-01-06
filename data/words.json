@@ -1,73 +1,67 @@
 {
-  "small_nouns": [
-    "Zen", "Vibe", "Pixel", "Chill", "Echo", "Flux", "Jolt", "Blaze", "Drift", "Hype", 
-    "Tide", "Rush", "Volt", "Rift", "Shade", "Glow", "Buzz", "Pop", "Kicks", "Prism", 
-    "Chime", "Twist", "Edge", "Breeze", "Shine", "Luxe", "Clutch", "Rage", "Glow", 
-    "Zing", "Buzz", "Karma", "Maverick", "Bliss", "Grit", "Revolt", "Revive", "Vibe", 
-    "Crush", "Jive", "Lush", "Glint", "Hustle", "Hype", "Vibe", "Vibe", "Pop", "Volt", 
-    "Lion", "Wolf", "Bear", "Bat", "Fox", "Pangolin", "Seal", "Owl", "Goose", "Duck", 
-    "Jive", "Twist", "Rage", "Vibe", "Bliss", "Vibe", "Vibe", "Rage", "Vibe", "Rage"
-  ],
-
-  "medium_nouns": [
-    "Mango", "Pear", "Plum", "Lemon", "Kiwi", "Peach", "Cherry", "Fig", "Lychee", "Guava", 
-    "Melon", "Lemon", "Avocado", "Pineapple", "Strawberry", "Blueberry", "Tangerine", "Dragon", 
-    "Watermelon", "Coconut", "Papaya", "Pomegranate", "Plasma", "Ripple", "Sonic", "Raven", 
-    "Shimmer", "Bison", "Moose", "Lemur", "Hyena", "Leopard", "Cheetah", "Jaguar", "Tornado", 
-    "Phoenix", "Lion", "Giraffe", "Dolphin", "Tiger", "Penguin", "Falcon", "Goose", "Eagle", 
-    "Squadron", "Momentum", "Grindstone", "Smashup", "Hangover", "Chatterbox", "Blowback", "Backfire", 
-    "Backbone", "Blowtorch", "Hustler", "Grind", "Dreamboat", "Maverick", "Underdog", "Daredevil", 
-    "Shakedown", "Breakout", "Whirlwind", "Nightmare", "Horizon", "Wildfire", "Thrillride", "Vortex", 
-    "Turbulence", "Whispers", "Powerhouse", "Rendezvous", "Snapshot", "Backstage", "Legacy", 
-    "Dynamite", "Inspiration", "Serenity", "Reflection", "Vibrance"
-  ],
-
-  "large_nouns": [
-    "Apple", "Banana", "Orange", "Grapes", "Strawberry", "Blackberry", "Raspberry", "Pineapple", 
-    "Tangerine", "DragonFruit", "Plum", "Watermelon", "Guava", "Papaya", "Pomegranate", "Peach", 
-    "Lemon", "Kiwi", "Bliss", "Glimmer", "Momentum", "Jungle", "Nexus", "Revolt", "Tide", "Quantum", 
-    "Vanguard", "Vortex", "Driftwood", "Cascade", "Rebirth", "Whirlwind", "Momentum", "Equilibrium", 
-    "Serenity", "Velocity", "Ascension", "Catalyst", "Odyssey", "Metamorphosis", "Breakthrough", "Innovation",
-    "Momentum", "Celestial", "Odyssey", "Velocity", "Galactic", "Fervor", "Vibration", "Euphoria", 
-    "Cascades", "Exosphere", "Phenomenon", "Endurance", "Mirage", "Revolutionary", "Astrophysics", 
-    "Spectacle", "Magnitude", "Transformation", "Triumph", "Zephyr", "Phoenix", "Horizon", "Timelessness", 
-    "Galaxy", "Momentum", "Eclipse", "Evolution", "Exhilaration", "Equilibrium", "Timberline", 
-    "Velocity", "Enlightenment", "Blissful", "Majesty", "Turbulence", "Cascade", "Dreamscape", "Spectra", 
-    "Turbulence", "Velocity"
+  "nouns": [
+    "zen", "vibe", "pixel", "chill", "echo", "flux", "jolt", "blaze", "drift", "hype", 
+    "tide", "rush", "volt", "rift", "shade", "glow", "buzz", "pop", "kicks", "prism", 
+    "chime", "twist", "edge", "breeze", "shine", "luxe", "clutch", "rage", "glow", 
+    "zing", "buzz", "karma", "maverick", "bliss", "grit", "revolt", "revive", "vibe", 
+    "crush", "jive", "lush", "glint", "hustle", "hype", "vibe", "vibe", "pop", "volt", 
+    "lion", "wolf", "bear", "bat", "fox", "pangolin", "seal", "owl", "goose", "duck", 
+    "jive", "twist", "rage", "vibe", "bliss", "vibe", "vibe", "rage", "vibe", "rage",
+    "mango", "pear", "plum", "lemon", "kiwi", "peach", "cherry", "fig", "lychee", "guava", 
+    "melon", "lemon", "avocado", "pineapple", "strawberry", "blueberry", "tangerine", "dragon", 
+    "watermelon", "coconut", "papaya", "pomegranate", "plasma", "ripple", "sonic", "raven", 
+    "shimmer", "bison", "moose", "lemur", "hyena", "leopard", "cheetah", "jaguar", "tornado", 
+    "phoenix", "lion", "giraffe", "dolphin", "tiger", "penguin", "falcon", "goose", "eagle", 
+    "squadron", "momentum", "grindstone", "smashup", "hangover", "chatterbox", "blowback", "backfire", 
+    "backbone", "blowtorch", "hustler", "grind", "dreamboat", "maverick", "underdog", "daredevil", 
+    "shakedown", "breakout", "whirlwind", "nightmare", "horizon", "wildfire", "thrillride", "vortex", 
+    "turbulence", "whispers", "powerhouse", "rendezvous", "snapshot", "backstage", "legacy", 
+    "dynamite", "inspiration", "serenity", "reflection", "vibrance",
+    "apple", "banana", "orange", "grapes", "strawberry", "blackberry", "raspberry", "pineapple", 
+    "tangerine", "dragonfruit", "plum", "watermelon", "guava", "papaya", "pomegranate", "peach", 
+    "lemon", "kiwi", "bliss", "glimmer", "momentum", "jungle", "nexus", "revolt", "tide", "quantum", 
+    "vanguard", "vortex", "driftwood", "cascade", "rebirth", "whirlwind", "momentum", "equilibrium", 
+    "serenity", "velocity", "ascension", "catalyst", "odyssey", "metamorphosis", "breakthrough", "innovation",
+    "momentum", "celestial", "odyssey", "velocity", "galactic", "fervor", "vibration", "euphoria", 
+    "cascades", "exosphere", "phenomenon", "endurance", "mirage", "revolutionary", "astrophysics", 
+    "spectacle", "magnitude", "transformation", "triumph", "zephyr", "phoenix", "horizon", "timelessness", 
+    "galaxy", "momentum", "eclipse", "evolution", "exhilaration", "equilibrium", "timberline", 
+    "velocity", "enlightenment", "blissful", "majesty", "turbulence", "cascade", "dreamscape", "spectra", 
+    "turbulence", "velocity"
   ],
 
   "adjectives": [
-    "Beautiful", "Happy", "Smart", "Strong", "Fast", "Delicious", "Bold", "Amazing", "Unique", "Creative",
-    "Bright", "Elegant", "Funny", "Loyal", "Friendly", "Clever", "Brave", "Generous", "Shiny", "Honest",
-    "Calm", "Charming", "Powerful", "Fearless", "Fresh", "Rich", "Trustworthy", "Confident", "Cute", "Mysterious",
-    "Wise", "Talented", "Warm", "Adventurous", "Energetic", "Gentle", "Reliable", "Graceful", "Kind", "Flexible",
-    "Creative", "Inspiring"
+    "beautiful", "happy", "smart", "strong", "fast", "delicious", "bold", "amazing", "unique", "creative",
+    "bright", "elegant", "funny", "loyal", "friendly", "clever", "brave", "generous", "shiny", "honest",
+    "calm", "charming", "powerful", "fearless", "fresh", "rich", "trustworthy", "confident", "cute", "mysterious",
+    "wise", "talented", "warm", "adventurous", "energetic", "gentle", "reliable", "graceful", "kind", "flexible",
+    "creative", "inspiring"
   ],
 
   "verbs": [
-    "Running", "Jumping", "Swimming", "Dancing", "Singing", "Writing", "Talking", "Listening", "Reading", "Cooking",
-    "Driving", "Flying", "Thinking", "Speaking", "Playing", "Working", "Studying", "Creating", "Building", "Fixing",
-    "Cleaning", "Fighting", "Drawing", "Painting", "Walking", "Helping", "Watching", "Touching", "Feeling", "Pushing",
-    "Pulling", "Lifting", "Carrying", "Throwing", "Catching", "Kicking", "Hugging", "Praying", "Laughing", "Crying",
-    "Calling", "Answering", "Shouting", "Whispering", "Explaining", "Inviting", "Celebrating", "Sleeping", "Jumpstarting",
-    "Jogging", "Climbing", "Crawling", "Snapping", "Bouncing", "Tapping", "Striking", "Scratching", "Kissing",
-    "Poking", "Hitting", "Chasing", "Scaring", "Stomping", "Mimicking", "Rolling", "Racing", "Flipping", "Tickling",
-    "Waving", "Twirling", "Diving", "Hiking", "Biting", "Giggling", "Spinning", "Sniffing", "Grabbing", "Stretching",
-    "Gleaming", "Shaking", "Tearing", "Plucking", "Smiling", "Squeezing", "Grinning", "Smacking", "Tugging", "Pouncing",
-    "Sprinting", "Slapping", "Drumming", "Screaming", "Tossing", "Flicking", "Grazing", "Paddling", "Lurking", "Glaring",
-    "Leaping", "Skating", "Pecking", "Chopping", "Frying", "Stirring", "Mashing", "Kneading", "Shooting", "Whisking",
-    "Whistling", "Ducking", "Mowing", "Darting", "Gliding", "Smiling", "Kicking", "Runner", "Jumpy", "Cleany", "Dancy",
-    "Lifter", "Catcher", "Bouncer", "Shaker", "Mover", "Striker", "Gigger", "Pusher", "Puller", "Lover",
-    "Speaker", "Thinker", "Scriber", "Stirrer", "Plucker", "Fryer", "Cooker", "Whisker", "Twirler", "Spinner",
-    "Glimmer", "Biter", "Tosser", "Grinner", "Mover", "Grasper", "Gazer", "Hiker", "Flicker", "Jumper",
-    "Laugher", "Shouter", "Mummer", "Gazer", "Jumper", "Sprinter", "Twirler", "Fighter", "Chaser", "Catcher",
-    "Paddler", "Hopper", "Roller", "Flipper", "Sniffer", "Tugger", "Smacker", "Tugger", "Snatcher", "Squeezer"
+    "running", "jumping", "swimming", "dancing", "singing", "writing", "talking", "listening", "reading", "cooking",
+    "driving", "flying", "thinking", "speaking", "playing", "working", "studying", "creating", "building", "fixing",
+    "cleaning", "fighting", "drawing", "painting", "walking", "helping", "watching", "touching", "feeling", "pushing",
+    "pulling", "lifting", "carrying", "throwing", "catching", "kicking", "hugging", "praying", "laughing", "crying",
+    "calling", "answering", "shouting", "whispering", "explaining", "inviting", "celebrating", "sleeping", "jumpstarting",
+    "jogging", "climbing", "crawling", "snapping", "bouncing", "tapping", "striking", "scratching", "kissing",
+    "poking", "hitting", "chasing", "scaring", "stomping", "mimicking", "rolling", "racing", "flipping", "tickling",
+    "waving", "twirling", "diving", "hiking", "biting", "giggling", "spinning", "sniffing", "grabbing", "stretching",
+    "gleaming", "shaking", "tearing", "plucking", "smiling", "squeezing", "grinning", "smacking", "tugging", "pouncing",
+    "sprinting", "slapping", "drumming", "screaming", "tossing", "flicking", "grazing", "paddling", "lurking", "glaring",
+    "leaping", "skating", "pecking", "chopping", "frying", "stirring", "mashing", "kneading", "shooting", "whisking",
+    "whistling", "ducking", "mowing", "darting", "gliding", "smiling", "kicking", "runner", "jumpy", "cleany", "dancy",
+    "lifter", "catcher", "bouncer", "shaker", "mover", "striker", "gigger", "pusher", "puller", "lover",
+    "speaker", "thinker", "scriber", "stirrer", "plucker", "fryer", "cooker", "whisker", "twirler", "spinner",
+    "glimmer", "biter", "tosser", "grinner", "mover", "grasper", "gazer", "hiker", "flicker", "jumper",
+    "laugher", "shouter", "mummer", "gazer", "jumper", "sprinter", "twirler", "fighter", "chaser", "catcher",
+    "paddler", "hopper", "roller", "flipper", "sniffer", "tugger", "smacker", "tugger", "snatcher", "squeezer"
   ],
 
   "adverbs": [
-    "Quickly", "Slowly", "Eagerly", "Carefully", "Loudly", "Softly", "Gracefully", "Happily", "Sadly", "Bravely",
-    "Quietly", "Boldly", "Naturally", "Smoothly", "Heavily", "Lightly", "Rapidly", "Deliberately", "Clearly", "Sincerely",
-    "Always", "Never", "Often", "Sometimes", "Rarely", "Usually", "Frequently", "Surprisingly", "Extremely", "Definitely",
-    "Precisely", "Instantly"
+    "quickly", "slowly", "eagerly", "carefully", "loudly", "softly", "gracefully", "happily", "sadly", "bravely",
+    "quietly", "boldly", "naturally", "smoothly", "heavily", "lightly", "rapidly", "deliberately", "clearly", "sincerely",
+    "always", "never", "often", "sometimes", "rarely", "usually", "frequently", "surprisingly", "extremely", "definitely",
+    "precisely", "instantly"
   ]
 }

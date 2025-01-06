@@ -1,107 +1,80 @@
 {
     "a": {
-        "number": ["4", "9"],
-        "symbols": ["@", ">", "v"]
+        "symbols": ["@", "v"]
     },
     "b": {
-        "number": ["3", "5"],
-        "symbols": ["#", "$"]
+        "symbols": ["8"]
     },
     "c": {
-        "number": ["0", "6"],
-        "symbols": ["(", "*"]
+        "symbols": ["("]
     },
     "d": {
-        "number": ["6", "9"],
-        "symbols": ["#", ")"]
+        "symbols": [")"]
     },
     "e": {
-        "number": ["3", "7"],
-        "symbols": ["&", "$"]
+        "symbols": ["&"]
     },
     "f": {
-        "number": ["7", "9"],
-        "symbols": ["#", "!"]
+        "symbols": ["#"]
     },
     "g": {
-        "number": ["6", "2"],
-        "symbols": ["@", "&"]
+        "symbols": ["9"]
     },
     "h": {
-        "number": ["6", "1"],
-        "symbols": ["#", "+"]
+        "symbols": ["#"]
     },
     "i": {
-        "number": ["1", "4"],
-        "symbols": ["!", "+"]
+        "symbols": ["!"]
     },
     "j": {
-        "number": ["1", "2"],
-        "symbols": ["!", "$"]
+        "symbols": ["!"]
     },
     "k": {
-        "number": ["7", "5"],
-        "symbols": ["#", "+"]
+        "symbols": ["#"]
     },
     "l": {
-        "number": ["7", "0"],
-        "symbols": ["!", "*"]
+        "symbols": ["!"]
     },
     "m": {
-        "number": ["3", "4"],
-        "symbols": ["#", "w"]
+        "symbols": ["w"]
     },
     "n": {
-        "number": ["3", "8"],
-        "symbols": ["u", "$"]
+        "symbols": ["u"]
     },
     "o": {
-        "number": ["0", "9"],
-        "symbols": ["@", "*"]
+        "symbols": ["@"]
     },
     "p": {
-        "number": ["0", "3"],
-        "symbols": ["6", "@"]
+        "symbols": ["6"]
     },
     "q": {
-        "number": ["0", "6"],
-        "symbols": ["$", "*"]
+        "symbols": ["$"]
     },
     "r": {
-        "number": ["7", "2"],
-        "symbols": ["@", "$"]
+        "symbols": ["@"]
     },
     "s": {
-        "number": ["5", "9"],
-        "symbols": ["$", "@"]
+        "symbols": ["$"]
     },
     "t": {
-        "number": ["7", "1"],
-        "symbols": ["+", "!"]
+        "symbols": ["!"]
     },
     "u": {
-        "number": ["8", "2"],
-        "symbols": ["$", "@"]
+        "symbols": ["$"]
     },
     "v": {
-        "number": ["7", "3"],
-        "symbols": ["v", ">"]
+        "symbols": ["v"]
     },
     "w": {
-        "number": ["7", "4"],
-        "symbols": ["v", "$"]
+        "symbols": ["v"]
     },
     "x": {
-        "number": ["3", "5"],
-        "symbols": ["+", "%"]
+        "symbols": ["+"]
     },
     "y": {
-        "number": ["7", "6"],
-        "symbols": ["v", "/"]
+        "symbols": ["v"]
     },
     "z": {
-        "number": ["3", "1"],
-        "symbols": ["#", "$"]
+        "symbols": ["#"]
     }
 }
-
