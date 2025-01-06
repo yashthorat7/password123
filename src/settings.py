@@ -1,6 +1,5 @@
 import inquirer
 import os
-from dotenv import load_dotenv, set_key
 from rich.console import Console
 from rich.text import Text
 import json
@@ -62,7 +61,7 @@ def RewritePasswords(key, newKey):
 
 def ChangeMasterKey():
     '''change master key logic'''
-    load_dotenv()
+    # load_dotenv()
 
     while True:
         console.print(Text('Enter the Master Key: '), style='cyan', end='')
@@ -80,7 +79,7 @@ def ChangeMasterKey():
     console.print(Text('Enter the new Master Key: '), style='cyan', end='')
     newKey = input()
 
-    set_key('.env', 'MASTER_KEY', newKey)
+    # set_key('.env', 'MASTER_KEY', newKey)
     RewritePasswords(key, newKey)
 
     console.print(Text('\nMaster Key changed successfully!', style='green'), end='\n')
