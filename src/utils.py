@@ -14,7 +14,7 @@ def clear_console():
     os.system('cls' if os.name == 'nt' else 'clear')
 
 def color_print(message, color='white'):
-    console.print(Text(message, style=color))
+    console.print(Text(message, style=color), end='')
 
 def confirm_print(message, set_to=True):
     return confirm(message, default=set_to)
