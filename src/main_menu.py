@@ -1,6 +1,6 @@
 from .display_title import display_title
 from .utils import clear_lines, color_print, confirm_print, menu_list
-from .generate import generate
+from .generate.generate import generate
 
 MENU_CHOICES = [
     'Generate a Password',
