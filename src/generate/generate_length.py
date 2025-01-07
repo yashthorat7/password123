@@ -6,20 +6,26 @@ def ask_length(default):
     color_print(f'(default: {default})', 'blue')
     color_print(': ', 'cyan')
     user_input = input()
-    return int(user_input) if user_input else default
+    if not user_input:
+        return default
+    try:
+        return int(user_input)
+    except ValueError:
+        return "invalid"
 
 def valid_length(length, first_time):
-    try:
-        length = int(length)
-    except ValueError:
-        clear_lines(1 if first_time else None)
+    if first_time:
+        clear_lines(1)
+    else:
+        clear_lines()
+
+    if length == "invalid":
         color_print('Length is invalid! It must be a number.\n', 'red')
         return False
 
     if 8 <= length <= 64:
         return True
 
-    clear_lines(1 if first_time else None)
     color_print('Length should be at least 8\n', 'red') if length < 8 else color_print('Length should be at most 64\n', 'red')
     return False
 
