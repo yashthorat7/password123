@@ -1,4 +1,4 @@
-from .utils import menu_list
+from ..utils import menu_list
 
 MENU_CHOICES = [
     'Yes',

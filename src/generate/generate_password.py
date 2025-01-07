@@ -1,6 +1,6 @@
 import random
 import string
-from .file_handle import read_json
+from ..file_handle import read_json
 
 def read_structure(word):
     digits = sum(1 for char in word if char.isdigit())

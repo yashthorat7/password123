@@ -1,5 +1,5 @@
-from .display_title import display_title
-from .utils import panel_print
+from ..display_title import display_title
+from ..utils import panel_print
 from .generate_length import generate_length
 from .generate_password import generate_password
 from .generate_menu import generate_menu
