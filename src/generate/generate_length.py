@@ -5,38 +5,23 @@ def ask_length(default):
     color_print('Enter the length ', 'cyan')
     color_print(f'(default: {default})', 'blue')
     color_print(': ', 'cyan')
-    length = int(input())
-    if length == '':
-        length = default
-    return length
+    user_input = input()
+    return int(user_input) if user_input else default
 
 def valid_length(length, first_time):
     try:
         length = int(length)
     except ValueError:
-        if first_time:
-            clear_lines(1)
-        else:
-            clear_lines()
+        clear_lines(1 if first_time else None)
         color_print('Length is invalid! It must be a number.\n', 'red')
         return False
 
     if 8 <= length <= 64:
         return True
 
-    if first_time:
-        clear_lines(1)
-    else:
-        clear_lines()
-
-    if length < 8:
-        color_print('Length should be at least 8\n', 'red')
-    elif length > 64:
-        color_print('Length should be at most 64\n', 'red')
-    
+    clear_lines(1 if first_time else None)
+    color_print('Length should be at least 8\n', 'red') if length < 8 else color_print('Length should be at most 64\n', 'red')
     return False
-    
-        
 
 def generate_length(state):
     settings_data = read_json('settings.json')
@@ -48,7 +33,7 @@ def generate_length(state):
             length = ask_length(settings_data['default'])
             if valid_length(length, first_time):
                 return return_sequence(length)
-            first_time = False      
+            first_time = False
     return return_sequence(int(settings_data['defaultForceNum']))
 
 def get_structure(length):
