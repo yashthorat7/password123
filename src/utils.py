@@ -40,3 +40,40 @@ def create_table(headers, rows, styles):
 def print_table(table):
     console.print(table)
     console.print('')
+
+def paginate_data(headers, rows, styles, page_size=10):
+    if len(rows) <= page_size:
+        table = create_table(headers, rows, styles)
+        print_table(table)
+        return
+
+    current_page = 0
+    total_pages = (len(rows) + page_size - 1) // page_size
+
+    while True:
+        start_index = current_page * page_size
+        end_index = start_index + page_size
+        table = create_table(headers, rows[start_index:end_index], styles)
+
+        print_table(table)
+        color_print(f'\t\t\tPage {current_page + 1} of {total_pages}', 'cyan', '\n')
+
+        choices = []
+        if current_page > 0:
+            choices.append("Previous")
+        if current_page < total_pages - 1:
+            choices.append("Next")
+        choices.append("Menu")
+
+        action = menu_list('Navigate pages', choices)
+
+        if action == "Next": 
+            clear_console()
+            current_page += 1
+        elif action == "Previous":
+            clear_console()
+            current_page -= 1
+        elif action == "Menu":
+            menu_size = len(choices) + 3
+            print('\033[A\033[K' * menu_size, end='')
+            break
