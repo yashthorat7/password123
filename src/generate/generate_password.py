@@ -11,27 +11,24 @@ def read_structure(word):
 
 def select_words(min_length, length, combination):
     words_data = read_json('words.json')
-    attempt_limit = 20
-    for _ in range(attempt_limit):
+    max_attempts = 50
+    
+    for _ in range(max_attempts):
         letter_password = []
         current_length = 0
-        attempts = 0
-        while current_length < min_length - 1:
-            attempts += 1
-            if attempts > 20:
-                combination = list(combination) + ['nouns']
-            letter_password = []
-            current_length = 0
-            for word_type in combination:
-                if word_type in words_data:
-                    next_word = random.choice(words_data[word_type])
-                    letter_password.append(next_word)
-                    current_length += len(next_word)
-                    if current_length >= length - 1:
-                        break
+        
+        for word_type in combination:
+            if word_type in words_data:
+                next_word = random.choice(words_data[word_type])
+                letter_password.append(next_word)
+                current_length += len(next_word)
+                if current_length >= length - 1:
+                    break
 
-            if min_length - 2 <= current_length <= length - 2:
-                return ''.join(letter_password)
+        if min_length - 2 <= current_length <= length - 2:
+            return ''.join(letter_password)
+    
+    return random.choice(words_data['nouns']) 
 
 def case_change(length, letter_password):
     password_list = list(letter_password)
@@ -85,15 +82,20 @@ def generate_password(length, structure):
 
     min_length = structure[1] + structure[2] + structure[3]
     combination = get_combination(length, combinations_list)
-    # print('combination:', combination)
-    letter_password = select_words(min_length, length, combination)
-    # print('letter_password:', letter_password)
+    
+    letter_password = None
+    max_attempts = 10
+    
+    for _ in range(max_attempts):
+        letter_password = select_words(min_length, length, combination)
+        if letter_password:
+            break
+        combination = ('nouns', 'nouns')
+    
+    if not letter_password:
+        letter_password = random.choice(read_json('words.json')['nouns'])
+        
     numbered_password = add_remaining_digits(length, letter_password)
-    # print('numbered_password:', numbered_password)
     cased_password = case_change(structure[1], numbered_password)
-    # print('cased_password:', cased_password)
     password = alter_password(structure[2], cased_password)
-    # print('password:', password)
-    # print('structure:', structure)
-    # print('see structure:', read_structure(password))
     return password
