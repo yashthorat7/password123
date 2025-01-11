@@ -113,7 +113,7 @@ def DisplayMenu():
                 message='What would you like to do?', 
                 choices=['Search a Password', 'Add a Password', 'Remove a Password', 'Back']
             )])
-            if not menuChoice:  # Handle Ctrl+C
+            if not menuChoice:
                 return False
                 
             choice = menuChoice['menuChoice']
