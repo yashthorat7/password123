@@ -26,7 +26,11 @@ def valid_length(length, first_time):
     if 8 <= length <= 64:
         return True
 
-    color_print('Length should be at least 8\n', 'red') if length < 8 else color_print('Length should be at most 64\n', 'red')
+    if length < 8:
+        color_print('Length should be at least 8\n', 'red')
+    else:
+        color_print('Length should be at most 64\n', 'red')
+        
     return False
 
 def generate_length(state):

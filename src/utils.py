@@ -4,6 +4,7 @@ from rich.text import Text
 from rich.panel import Panel
 from rich.box import ROUNDED
 from inquirer import confirm, List, prompt
+from rich.table import Table
 
 console = Console()
 
@@ -27,3 +28,15 @@ def panel_print(password):
 def menu_list(message_text, choice_list):
     menu_prompt = [List('menuChoice', message=message_text, choices=choice_list)]
     return prompt(menu_prompt).get('menuChoice')
+
+def create_table(headers, rows, styles):
+    table = Table(header_style='bold', box=ROUNDED)
+    for header, style in zip(headers, styles):
+        table.add_column(header, justify='left', style=style)
+    for row in rows:
+        table.add_row(*row)
+    return table
+
+def print_table(table):
+    console.print(table)
+    console.print('')
