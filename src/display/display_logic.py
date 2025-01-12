@@ -1,9 +1,6 @@
 import json
 import inquirer
 from rich.console import Console
-from rich.text import Text
-from rich.table import Table
-from rich.box import ROUNDED
 from ..encryption import DecryptPassword, SavePassword
 from .display_table import console_print, clear_console, paginate_table
 

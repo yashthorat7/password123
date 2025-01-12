@@ -1,4 +1,6 @@
-from ..utils import menu_list, color_print, clear_console, confirm_print, paginate_data
+from ..utils import menu_list, color_print, clear_console, confirm_print
+from .display_table import paginate_table
+from ..display_title import display_title
 from ..encryption import SavePassword, ReadPasswords, WritePasswords
 
 MENU_CHOICES = [
@@ -18,7 +20,8 @@ def handle_search(table_clone):
     if matched_rows:
         headers = ['Sr.no.', 'Website', 'Username', 'Password']
         styles = ['orange3', 'cyan', 'red', 'yellow']
-        paginate_data(headers, matched_rows, styles)
+        paginate_table(headers, matched_rows, styles)
+        display_title()
     else:
         color_print('No match found\n', 'red')
 
@@ -37,7 +40,8 @@ def handle_remove(table_clone):
         if 0 <= row_index < len(table_clone):
             headers = ['Sr.no.', 'Website', 'Username', 'Password']
             styles = ['yellow', 'red', 'magenta', 'red']
-            paginate_data(headers, [table_clone[row_index]], styles)
+            paginate_table(headers, [table_clone[row_index]], styles)
+            display_title()
             
             if confirm_print('Are you sure you want to remove this password?'):
                 lines = ReadPasswords()

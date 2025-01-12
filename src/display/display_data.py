@@ -1,4 +1,5 @@
-from ..utils import color_print, paginate_data
+from ..utils import color_print
+from .display_table import paginate_table
 from ..encryption import DecryptPassword, ReadPasswords
 
 tableClone = []
@@ -6,7 +7,7 @@ tableClone = []
 def display_data(master_key):
     try:
         global tableClone
-        tableClone = []
+        tableClone.clear()
         lines = ReadPasswords()
         rows = []
         
@@ -25,7 +26,7 @@ def display_data(master_key):
             
         headers = ['Sr.no.', 'Website', 'Username', 'Password']
         styles = ['orange3', 'cyan', 'red', 'yellow']
-        paginate_data(headers, rows, styles)
+        paginate_table(headers, tableClone, styles)
         return True
         
     except Exception as e:
