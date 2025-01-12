@@ -1,4 +1,5 @@
-from ..utils import menu_list
+from ..utils.utils import menu_list
+from ..encryption.store_data import store_data
 
 MENU_CHOICES = [
     'Yes',
@@ -6,15 +7,15 @@ MENU_CHOICES = [
     'Generate Again',
 ]
 
-def handle_menu(choice):
+def handle_menu(choice, password):
     if choice == 'Yes':
-        pass
+        store_data(password)
     elif choice == 'No':
         pass
     elif choice == 'Generate Again':
         return False
     return True
 
-def generate_menu():
+def generate_menu(password):
     choice = menu_list('Save the Password?', MENU_CHOICES)
-    return handle_menu(choice)
+    return handle_menu(choice, password)

@@ -1,7 +1,9 @@
-from ..utils import menu_list, color_print, clear_console, confirm_print
-from .display_table import paginate_table
+from ..utils.utils import menu_list, color_print, clear_console, confirm_print, clear_lines
+from ..utils.file_handler import read_json, write_json
+from ..utils.table_handler import paginate_table
 from ..display_title import display_title
-from ..encryption import SavePassword, ReadPasswords, WritePasswords
+from ..encryption.store_data import store_data
+from ..encryption.encrypter import encrypt
 
 MENU_CHOICES = [
     'Search a Password',
@@ -27,7 +29,7 @@ def handle_search(table_clone):
 
 def handle_add(master_key):
     try:
-        SavePassword(master_key)
+        store_data()
         print('\033[A\033[K' * 8, end='')
         clear_console()
     except Exception as e:
@@ -44,9 +46,9 @@ def handle_remove(table_clone):
             display_title()
             
             if confirm_print('Are you sure you want to remove this password?'):
-                lines = ReadPasswords()
+                lines = read_json('passwords.json')
                 del lines[row_index]
-                WritePasswords(lines)
+                write_json(lines)
                 color_print('Password removed successfully\n', 'yellow')
             else:
                 color_print('Operation cancelled\n', 'cyan')
@@ -60,8 +62,8 @@ def handle_remove(table_clone):
         color_print(f'Error removing password: {e}\n', 'red')
 
 def display_menu(table_clone, master_key):
-    choice = menu_list('What would you like to do?', MENU_CHOICES)
-    print('\033[A\033[K' * 5, end='')
+    color_print('\n')
+    choice = menu_list('Display Menu', MENU_CHOICES)
     
     if choice == 'Search a Password':
         handle_search(table_clone)

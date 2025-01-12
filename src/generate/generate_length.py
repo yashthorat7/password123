@@ -1,5 +1,5 @@
-from ..file_handle import read_json
-from ..utils import color_print, clear_lines
+from ..utils.file_handler import read_json
+from ..utils.utils import color_print, clear_lines
 
 def ask_length(default):
     color_print('Enter the length ', 'cyan')
@@ -39,7 +39,7 @@ def generate_length(state):
 
     if not state or not has_default:
         first_time = True
-        while True:
+        for _ in range(5):
             length = ask_length(settings_data['default'])
             if valid_length(length, first_time):
                 return return_sequence(length)
