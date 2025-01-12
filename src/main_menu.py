@@ -22,7 +22,7 @@ def handle_menu(choice):
         has_confirmed = confirm_print('Exit the Program?')
         if has_confirmed:
             clear_lines()
-            color_print('Exited------------------------------------------------Yash Thorat', 'red')
+            color_print('Exited------------------------------------------------Yash Thorat\n', 'red')
             exit(0)
 
 def main_menu():
