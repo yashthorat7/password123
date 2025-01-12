@@ -1,5 +1,5 @@
 from .display_title import display_title
-from .utils import clear_lines, color_print, confirm_print, menu_list
+from .utils.utils import clear_lines, color_print, confirm_print, menu_list
 from .generate.generate import generate
 from .display.display import display
 

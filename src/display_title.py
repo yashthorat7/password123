@@ -1,4 +1,4 @@
-from .utils import clear_console, color_print
+from .utils.utils import clear_console, color_print
 
 TITLE_TEXT = [
     ('bold #ff5ca8', r' ____   _    ____ ______ __  __ _____  ____  ____  _ ____  _____ '),

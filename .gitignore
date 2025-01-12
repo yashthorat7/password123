@@ -1,5 +1,5 @@
 docs/
 .venv/
 __pycache__/
-data/password.enc
-password.enc
+data/password.json
+passwords.json
