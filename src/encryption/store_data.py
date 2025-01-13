@@ -13,7 +13,7 @@ def ask_username():
         website = 'N/A'
     if username == '':
         username = 'N/A'
-        
+
     return website, username
 
 def ask_password():
@@ -35,13 +35,18 @@ def rewrite_passwords(old_key, new_key):
     except Exception as e:
         raise Exception(f'Error updating passwords: {e}')       
 
-def store_data(password):
-    clear_lines(5)
-    website, username = ask_username();
-    if isinstance(password, bytes):
+def store_data(password = ''):
+    website, username = ask_username()
+    if password == '':
         password = ask_password()
+
+    if isinstance(password, bytes):
         password = password.decode('utf-8')
     
-    save_password(website, username, password)
-    color_print('\nPassword saved sucessfully...', 'green')
+    if password != '':
+        save_password(website, username, password)
+        color_print('\nPassword saved successfully...', 'green')
+    else:
+        color_print('\nFailed saving the password', 'red')
+        
     input()

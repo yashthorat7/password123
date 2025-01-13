@@ -1,4 +1,4 @@
-from ..utils.utils import menu_list
+from ..utils.utils import clear_lines, menu_list
 from ..encryption.store_data import store_data
 
 MENU_CHOICES = [
@@ -9,6 +9,7 @@ MENU_CHOICES = [
 
 def handle_menu(choice, password):
     if choice == 'Yes':
+        clear_lines(5)
         store_data(password)
     elif choice == 'No':
         pass
