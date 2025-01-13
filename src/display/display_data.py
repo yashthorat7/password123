@@ -27,7 +27,7 @@ def display_data(master_key):
             return False
             
         headers = ['Sr.no.', 'Website', 'Username', 'Password']
-        styles = ['orange3', 'cyan', 'red', 'yellow']
+        styles = ['red', 'orange3', 'yellow', 'green']
         paginate_table(headers, tableClone, styles)
         return True
         

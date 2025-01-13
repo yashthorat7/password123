@@ -12,6 +12,5 @@ def display():
         display_title()
         if not display_data(master_key):
             break
-        if not display_menu(tableClone, master_key):
-            display_title()
+        if not display_menu(tableClone):
             break
