@@ -1,1 +1,6 @@
-{"masterKey": "IamBatman", "default": 16, "defaultForce": true, "defaultForceNum": 12}
+{
+    "masterKey": "IamBatman",
+    "default": 16,
+    "defaultForce": false,
+    "defaultForceNum": 19
+}

@@ -1,6 +1,6 @@
 {
     "a": {
-        "symbols": ["@", "v"]
+        "symbols": ["@"]
     },
     "b": {
         "symbols": ["8"]
@@ -75,6 +75,6 @@
         "symbols": ["v"]
     },
     "z": {
-        "symbols": ["#"]
+        "symbols": ["#","n"]
     }
 }

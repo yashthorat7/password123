@@ -2,6 +2,7 @@ from .display_title import display_title
 from .utils.utils import clear_lines, color_print, confirm_print, menu_list
 from .generate.generate import generate
 from .display.display import display
+from .settings.settings import settings
 
 MENU_CHOICES = [
     'Generate a Password',
@@ -10,20 +11,23 @@ MENU_CHOICES = [
     'Exit',
 ]
 
+def exit_program():
+    display_title()
+    has_confirmed = confirm_print('Exit the Program?')
+    if has_confirmed:
+        clear_lines()
+        color_print('Exited------------------------------------------------Yash Thorat\n', 'red')
+        exit(0)
+
 def handle_menu(choice):
     if choice == 'Generate a Password':
         generate()
     elif choice == 'Display the Passwords':
         display()
     elif choice == 'Settings':
-        pass
+        settings()
     elif choice == 'Exit':
-        display_title()
-        has_confirmed = confirm_print('Exit the Program?')
-        if has_confirmed:
-            clear_lines()
-            color_print('Exited------------------------------------------------Yash Thorat\n', 'red')
-            exit(0)
+        exit_program()
 
 def main_menu():
     display_title()
