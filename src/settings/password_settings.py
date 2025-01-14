@@ -1,4 +1,4 @@
-from ..utils.utils import color_print, clear_lines, color_input
+from ..utils.utils import color_print, color_input
 from ..utils.file_handler import read_json, write_json
 
 def fix_password_length(to_fix):

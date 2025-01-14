@@ -1,4 +1,4 @@
-from ..utils.utils import menu_list, clear_lines
+from ..utils.utils import menu_list
 from ..utils.file_handler import read_json
 from .password_settings import fix_password_length
 from .import_export import import_export

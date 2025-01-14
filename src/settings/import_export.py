@@ -1,5 +1,5 @@
 from ..utils.utils import menu_list, color_print, confirm_print, color_input
-from ..utils.file_handler import read_json, write_json, save_password, get_master_key
+from ..utils.file_handler import read_json, save_password, get_master_key
 from ..display.display import display_title
 from ..encryption.encrypter import encrypt
 from ..encryption.decrypter import decrypt

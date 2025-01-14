@@ -1,7 +1,5 @@
-from ..utils.utils import clear_lines, color_print, color_input
-from ..utils.file_handler import save_password, read_json, write_json
-from .encrypter import encrypt
-from .decrypter import decrypt
+from ..utils.utils import color_print, color_input
+from ..utils.file_handler import save_password
 
 def ask_username():
     '''Prompts for website and username with default handling.'''

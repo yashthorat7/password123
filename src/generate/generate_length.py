@@ -1,5 +1,4 @@
 from ..utils.file_handler import read_json
-from ..display_title import display_title
 from ..utils.utils import color_print, clear_lines, color_input
 
 def ask_length(default):

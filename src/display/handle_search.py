@@ -1,5 +1,5 @@
 from ..display_title import display_title
-from ..utils.utils import clear_lines, color_print, clear_console, color_input
+from ..utils.utils import color_print, color_input
 from ..utils.table_handler import paginate_table
 
 def handle_search(table_clone):
