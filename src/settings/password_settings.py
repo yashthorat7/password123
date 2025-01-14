@@ -26,5 +26,4 @@ def fix_password_length(to_fix):
         data['defaultForce'] = False
         write_json('settings.json', data)
         color_print('Password length will be asked every time', 'green')
-
-    input() 
+    input()

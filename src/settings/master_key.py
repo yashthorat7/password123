@@ -24,4 +24,4 @@ def change_master_key():
         input()
     except Exception as e:
         color_print(f'Error changing master key: {str(e)}\n', 'red')
-        input() 
+        input()
