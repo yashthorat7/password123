@@ -15,11 +15,54 @@ A low-weight CLI tool to manage your passwords!
 ## 📂 Directory Structure  
 
 ```plaintext
+🌟 Password123/
+├── 💾 data/
+│   ├── alters.json                 # Alters for passwords
+│   ├── passwords.json              # Encrypted passwords storage
+│   ├── settings.json               # Application settings
+│   └── words.json                  # Word dictionary for generation
+│
+├── 🗃️ src/
+│   ├── 🖥️ display/
+│   │   ├── display.py              # Display module
+│   │   ├── display_data.py         # Data display module
+│   │   ├── display_menu.py         # Menu display handler
+│   │   ├── handle_add.py           # Handle adding new data
+│   │   ├── handle_remove.py        # Handle removing data
+│   │   └── handle_search.py        # Handle search functionality
+│   │
+│   ├── 🔐 encryption/
+│   │   ├── decrypter.py            # Data decryption module
+│   │   ├── encrypter.py            # Data encryption module
+│   │   └── store_data.py           # Secure data storage
+│   │
+│   ├── 🔢 generate/
+│   │   ├── generate.py             # Core password generation logic
+│   │   ├── generate_length.py      # Handle password length
+│   │   ├── generate_menu.py        # Menu for password generation
+│   │   └── generate_password.py    # Password creation logic
+│   │
+│   ├── ⚙️ settings/
+│   │   ├── data_handler.py         # Handle settings data
+│   │   ├── import_export.py        # Import/export settings
+│   │   ├── master_key.py           # Master key management
+│   │   ├── password_settings.py    # Password-related settings
+│   │   ├── settings.py             # Core settings module
+│   │   └── settings_menu.py        # Settings menu handler
+│   │
+│   └── ✂️ utils/
+│       ├── file_handler.py         # File management utilities
+│       ├── table_handler.py        # Table display utilities
+│       └── utils.py                # General utility functions
+│
+├── README.md                       # Project documentation
+├── 🚀 app.py                       # Main application entry point
+└── requirements.txt                # Project dependencies
 
 ```  
 
 
-## 🚀 Getting Started  
+## 📄 Getting Started  
 
 Follow these steps to set up Password123 on your system:  
 
