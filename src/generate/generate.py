@@ -5,6 +5,7 @@ from .generate_password import generate_password
 from .generate_menu import generate_menu
 
 def generate():
+    """Handles password generation workflow with user interaction."""
     first_time = True
     while True:
         display_title()

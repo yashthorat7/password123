@@ -9,7 +9,8 @@ TITLE_TEXT = [
 ]
 
 def display_title():
+    """Clears console and displays the Password123 ASCII art title."""
     clear_console()
     for color, line in TITLE_TEXT:
         color_print(line + '\n', color)
-    color_print('\n');
+    color_print('\n')

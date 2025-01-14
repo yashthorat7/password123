@@ -2,6 +2,7 @@ from ..utils.utils import color_print, clear_lines
 from ..utils.file_handler import read_json, write_json
 
 def fix_password_length(to_fix):
+    """Configures fixed password length setting in application settings."""
     if to_fix:
         while True:
             color_print('Enter a fixed length: ', 'cyan')

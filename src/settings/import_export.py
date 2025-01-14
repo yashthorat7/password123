@@ -6,12 +6,14 @@ import json
 import os
 
 def process_password_entry(entry, is_encrypted, key):
+    """Processes password entry for import/export with encryption handling."""
     decrypted_pass = decrypt(entry['password'], get_master_key())
     if decrypted_pass == '[Error]':
         return None
     return encrypt(decrypted_pass, key) if is_encrypted else decrypted_pass
 
 def handle_file_operation(operation, location, retry_prompt='Would you like to try a different location?'):
+    """Executes file operations with error handling and retry."""
     try:
         return operation()
     except (FileNotFoundError, PermissionError, OSError) as e:
@@ -23,6 +25,7 @@ def handle_file_operation(operation, location, retry_prompt='Would you like to t
         return None
 
 def import_file():
+    """Imports passwords from JSON file with encryption support."""
     is_encrypted = confirm_print('Is your file encrypted?', False)
 
     while True:
@@ -67,6 +70,7 @@ def import_file():
         break
 
 def export_file():
+    """Exports passwords to JSON file with encryption option."""
     need_encryption = confirm_print('Export an encrypted file?', False)
 
     try:
@@ -123,6 +127,7 @@ def export_file():
         color_print(f'Error exporting file: {str(e)}', 'red')
 
 def import_export():
+    """Manages import and export functionality through menu options."""
     menu_choices = [
         'Import a file',
         'Export a file'

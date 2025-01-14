@@ -1,6 +1,5 @@
 from rich.table import Table
 from rich.console import Console
-from rich.style import Style
 from rich.box import ROUNDED
 from ..utils.utils import color_print, menu_list, clear_lines
 from ..display_title import display_title
@@ -8,6 +7,7 @@ from ..display_title import display_title
 console = Console()
 
 def create_table(headers, rows, styles):
+    """Creates rich table with specified headers and styling."""
     table = Table(header_style='bold', box=ROUNDED)
     for header, style in zip(headers, styles):
         table.add_column(header, justify='left', style=style)
@@ -16,9 +16,11 @@ def create_table(headers, rows, styles):
     return table
 
 def print_table(table):
+    """Prints rich table to console."""
     console.print(table)
 
 def paginate_table(headers, rows, styles):
+    """Displays table data with pagination controls."""
     page_size = 10
     
     if len(rows) <= page_size:

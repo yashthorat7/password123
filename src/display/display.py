@@ -4,6 +4,7 @@ from ..utils.file_handler import ask_key
 from ..display_title import display_title
 
 def display():
+    """Manages password display workflow with authentication."""
     master_key = ask_key()
 
     if not master_key:

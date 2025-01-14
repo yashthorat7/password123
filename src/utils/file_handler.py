@@ -3,17 +3,21 @@ from ..utils.utils import color_print, clear_lines
 from ..encryption.encrypter import encrypt
 
 def read_json(file_name):
+    """Reads and returns JSON data from specified file."""
     with open('./data/'+ file_name, 'r') as file:
         return json.load(file)
 
 def write_json(file_name, data):
+    """Writes data to specified JSON file with proper formatting."""
     with open('./data/'+ file_name, 'w') as file:
         json.dump(data, file, indent=4)
 
 def get_master_key():
+    """Retrieves master key from settings file."""
     return read_json('settings.json')['masterKey']
 
 def ask_key():
+    """Prompts for master key with retry attempts."""
     master_key = get_master_key()
     attempts = 5
     
@@ -31,6 +35,7 @@ def ask_key():
         attempts -= 1
 
 def save_password(website, username, password):
+    """Encrypts and saves password entry to storage file."""
     password = encrypt(password, get_master_key())
     new_entry = {"website": website, "username": username, "password": password}
     
@@ -42,6 +47,6 @@ def save_password(website, username, password):
     
     passwords.append(new_entry)
     with open('./data/passwords.json', 'w') as file:
-        json.dump(passwords, file, indent=4, ensure_ascii=False)
+        json.dump(passwords, file, indent=4)
 
     

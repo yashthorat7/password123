@@ -1,24 +1,25 @@
-from ..utils.utils import clear_lines, menu_list, color_print
-from .handle_search import handle_search
+from ..utils.utils import menu_list
 from .handle_add import handle_add
+from .handle_search import handle_search
 from .handle_remove import handle_remove
 
-MENU_CHOICES = [
-    'Search a Password',
-    'Add a Password',
-    'Remove a Password',
-    'Back'
-]
-
-def display_menu(table_clone):
-    color_print('\n')
-    choice = menu_list('Display Menu', MENU_CHOICES)
-    clear_lines(6)
-
-    if choice == 'Search a Password':
-        handle_search(table_clone)
-    elif choice == 'Add a Password':
+def display_menu(table_data):
+    """Manages password display operations menu and navigation."""
+    menu_choices = [
+        'Add a Password',
+        'Search Passwords',
+        'Remove a Password',
+        'Back'
+    ]
+    
+    choice = menu_list('Password Operations', menu_choices)
+    
+    if choice == 'Add a Password':
         handle_add()
+    elif choice == 'Search Passwords':
+        handle_search(table_data)
     elif choice == 'Remove a Password':
-        handle_remove(table_clone)
-    return choice != 'Back'
+        handle_remove(table_data)
+    else:
+        return False
+    return True

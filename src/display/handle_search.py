@@ -3,6 +3,7 @@ from ..utils.utils import clear_lines, color_print, clear_console
 from ..utils.table_handler import paginate_table
 
 def handle_search(table_clone):
+    """Searches and displays passwords matching website name query."""
     color_print('Enter the Website: ', 'cyan')
     website = input().strip()
     

@@ -4,6 +4,7 @@ from ..encryption.encrypter import encrypt
 from ..encryption.decrypter import decrypt
 
 def rewrite_passwords(key, new_key):
+    """Re-encrypts all stored passwords with new master key."""
     try:
         passwords = read_json('passwords.json')
         if not passwords:
@@ -29,6 +30,7 @@ def rewrite_passwords(key, new_key):
         raise Exception(f"Failed to rewrite passwords: {str(e)}")
 
 def erase_data():
+    """Securely erases all stored password data after confirmation."""
     key = ask_key()
     if not key:
         return

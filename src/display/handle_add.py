@@ -2,6 +2,7 @@ from ..encryption.store_data import store_data
 from ..utils.utils import color_print
 
 def handle_add():
+    """Handles adding new password entries to storage."""
     try:
         store_data()
     except Exception as e:

@@ -1,30 +1,25 @@
-from ..display_title import display_title
-from ..utils.utils import clear_lines, color_print, confirm_print
+from ..utils.utils import color_print, confirm_print
 from ..utils.file_handler import read_json, write_json
-from ..utils.table_handler import paginate_table
 
-def handle_remove(table_clone):
+def handle_remove(table_data):
+    """Removes password entries based on serial number."""
+    if not table_data:
+        color_print('No passwords to remove!\n', 'red')
+        input()
+        return
+        
+    color_print('Enter Sr.no. to remove: ', 'cyan')
     try:
-        color_print('Enter the serial No: ', 'cyan')
-        row_index = int(input()) - 1
-        if 0 <= row_index < len(table_clone):
-            headers = ['Sr.no.', 'Website', 'Username', 'Password']
-            styles = ['red', 'orange3', 'yellow', 'green']
-
-            display_title()
-            paginate_table(headers, [table_clone[row_index]], styles)
-
-            if confirm_print('Remove this password?'):
+        index = int(input()) - 1
+        if 0 <= index < len(table_data):
+            website = table_data[index][1]
+            if confirm_print(f'Remove password for {website}?', False):
                 passwords = read_json('passwords.json')
-                del passwords[row_index]
+                passwords.pop(index)
                 write_json('passwords.json', passwords)
-                color_print('Password removed successfully\n', 'yellow')
-                input()
-            else:
-                color_print('Operation cancelled\n', 'cyan')
+                color_print('Password removed successfully!\n', 'green')
         else:
-            color_print('Invalid serial number\n', 'red')
+            color_print('Invalid serial number!\n', 'red')
     except ValueError:
-        color_print('Please enter a valid number\n', 'red')
-    except Exception as e:
-        color_print(f'Error removing password: {e}\n', 'red')
+        color_print('Please enter a valid number!\n', 'red')
+    input()

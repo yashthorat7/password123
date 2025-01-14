@@ -2,6 +2,7 @@ from ..utils.file_handler import read_json
 from ..utils.utils import color_print, clear_lines
 
 def ask_length(default):
+    """Prompts for password length with default value option."""
     color_print('Enter the length ', 'cyan')
     color_print(f'(default: {default})', 'blue')
     color_print(': ', 'cyan')
@@ -14,6 +15,7 @@ def ask_length(default):
         return "invalid"
 
 def valid_length(length, first_time):
+    """Validates if password length meets required criteria."""
     if first_time:
         clear_lines(1)
     else:
@@ -34,6 +36,7 @@ def valid_length(length, first_time):
     return False
 
 def generate_length(state):
+    """Determines password length based on user input or settings."""
     settings_data = read_json('settings.json')
     has_default = settings_data['defaultForce']
 
@@ -47,6 +50,7 @@ def generate_length(state):
     return return_sequence(int(settings_data['defaultForceNum']))
 
 def get_structure(length):
+    """Calculates character type distribution for password length."""
     digits = max(1, length // 8)
     capital_letters = max(1, length // 16)
     symbols = max(2, length // 8)
@@ -54,5 +58,6 @@ def get_structure(length):
     return [digits, capital_letters, symbols, small_letters]
 
 def return_sequence(length):
+    """Returns password length with its character structure."""
     structure = get_structure(length)
     return length, structure

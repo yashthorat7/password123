@@ -3,6 +3,7 @@ from ..utils.file_handler import ask_key, read_json, write_json
 from .data_handler import rewrite_passwords
 
 def change_master_key():
+    """Updates master key and re-encrypts all stored passwords."""
     key = ask_key()
     if not key:
         return
