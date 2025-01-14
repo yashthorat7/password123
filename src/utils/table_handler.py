@@ -7,7 +7,7 @@ from ..display_title import display_title
 console = Console()
 
 def create_table(headers, rows, styles):
-    """Creates rich table with specified headers and styling."""
+    '''Creates rich table with specified headers and styling.'''
     table = Table(header_style='bold', box=ROUNDED)
     for header, style in zip(headers, styles):
         table.add_column(header, justify='left', style=style)
@@ -16,11 +16,11 @@ def create_table(headers, rows, styles):
     return table
 
 def print_table(table):
-    """Prints rich table to console."""
+    '''Prints rich table to console.'''
     console.print(table)
 
 def paginate_table(headers, rows, styles):
-    """Displays table data with pagination controls."""
+    '''Displays table data with pagination controls.'''
     page_size = 10
     
     if len(rows) <= page_size:
@@ -43,19 +43,19 @@ def paginate_table(headers, rows, styles):
 
         choices = []
         if current_page < total_pages - 1:
-            choices.append("Next")
+            choices.append('Next')
         if current_page > 0:
-            choices.append("Previous")
-        choices.append("Menu")
+            choices.append('Previous')
+        choices.append('Menu')
 
         action = menu_list('Navigate pages', choices)
 
-        if action == "Previous":
+        if action == 'Previous':
             display_title()
             current_page -= 1
-        elif action == "Next":
+        elif action == 'Next':
             display_title()
             current_page += 1
-        elif action == "Menu":
+        elif action == 'Menu':
             clear_lines(len(choices) + 3)
             break 

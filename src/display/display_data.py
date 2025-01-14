@@ -6,7 +6,7 @@ from ..encryption.decrypter import decrypt
 tableClone = []
 
 def display_data(master_key):
-    """Decrypts and displays stored passwords in tabulated format."""
+    '''Decrypts and displays stored passwords in tabulated format.'''
     try:
         global tableClone
         tableClone.clear()

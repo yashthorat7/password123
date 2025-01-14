@@ -7,7 +7,7 @@ from .data_handler import erase_data
 from ..display_title import display_title
 
 def settings_menu():
-    """Displays and handles main settings menu navigation options."""
+    '''Displays and handles main settings menu navigation options.'''
     settings_data = read_json('settings.json')
     
     default_force = settings_data.get('defaultForce', False)

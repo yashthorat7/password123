@@ -1,29 +1,28 @@
 import json
-from ..utils.utils import color_print, clear_lines
+from ..utils.utils import color_print, clear_lines, color_input
 from ..encryption.encrypter import encrypt
 
 def read_json(file_name):
-    """Reads and returns JSON data from specified file."""
+    '''Reads and returns JSON data from specified file.'''
     with open('./data/'+ file_name, 'r') as file:
         return json.load(file)
 
 def write_json(file_name, data):
-    """Writes data to specified JSON file with proper formatting."""
+    '''Writes data to specified JSON file with proper formatting.'''
     with open('./data/'+ file_name, 'w') as file:
         json.dump(data, file, indent=4)
 
 def get_master_key():
-    """Retrieves master key from settings file."""
+    '''Retrieves master key from settings file.'''
     return read_json('settings.json')['masterKey']
 
 def ask_key():
-    """Prompts for master key with retry attempts."""
+    '''Prompts for master key with retry attempts.'''
     master_key = get_master_key()
     attempts = 5
     
     while attempts > 0:
-        color_print('Enter the Master Key: ', 'cyan')
-        key = input()
+        key = color_input('Enter the Master Key: ', 'cyan')
         clear_lines(1 if attempts == 5 else 2)
         
         if not key:
@@ -35,9 +34,11 @@ def ask_key():
         attempts -= 1
 
 def save_password(website, username, password):
-    """Encrypts and saves password entry to storage file."""
-    password = encrypt(password, get_master_key())
-    new_entry = {"website": website, "username": username, "password": password}
+    '''Encrypts and saves password entry to storage file.'''
+    encrypted_bytes = encrypt(password, get_master_key())
+    encrypted_str = encrypted_bytes.decode('utf-8')
+    
+    new_entry = {'website': website, 'username': username, 'password': encrypted_str}
     
     try:
         with open('./data/passwords.json', 'r') as file:
@@ -47,6 +48,6 @@ def save_password(website, username, password):
     
     passwords.append(new_entry)
     with open('./data/passwords.json', 'w') as file:
-        json.dump(passwords, file, indent=4)
+        json.dump(passwords, file, indent=4, ensure_ascii=False)
 
     

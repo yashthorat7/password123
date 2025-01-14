@@ -1,76 +1,64 @@
-from ..utils.utils import menu_list, color_print, confirm_print
+from ..utils.utils import menu_list, color_print, confirm_print, color_input
 from ..utils.file_handler import read_json, write_json, save_password, get_master_key
+from ..display.display import display_title
 from ..encryption.encrypter import encrypt
 from ..encryption.decrypter import decrypt
 import json
 import os
 
 def process_password_entry(entry, is_encrypted, key):
-    """Processes password entry for import/export with encryption handling."""
-    decrypted_pass = decrypt(entry['password'], get_master_key())
-    if decrypted_pass == '[Error]':
-        return None
-    return encrypt(decrypted_pass, key) if is_encrypted else decrypted_pass
-
-def handle_file_operation(operation, location, retry_prompt='Would you like to try a different location?'):
-    """Executes file operations with error handling and retry."""
-    try:
-        return operation()
-    except (FileNotFoundError, PermissionError, OSError) as e:
-        error_msg = 'File not found!' if isinstance(e, FileNotFoundError) else 'Permission denied!' if isinstance(e, PermissionError) else f'Invalid file location: {str(e)}'
-        color_print(f'Error: {error_msg}', 'red')
-        return None if not confirm_print(retry_prompt, True) else 'retry'
-    except Exception as e:
-        color_print(f'Unexpected error: {str(e)}', 'red')
-        return None
+    '''Processes password entry for import/export with encryption handling.'''
+    if not is_encrypted:
+        decrypted_pass = decrypt(entry['password'], get_master_key())
+        return decrypted_pass if decrypted_pass != '[Error]' else None
+    else:
+        decrypted_pass = decrypt(entry['password'], get_master_key())
+        if decrypted_pass == '[Error]':
+            return None
+        encrypted_bytes = encrypt(decrypted_pass, key)
+        return encrypted_bytes.decode('utf-8')
 
 def import_file():
-    """Imports passwords from JSON file with encryption support."""
+    '''Imports passwords from JSON file with encryption support.'''
     is_encrypted = confirm_print('Is your file encrypted?', False)
+    
+    location = color_input('Enter file location (including filename.json): ', 'cyan')
+    if not location.endswith('.json'):
+        location += '.json'
 
-    while True:
-        color_print('Enter file location (including filename.json): ', 'cyan')
-        location = input()
-        if not location.endswith('.json'):
-            location += '.json'
-
-        def read_operation():
-            with open(location, 'r', encoding='utf-8') as file:
-                data = json.load(file)
-                if not isinstance(data, list):
-                    raise ValueError('Invalid file format! Expected a list of password entries.')
-                return data
-
-        imported_data = handle_file_operation(read_operation, location)
-        if imported_data is None:
-            return
-        if imported_data == 'retry':
-            continue
+    try:
+        with open(location, 'r', encoding='utf-8') as file:
+            imported_data = json.load(file)
+            if not isinstance(imported_data, list):
+                color_print('Invalid file format! Expected a list of password entries.', 'red')
+                return
 
         if is_encrypted:
-            color_print('Enter decryption key: ', 'cyan')
-            decrypt_key = input()
+            decrypt_key = color_input('Enter decryption key: ', 'cyan')
             if not decrypt_key:
                 color_print('Decryption key cannot be empty!', 'red')
                 return
 
-            for entry in imported_data:
-                if 'password' in entry:
+        for entry in imported_data:
+            if all(k in entry for k in ('website', 'username', 'password')):
+                if is_encrypted:
                     decrypted_pass = decrypt(entry['password'], decrypt_key)
                     if decrypted_pass == '[Error]':
                         color_print('Failed to decrypt passwords. Invalid key or corrupted data.', 'red')
                         return
                     save_password(entry['website'], entry['username'], decrypted_pass)
-        else:
-            for entry in imported_data:
-                if all(k in entry for k in ('website', 'username', 'password')):
+                else:
                     save_password(entry['website'], entry['username'], entry['password'])
 
         color_print('Files imported successfully!', 'green')
-        break
+
+    except FileNotFoundError:
+        color_print('File not found!', 'red')
+    except Exception as e:
+        color_print(f'Error importing file: {str(e)}', 'red')
 
 def export_file():
-    """Exports passwords to JSON file with encryption option."""
+    '''Exports passwords to JSON file with encryption option.'''
     need_encryption = confirm_print('Export an encrypted file?', False)
 
     try:
@@ -81,63 +69,54 @@ def export_file():
         
         key = None
         if need_encryption:
-            color_print('Enter encryption key: ', 'cyan')
-            key = input()
+            key = color_input('Enter encryption key: ', 'cyan')
             if not key:
                 color_print('Encryption key cannot be empty!', 'red')
                 return
 
         export_data = []
         for entry in passwords:
-            new_entry = entry.copy()
             processed_pass = process_password_entry(entry, need_encryption, key)
             if processed_pass is None:
                 color_print('Failed to process passwords. Please try again.', 'red')
                 return
-            new_entry['password'] = processed_pass
-            export_data.append(new_entry)
+            export_data.append({
+                'website': entry['website'],
+                'username': entry['username'],
+                'password': processed_pass
+            })
 
-        while True:
-            color_print('Enter export file location (folder path): ', 'cyan')
-            export_location = input()
-            
-            color_print('Enter file name (without .json): ', 'cyan')
-            file_name = input() or 'passwords'
-            full_path = os.path.join(export_location, file_name + '.json')
+        export_location = color_input('Enter export file location (folder path): ', 'cyan')
+        
+        file_name = color_input('Enter file name (without .json): ', 'cyan') or 'passwords'
+        full_path = os.path.join(export_location, file_name + '.json')
 
-            def write_operation():
-                if export_location:
-                    os.makedirs(export_location, exist_ok=True)
-                with open(full_path, 'w', encoding='utf-8') as file:
-                    json.dump(export_data, file, indent=4, ensure_ascii=False)
-                return os.path.exists(full_path)
-
-            result = handle_file_operation(write_operation, full_path)
-            if result is None:
-                return
-            if result == 'retry':
-                continue
-            if result:
-                color_print(f'Files exported successfully to: {full_path}', 'green')
-                break
-            else:
-                color_print('Failed to create export file!', 'red')
+        if export_location:
+            os.makedirs(export_location, exist_ok=True)
+        
+        with open(full_path, 'w', encoding='utf-8') as file:
+            json.dump(export_data, file, indent=4, ensure_ascii=False)
+        
+        color_print(f'Files exported successfully to: {full_path}', 'green')
 
     except Exception as e:
         color_print(f'Error exporting file: {str(e)}', 'red')
 
 def import_export():
-    """Manages import and export functionality through menu options."""
+    '''Manages import and export functionality through menu options.'''
     menu_choices = [
         'Import a file',
-        'Export a file'
+        'Export a file',
+        'Back'
     ]
     
     choice = menu_list('Import/Export files', menu_choices)
+    display_title()
     if choice == 'Import a file':
         import_file()
     elif choice == 'Export a file':
         export_file()
-    input()
+    else:
+        return
+    color_input('\nPress enter to continue...', '#4a4a4a')
     
-

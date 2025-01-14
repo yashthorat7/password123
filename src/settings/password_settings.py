@@ -1,12 +1,11 @@
-from ..utils.utils import color_print, clear_lines
+from ..utils.utils import color_print, clear_lines, color_input
 from ..utils.file_handler import read_json, write_json
 
 def fix_password_length(to_fix):
-    """Configures fixed password length setting in application settings."""
+    '''Configures fixed password length setting in application settings.'''
     if to_fix:
         while True:
-            color_print('Enter a fixed length: ', 'cyan')
-            length = input()
+            length = color_input('Enter a fixed length: ', 'cyan')
             try:
                 length = int(length)
                 if length < 8:
@@ -27,4 +26,4 @@ def fix_password_length(to_fix):
         data['defaultForce'] = False
         write_json('settings.json', data)
         color_print('Password length will be asked every time', 'green')
-    input()
+    color_input('\nPress enter to continue...', '#4a4a4a')

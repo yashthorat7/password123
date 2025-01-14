@@ -1,11 +1,10 @@
 from ..display_title import display_title
-from ..utils.utils import clear_lines, color_print, clear_console
+from ..utils.utils import clear_lines, color_print, clear_console, color_input
 from ..utils.table_handler import paginate_table
 
 def handle_search(table_clone):
-    """Searches and displays passwords matching website name query."""
-    color_print('Enter the Website: ', 'cyan')
-    website = input().strip()
+    '''Searches and displays passwords matching website name query.'''
+    website = color_input('Enter the Website: ', 'cyan').strip()
     
     if not website:
         color_print('Search term cannot be empty\n', 'red')
@@ -20,4 +19,4 @@ def handle_search(table_clone):
         paginate_table(headers, matched_rows, styles)
     else:
         color_print('No matches found\n', 'red')
-    input()
+    color_input('\nPress enter to continue...', '#4a4a4a')

@@ -3,7 +3,7 @@ import string
 from ..utils.file_handler import read_json
 
 def read_structure(word):
-    """Analyzes distribution of character types in given word."""
+    '''Analyzes distribution of character types in given word.'''
     digits = sum(1 for char in word if char.isdigit())
     capital_letters = sum(1 for char in word if char.isupper())
     symbols = sum(1 for char in word if char in string.punctuation)
@@ -11,7 +11,7 @@ def read_structure(word):
     return [digits, capital_letters, symbols, small_letters]
 
 def select_words(min_length, length, combination):
-    """Selects words from dictionary based on length requirements."""
+    '''Selects words from dictionary based on length requirements.'''
     words_data = read_json('words.json')
     attempt_limit = 20
     for _ in range(attempt_limit):
@@ -36,7 +36,7 @@ def select_words(min_length, length, combination):
                 return ''.join(letter_password)
 
 def case_change(length, letter_password):
-    """Applies random capitalization to password characters."""
+    '''Applies random capitalization to password characters.'''
     password_list = list(letter_password)
     for i in range(1, length):
         if password_list[i].islower() and random.random() < 0.5:
@@ -45,7 +45,7 @@ def case_change(length, letter_password):
     return ''.join(password_list)
 
 def alter_password(length, cased_password):
-    """Replaces letters with similar symbols from alters file."""
+    '''Replaces letters with similar symbols from alters file.'''
     alters = read_json('alters.json')
     password_list = list(cased_password)
     altered_count = 0
@@ -61,21 +61,21 @@ def alter_password(length, cased_password):
     return ''.join(password_list)
 
 def get_combination(length, combinations_list):
-    """Selects word combination based on password length requirement."""
+    '''Selects word combination based on password length requirement.'''
     scaling_factor = max((length - 8) / (64 - 8), 0)
     max_index = len(combinations_list) - 1
     index = int(scaling_factor * max_index)
     return random.choice(combinations_list[:index + 1])
 
 def add_remaining_digits(length, letter_password):
-    """Adds random digits to meet required password length."""
+    '''Adds random digits to meet required password length.'''
     remaining_length = length - len(letter_password)
     if remaining_length > 0:
         return letter_password + str(random.randint(10**(remaining_length - 1), 10**remaining_length - 1))
     return letter_password
 
 def generate_password(length, structure):
-    """Generates secure password using words and character transformations."""
+    '''Generates secure password using words and character transformations.'''
     combinations_list = [
         ('nouns', 'nouns'),
         ('nouns', 'verbs'),

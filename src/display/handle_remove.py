@@ -1,11 +1,11 @@
-from ..utils.utils import color_print, confirm_print
+from ..utils.utils import color_print, confirm_print, color_input
 from ..utils.file_handler import read_json, write_json
 
 def handle_remove(table_data):
-    """Removes password entries based on serial number."""
+    '''Removes password entries based on serial number.'''
     if not table_data:
-        color_print('No passwords to remove!\n', 'red')
-        input()
+        color_print('No passwords to remove!', 'red')
+        color_input('\nPress enter to continue...', '#4a4a4a')
         return
         
     color_print('Enter Sr.no. to remove: ', 'cyan')
@@ -22,4 +22,4 @@ def handle_remove(table_data):
             color_print('Invalid serial number!\n', 'red')
     except ValueError:
         color_print('Please enter a valid number!\n', 'red')
-    input()
+    color_input('\nPress enter to continue...', '#4a4a4a')

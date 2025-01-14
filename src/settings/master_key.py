@@ -1,15 +1,14 @@
-from ..utils.utils import color_print
+from ..utils.utils import color_print, color_input
 from ..utils.file_handler import ask_key, read_json, write_json
 from .data_handler import rewrite_passwords
 
 def change_master_key():
-    """Updates master key and re-encrypts all stored passwords."""
+    '''Updates master key and re-encrypts all stored passwords.'''
     key = ask_key()
     if not key:
         return
 
-    color_print('Enter the new Master Key: ', 'cyan')
-    new_key = input()
+    new_key = color_input('Enter the new Master Key: ', 'cyan')
     if not new_key:
         color_print('\nMaster Key cannot be empty!\n', 'red')
         return
@@ -22,7 +21,6 @@ def change_master_key():
         write_json('settings.json', settings)
 
         color_print('Master Key changed successfully!\n', 'green')
-        input()
     except Exception as e:
         color_print(f'Error changing master key: {str(e)}\n', 'red')
-        input()
+    color_input('\nPress enter to continue...', '#4a4a4a')

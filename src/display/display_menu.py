@@ -4,7 +4,7 @@ from .handle_search import handle_search
 from .handle_remove import handle_remove
 
 def display_menu(table_data):
-    """Manages password display operations menu and navigation."""
+    '''Manages password display operations menu and navigation.'''
     menu_choices = [
         'Add a Password',
         'Search Passwords',

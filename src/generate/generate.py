@@ -5,12 +5,13 @@ from .generate_password import generate_password
 from .generate_menu import generate_menu
 
 def generate():
-    """Handles password generation workflow with user interaction."""
+    '''Handles password generation workflow with user interaction.'''
     first_time = True
     while True:
         display_title()
         length, structure = generate_length(first_time)
         password = generate_password(length, structure)
+        display_title()
         panel_print(password)
         if generate_menu(password):
             break
