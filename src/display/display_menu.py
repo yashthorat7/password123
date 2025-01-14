@@ -1,4 +1,4 @@
-from ..utils.utils import menu_list
+from ..utils.utils import menu_list, clear_lines
 from .handle_add import handle_add
 from .handle_search import handle_search
 from .handle_remove import handle_remove
@@ -13,7 +13,7 @@ def display_menu(table_data):
     ]
     
     choice = menu_list('Password Operations', menu_choices)
-    
+    clear_lines(6)
     if choice == 'Add a Password':
         handle_add()
     elif choice == 'Search Passwords':

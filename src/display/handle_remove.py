@@ -17,9 +17,9 @@ def handle_remove(table_data):
                 passwords = read_json('passwords.json')
                 passwords.pop(index)
                 write_json('passwords.json', passwords)
-                color_print('Password removed successfully!\n', 'green')
+                color_print('Password removed successfully!', 'green')
         else:
-            color_print('Invalid serial number!\n', 'red')
+            color_print('Invalid serial number!', 'red')
     except ValueError:
-        color_print('Please enter a valid number!\n', 'red')
+        color_print('Please enter a valid number!', 'red')
     color_input('\nPress enter to continue...', '#4a4a4a')

@@ -16,7 +16,8 @@ def handle_search(table_clone):
     if matched_rows:
         headers = ['Sr.no.', 'Website', 'Username', 'Password']
         styles = ['red', 'orange3', 'yellow', 'green']
-        paginate_table(headers, matched_rows, styles)
+        if paginate_table(headers, matched_rows, styles):
+            return
     else:
-        color_print('No matches found\n', 'red')
+        color_print('No matches found', 'red')
     color_input('\nPress enter to continue...', '#4a4a4a')

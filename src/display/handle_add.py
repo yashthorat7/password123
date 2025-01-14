@@ -7,4 +7,3 @@ def handle_add():
         store_data()
     except Exception as e:
         color_print(f'Error adding password: {e}\n', 'red')
-    color_input('\nPress enter to continue...', '#4a4a4a')

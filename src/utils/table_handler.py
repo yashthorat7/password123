@@ -58,4 +58,4 @@ def paginate_table(headers, rows, styles):
             current_page += 1
         elif action == 'Menu':
             clear_lines(len(choices) + 3)
-            break 
+            return True

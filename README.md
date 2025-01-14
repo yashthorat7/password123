@@ -14,6 +14,7 @@ A low-weight CLI tool to manage your passwords!
 ## 📂 Directory Structure  
 
 plaintext
+```
 🌟 Password123/
 ├── 💾 data/
 │   ├── alters.json                 # Alters for passwords
@@ -57,7 +58,7 @@ plaintext
 ├── README.md                       # Project documentation
 ├── 🚀 app.py                       # Main application entry point
 └── requirements.txt                # Project dependencies
-
+```
 ---
 
 ## 📄 Getting Started  
@@ -67,21 +68,24 @@ Follow these steps to set up Password123 on your system:
 ### 1️⃣ Clone the Repository  
 Clone or pull the latest version of the code:  
 bash
+```
 git clone https://github.com/yashthorat7/Password123.git
-  
+```
 
 ### 2️⃣ Install Dependencies  
 Use requirements.txt to install the necessary Python packages:  
 bash
+```
 pip install -r requirements.txt
-  
+```
 
 ## 🛠️ How to Run  
 
 Run the main application:  
 bash
+```
 python app.py
-  
+```
 
 ---
 
