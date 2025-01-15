@@ -13,7 +13,6 @@ A low-weight CLI tool to manage your passwords!
 
 ## 📂 Directory Structure  
 
-plaintext
 ```
 🌟 Password123/
 ├── 💾 data/
@@ -77,6 +76,13 @@ Use requirements.txt to install the necessary Python packages:
 bash
 ```
 pip install -r requirements.txt
+```
+
+### 3️⃣ Set Master Key  
+open data/settings.json and change this line (IamBatman is default)
+bash
+```
+"masterKey": "<new_master_key>"
 ```
 
 ## 🛠️ How to Run  
