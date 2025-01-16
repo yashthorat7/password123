@@ -15,7 +15,7 @@ def handle_search(table_clone):
 
     if matched_rows:
         headers = ['Sr.no.', 'Website', 'Username', 'Password']
-        styles = ['red', 'orange3', 'yellow', 'green']
+        styles = ['red', 'orange3', 'yellow2', 'green']
         if paginate_table(headers, matched_rows, styles):
             return
     else:
