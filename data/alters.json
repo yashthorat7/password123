@@ -1,6 +1,6 @@
 {
     "a": {
-        "symbols": ["@, o"]
+        "symbols": ["@", "o"]
     },
     "b": {
         "symbols": ["8"]
@@ -24,7 +24,7 @@
         "symbols": ["#"]
     },
     "i": {
-        "symbols": ["!, *"]
+        "symbols": ["!", "*"]
     },
     "j": {
         "symbols": ["!"]
@@ -48,13 +48,13 @@
         "symbols": ["6"]
     },
     "q": {
-        "symbols": ["$, @"]
+        "symbols": ["$", "@"]
     },
     "r": {
         "symbols": ["@"]
     },
     "s": {
-        "symbols": ["$, &"]
+        "symbols": ["$", "&"]
     },
     "t": {
         "symbols": ["!"]
@@ -75,6 +75,6 @@
         "symbols": ["v"]
     },
     "z": {
-        "symbols": ["#","n"]
+        "symbols": ["#", "n"]
     }
 }
