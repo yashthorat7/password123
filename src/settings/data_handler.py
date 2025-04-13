@@ -9,15 +9,16 @@ def rewrite_passwords(key, new_key):
         passwords = read_json('passwords.json')
         if not passwords:
             return
-            
         new_passwords = []
         for entry in passwords:
             try:
                 decrypted_password = decrypt(entry['password'], key)
+                encrypted_bytes = encrypt(decrypted_password, new_key)
+                encrypted_password = encrypted_bytes.decode('utf-8')
                 new_entry = {
                     'website': entry['website'],
                     'username': entry['username'],
-                    'password': encrypt(decrypted_password, new_key)
+                    'password': encrypted_password
                 }
                 new_passwords.append(new_entry)
             except Exception as e:

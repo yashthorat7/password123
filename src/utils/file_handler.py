@@ -5,7 +5,8 @@ from ..encryption.encrypter import encrypt
 def read_json(file_name):
     '''Reads and returns JSON data from specified file.'''
     with open('./data/'+ file_name, 'r') as file:
-        return json.load(file)
+        data = file.read()
+        return json.loads(data)
 
 def write_json(file_name, data):
     '''Writes data to specified JSON file with proper formatting.'''
