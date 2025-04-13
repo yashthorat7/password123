@@ -12,7 +12,6 @@ def read_structure(word):
 
 def select_words(min_length, length, combination):
     '''Selects words from dictionary based on length requirements.'''
-    print(min_length, length, combination)
     words_data = read_json('words.json')
     attempt_limit = 20
     for _ in range(attempt_limit):
@@ -32,7 +31,6 @@ def select_words(min_length, length, combination):
                     current_length += len(next_word)
                     if current_length >= length - 1:
                         break
-            print("final_letter_password: ", letter_password)
             if min_length <= current_length < length:
                 return ''.join(letter_password)
 
