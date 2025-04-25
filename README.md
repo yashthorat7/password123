@@ -1,17 +1,17 @@
-# 🔐 Password123  
+# 🔐 Password123
+
 A low-weight CLI tool to manage your passwords!  
-**Password123** provides seamless password generation, encrypted storage, and a fully interactive terminal interface.  
+**Password123** provides seamless password generation, encrypted storage, and a fully interactive terminal interface.
 
+## ✨ Features
 
-## ✨ Features  
-
-- 🔑 **Magic Password Generation**: Effortlessly generate strong and meaningful passwords.  
-- 🛡️ **Encrypted Storage**: Protect your passwords using **Cryptography Fernet**.  
-- 🎨 **Interactive Terminal**: A colorful, user-friendly interface for smooth interaction.  
-- ⚙️ **Customizable Options**: Configure settings to suit your needs.  
+- 🔑 **Magic Password Generation**: Effortlessly generate strong and meaningful passwords.
+- 🛡️ **Encrypted Storage**: Protect your passwords using **Cryptography Fernet**.
+- 🎨 **Interactive Terminal**: A colorful, user-friendly interface for smooth interaction.
+- ⚙️ **Customizable Options**: Configure settings to suit your needs.
 - 🔄 **Import/Export Functionality**: Seamlessly back up or transfer your password data.
 
-## 📂 Directory Structure  
+## 📂 Directory Structure
 
 ```
 🌟 Password123/
@@ -22,6 +22,10 @@ A low-weight CLI tool to manage your passwords!
 │   └── words.json                  # Word dictionary for generation
 │
 ├── 🗃️ src/
+│   ├── display_title.py            # Renders the title
+│   ├── main_menu.py                # Main menu navigation handler
+│   ├── startup.py                  # Initial master‐key setup
+│   │
 │   ├── 🖥️ display/
 │   │   ├── display.py              # Display module
 │   │   ├── display_data.py         # Data display module
@@ -58,58 +62,55 @@ A low-weight CLI tool to manage your passwords!
 ├── 🚀 app.py                       # Main application entry point
 └── requirements.txt                # Project dependencies
 ```
+
 ---
 
-## 📄 Getting Started  
+## 📄 Getting Started
 
-Follow these steps to set up Password123 on your system:  
+Follow these steps to set up Password123 on your system:
 
-### 1️⃣ Clone the Repository  
+### 1️⃣ Clone the Repository
+
 Clone or pull the latest version of the code:  
 bash
+
 ```
 git clone https://github.com/yashthorat7/Password123.git
 ```
 
-### 2️⃣ Install Dependencies  
+### 2️⃣ Install Dependencies
+
 Use requirements.txt to install the necessary Python packages:  
 bash
+
 ```
 pip install -r requirements.txt
 ```
 
-### 3️⃣ Set Master Key  
-open data/settings.json and change this line (IamBatman is default)
-bash
-```
-"masterKey": "<new_master_key>"
-```
-
-## 🛠️ How to Run  
+## 🛠️ How to Run
 
 Run the main application:  
 bash
+
 ```
 python app.py
 ```
 
 ---
 
-## 🔒 Security Features  
+## 🔒 Security Features
 
-- 🧩 **Cryptography Fernet**: Robust AES encryption for all your passwords.  
-- 🛑 **Interactive Safeguards**: Confirmation prompts to prevent unintended actions.  
+- 🧩 **Cryptography Fernet**: Robust AES encryption for all your passwords.
+- 🛑 **Interactive Safeguards**: Confirmation prompts to prevent unintended actions.
 
+## 📋 Requirements
 
-## 📋 Requirements  
+- 🐍 **Python**: Version 3.8 or higher.
+- 📜 **Dependencies**: Listed in requirements.txt.
 
-- 🐍 **Python**: Version 3.8 or higher.  
-- 📜 **Dependencies**: Listed in requirements.txt.  
-
-
-## ❤️ Developed By  
+## ❤️ Developed By
 
 👨‍💻 **Yash Thorat**  
-Feel free to suggest improvements, or report issues!  
+Feel free to suggest improvements, or report issues!
 
 ⭐ Don’t forget to **star** this repository if you find it useful!
