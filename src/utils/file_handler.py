@@ -1,6 +1,7 @@
 import json
 from ..utils.utils import color_print, clear_lines, color_input
 from ..encryption.encrypter import encrypt
+from ..encryption.decrypter import decrypt
 
 def read_json(file_name):
     '''Reads and returns JSON data from specified file.'''
@@ -14,8 +15,11 @@ def write_json(file_name, data):
         json.dump(data, file, indent=4)
 
 def get_master_key():
-    '''Retrieves master key from settings file.'''
-    return read_json('settings.json')['masterKey']
+    '''Retrieves and decrypts master key from settings file.'''
+    encrypted_key = read_json('settings.json')['masterKey']
+    if encrypted_key == '':
+        return ''
+    return decrypt(encrypted_key, 'default_key')
 
 def ask_key():
     '''Prompts for master key with retry attempts.'''

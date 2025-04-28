@@ -12,4 +12,3 @@ def encrypt(password, master_key):
     fernet_key = get_fernet_key(master_key)
     cipher = Fernet(fernet_key)
     return cipher.encrypt(password.encode())
-

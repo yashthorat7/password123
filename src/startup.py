@@ -1,5 +1,6 @@
 from .utils.utils import color_print, color_input, clear_console, clear_lines
 from .utils.file_handler import write_json, read_json
+from .encryption.encrypter import encrypt
 
 def startup():
     '''Initializes a master key'''
@@ -20,7 +21,8 @@ def startup():
             break
 
     settings = read_json("settings.json")
-    settings["masterKey"] = master_key
+    encrypted_key = encrypt(master_key, 'default_key')
+    settings["masterKey"] = encrypted_key.decode('utf-8')
     write_json("settings.json", settings)
     color_print("Master Key saved successfully!\n", "green")
     color_input("Press enter to continue...", "#4a4a4a")
