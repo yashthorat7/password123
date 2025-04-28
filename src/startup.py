@@ -5,24 +5,24 @@ from .encryption.encrypter import encrypt
 def startup():
     '''Initializes a master key'''
     clear_console()
-    color_print("[New User]\n", "yellow")
+    color_print('[New User]\n', 'yellow')
 
     while True:
-        master_key = color_input("Set a Master Key: ", "cyan")
+        master_key = color_input('Set a Master Key: ', 'cyan')
         if not master_key:
             clear_console()
-            color_print("Master Key cannot be empty!\n", "red")
+            color_print('Master Key cannot be empty!\n', 'red')
             continue
-        confirm_key = color_input("Confirm Master Key: ", "cyan")
+        confirm_key = color_input('Confirm Master Key: ', 'cyan')
         if master_key != confirm_key:
             clear_console()
-            color_print("Keys do not match. Please try again.\n", "red")
+            color_print('Keys do not match. Please try again.\n', 'red')
         else:
             break
 
-    settings = read_json("settings.json")
+    settings = read_json('settings.json')
     encrypted_key = encrypt(master_key, 'default_key')
-    settings["masterKey"] = encrypted_key.decode('utf-8')
-    write_json("settings.json", settings)
-    color_print("Master Key saved successfully!\n", "green")
-    color_input("Press enter to continue...", "#4a4a4a")
+    settings['masterKey'] = encrypted_key.decode('utf-8')
+    write_json('settings.json', settings)
+    color_print('Master Key saved successfully!\n', 'green')
+    color_input('Press enter to continue...', '#4a4a4a')
