@@ -5,11 +5,11 @@ A low-weight CLI tool to manage your passwords!
 
 ## ✨ Features
 
-- 🔑 **Magic Password Generation**: Effortlessly generate strong and meaningful passwords.
-- 🛡️ **Encrypted Storage**: Protect your passwords using **Cryptography Fernet**.
-- 🎨 **Interactive Terminal**: A colorful, user-friendly interface for smooth interaction.
-- ⚙️ **Customizable Options**: Configure settings to suit your needs.
-- 🔄 **Import/Export Functionality**: Seamlessly back up or transfer your password data.
+-   🔑 **Magic Password Generation**: Effortlessly generate strong and meaningful passwords.
+-   🛡️ **Encrypted Storage**: Protect your passwords using **Cryptography Fernet**.
+-   🎨 **Interactive Terminal**: A colorful, user-friendly interface for smooth interaction.
+-   ⚙️ **Customizable Options**: Configure settings to suit your needs.
+-   🔄 **Import/Export Functionality**: Seamlessly back up or transfer your password data.
 
 ## 📂 Directory Structure
 
@@ -100,13 +100,17 @@ python app.py
 
 ## 🔒 Security Features
 
-- 🧩 **Cryptography Fernet**: Robust AES encryption for all your passwords.
-- 🛑 **Interactive Safeguards**: Confirmation prompts to prevent unintended actions.
+-   🧩 **Cryptography Fernet**: Robust AES encryption for all your passwords.
+-   🛑 **Interactive Safeguards**: Confirmation prompts to prevent unintended actions.
 
 ## 📋 Requirements
 
-- 🐍 **Python**: Version 3.8 or higher.
-- 📜 **Dependencies**: Listed in requirements.txt.
+-   🐍 **Python**: Version 3.8 or higher.
+-   📜 **Dependencies**:
+
+    -   `inquirer` # Interactive prompts
+    -   `cryptography` # Encryption & decryption (Fernet)
+    -   `rich` # Colorful and rich terminal UI
 
 ## ❤️ Developed By
 
