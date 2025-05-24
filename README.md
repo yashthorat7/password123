@@ -1,5 +1,9 @@
 # 🔐 Password123
 
+<p align="center">
+<img src="README-img.png" alt="Password123 Screenshot">
+</p>
+
 A low-weight CLI tool to manage your passwords!  
 **Password123** provides seamless password generation, encrypted storage, and a fully interactive terminal interface.
 
