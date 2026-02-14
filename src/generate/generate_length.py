@@ -37,16 +37,19 @@ def valid_length(length, first_time):
 def generate_length(state):
     '''Determines password length based on user input or settings.'''
     settings_data = read_json('settings.json')
-    has_default = settings_data['defaultForce']
+    default_length = settings_data.get('default', 16)
+    force_default = settings_data.get('defaultForce', False)
 
-    if not state or not has_default:
-        first_time = True
-        for _ in range(5):
-            length = ask_length(settings_data['default'])
-            if valid_length(length, first_time):
-                return return_sequence(length)
-            first_time = False
-    return return_sequence(int(settings_data['defaultForceNum']))
+    if force_default and state:
+        return return_sequence(default_length)
+
+    first_time = True
+    for _ in range(5):
+        length = ask_length(default_length)
+        if valid_length(length, first_time):
+            return return_sequence(length)
+        first_time = False
+    return return_sequence(default_length)
 
 def get_structure(length):
     '''Calculates character type distribution for password length.'''

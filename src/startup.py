@@ -20,9 +20,17 @@ def startup():
         else:
             break
 
-    settings = read_json('settings.json')
+    try:
+        settings = read_json('settings.json')
+    except FileNotFoundError:
+        settings = {}
+
     encrypted_key = encrypt(master_key, 'default_key')
     settings['masterKey'] = encrypted_key.decode('utf-8')
+
+    if 'default' not in settings:
+        settings['default'] = 16
+
     write_json('settings.json', settings)
     color_print('Master Key saved successfully!\n', 'green')
     color_input('Press enter to continue...', '#4a4a4a')

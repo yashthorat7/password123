@@ -14,8 +14,11 @@ def fix_password_length(to_fix):
                     color_print('Password must be at most 64 characters long\n', 'red')
                 else:
                     data = read_json('settings.json')
-                    data['defaultForceNum'] = length
+                    data['default'] = length
                     data['defaultForce'] = True
+                    # Clean up old key if present
+                    if 'defaultForceNum' in data:
+                        del data['defaultForceNum']
                     write_json('settings.json', data)
                     color_print(f'Password length set to {length} forever\n', 'green')
                     break

@@ -16,10 +16,14 @@ def write_json(file_name, data):
 
 def get_master_key():
     '''Retrieves and decrypts master key from settings file.'''
-    encrypted_key = read_json('settings.json')['masterKey']
-    if encrypted_key == '':
+    try:
+        data = read_json('settings.json')
+        encrypted_key = data.get('masterKey', '')
+        if encrypted_key == '':
+            return ''
+        return decrypt(encrypted_key, 'default_key')
+    except (FileNotFoundError, json.JSONDecodeError):
         return ''
-    return decrypt(encrypted_key, 'default_key')
 
 def ask_key():
     '''Prompts for master key with retry attempts.'''

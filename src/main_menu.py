@@ -17,7 +17,7 @@ def exit_program():
     has_confirmed = confirm_print('Exit the Program?')
     clear_lines()
     if has_confirmed:
-        color_print('Exited------------------------------------------------Yash Thorat\n', 'red')
+        color_print('Exited-------------------------------------github.com/yashthorat7\n', 'red')
         exit(0)
 
 def handle_menu(choice):
